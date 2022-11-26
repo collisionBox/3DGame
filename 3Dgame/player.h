@@ -1,12 +1,12 @@
 #pragma once
 #include "DxLib.h"
-class player
+class Player
 {
 public:
-	static player& GetInstance();//インスタンスを取得.
+	static Player& GetInstance();//インスタンスを取得.
 
-	player();
-	~player();
+	Player();
+	~Player();
 
 	void Update();
 	void Draw();

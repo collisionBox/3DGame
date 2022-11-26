@@ -139,13 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="player.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="player.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

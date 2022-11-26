@@ -1,10 +1,10 @@
 #pragma once
 #include "DxLib.h"
-class camera
+class Camera
 {
 public:
-	camera();
-	~camera();
+	Camera();
+	~Camera();
 
 	void Update(float deltaTime);
 
@@ -21,7 +21,7 @@ private:
 	float rotateZAngle;//カメラ周囲回転方向回転角.
 	float lookDownAngle;//カメラ見下ろし方向回転角.
 	VECTOR pos;//ポジション.
-	VECTOR forwardVec//前方方向.
+	VECTOR forwardVec;//前方方向.
 	
 };
 
