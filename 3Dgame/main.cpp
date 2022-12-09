@@ -2,8 +2,14 @@
 // @brief  メイン処理.
 //-----------------------------------------------------------------------------
 #include "DxLib.h"
+#include <vector>
+
+#include "ObjectBase.h"
+#include "ObjectManager.h"
+#include "AssetManager.h"
+#include "PlayerBody.h"
 #include "Camera.h"
-#include "Player.h"
+
 //-----------------------------------------------------------------------------
 // @brief  メイン関数.
 //-----------------------------------------------------------------------------
@@ -17,12 +23,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//画面モードのセット.
 	SetGraphMode(16*70, 9*70, 16);
 	ChangeWindowMode(TRUE);//ウィンドウモードに設定
+	//マネージャー生成.
+	AssetManager::Initalize();
+	ObjectManager::Initialize();
+
 
 	//カメラ生成.
 	Camera* camera = new Camera();
 
 	//プレイヤー生成.
-	Player* player = new Player();
+	PlayerBody* player = new PlayerBody();
+	ObjectManager::Entry(player);
 
 	//時間計測.
 	int nowTime = GetNowCount();
@@ -35,47 +46,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
 
 		//プレイヤー制御.
-		player->Update();
+		player->Update(deltaTime);
 
 		//カメラ制御.
 		camera->Update(deltaTime);
 
 		//画面の初期化.
 		ClearDrawScreen();
-		//地面グリッドを描画する（のちにゲームオブジェクトにしよう）
-		{
-			const float gridAllSize = 1000.0f;
-			const int divideNum = 10;
-			const float gridSpace = gridAllSize / divideNum;
 
-			VECTOR p1;
-			VECTOR p2;
-			for (int ix = 0; ix < divideNum + 1; ix++)
-			{
-				p1 = VGet(ix * gridSpace - gridAllSize * 0.5f, 0.0f, -gridAllSize * 0.5f);
-				p2 = VGet(ix * gridSpace - gridAllSize * 0.5f, 0.0f, gridAllSize * 0.5f);
-
-				DrawLine3D(p1, p2, GetColor(0, 255, 0));
-			}
-
-			for (int iy = 0; iy < divideNum + 1; iy++)
-			{
-				p1 = VGet(-gridAllSize * 0.5f, 0.0f, iy * gridSpace - gridAllSize * 0.5f);
-				p2 = VGet(+gridAllSize * 0.5f, 0.0f, iy * gridSpace - gridAllSize * 0.5f);
-
-				DrawLine3D(p1, p2, GetColor(0, 255, 0));
-			}
-		}//グリッド描画終わ
-		//プレイヤー描画.
-		player->Draw();
-
+		ObjectManager::Draw();
 		//裏画面の内容を表画面に反映させる.
 		ScreenFlip();
 
 		prevTime = nowTime;
 	}
 
+	ObjectManager::ReleseAllObj();
+	ObjectManager::Finalize();
 
+	AssetManager::DeleteAllAsset();
+	AssetManager::Finalize();
+
+	DxLib_End();
 
 	return 0;
 }

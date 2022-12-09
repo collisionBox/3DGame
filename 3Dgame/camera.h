@@ -1,5 +1,5 @@
 #pragma once
-#include "DxLib.h"
+#include "Envaironment.h"
 class Camera
 {
 public:
@@ -22,6 +22,7 @@ private:
 	float lookDownAngle;//カメラ見下ろし方向回転角.
 	VECTOR pos;//ポジション.
 	VECTOR forwardVec;//前方方向.
+	VECTOR viewTarget;//カメラ注目点.
 	
 };
 
