@@ -88,7 +88,7 @@ void ObjectManager::Update(float deltaTime)
 	{
 		for (int i = 0; i < instance->objects[tag].size(); ++i)
 		{
-			if (instance->objects[tag][i]->GetAlive())
+			if (!instance->objects[tag][i]->GetAlive())
 			{
 				deadObject.emplace_back(instance->objects[tag][i]);
 			}
@@ -108,6 +108,7 @@ void ObjectManager::Draw()
 	{
 		for (int i = 0; i < instance->objects[tag].size(); ++i)
 		{
+			// 描画可能なオブジェクトのみ描画.
 			if (instance->objects[tag][i]->GetVidible())
 			{
 				instance->objects[tag][i]->Draw();

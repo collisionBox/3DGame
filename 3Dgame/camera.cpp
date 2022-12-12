@@ -1,44 +1,39 @@
 #include "Camera.h"
-Camera::Camera()
+#include "ObjectTag.h"
+#include "ObjectManager.h"
+#include "PlayerBody.h"
+
+const float springSterength = 2.0f;
+
+MainCamera::MainCamera(float camHeigth, float camZPos)
+	:ObjectBase(ObjectTag::Camera)
+	,pos()
+	,targetPos()
+	,camOffset()
+	,aimPos()
+	,aimTargetPos()
 {
-	SetCameraNearFar(0.1f, 3000.0f);
-	pos = VGet(0, 0, 0);
+	camOffset.x = 0;
+	camOffset.y = camHeigth;
+	camOffset.z = camZPos;
 
 }
 
-Camera::~Camera()
+
+void MainCamera::Update(float deltaTime)
 {
-}
-
-void Camera::Update(float deltaTime)
-{
-#if 1
-
-	//VECTOR aimPos = VAdd(Player::GetInstance().GetPos(), VScale(Player::GetInstance().GetDir(), -1000.0f));
-	//aimPos = VAdd(aimPos, VGet(0, 300.0f, 0));
-	//VECTOR posToAim = VSub(aimPos, pos);
-	//VECTOR scaledPosToAim = VScale(posToAim, 0.1f);
-	//pos = VAdd(pos, scaledPosToAim);
-
-	SetCameraPositionAndTarget_UpVecY(pos, PlayerBody::Instance().GetPos());
-
-#else
-	const float dumper = 1.5f;
-	VECTOR diff;
-	VECTOR playerPos = Player::GetInstance().GetPos();
-
-	diff = VSub(playerPos, viewTarget);
-	diff.x = dumper * deltaTime * diff.x;
-	diff.y = dumper * deltaTime * diff.y;
-	diff.z = dumper * deltaTime * diff.z;
-	const float rotate = 0.5f * deltaTime;
-	if (CheckHitKey(KEY_INPUT_UP))
+	ObjectBase* player = ObjectManager::GetFirstObject(ObjectTag::Player);
+	if (player)
 	{
-		pos.y += 1.0f;
+		aimTargetPos = player->GetPos();
+		aimPos = aimTargetPos + camOffset;
+
+		VECTOR lookMoveDir = aimTargetPos - targetPos;
+		VECTOR posMoveDir = aimPos - pos;
+
+		targetPos += lookMoveDir * springSterength * deltaTime;
+		pos += posMoveDir * springSterength * deltaTime;
+
+		SetCameraPositionAndTarget_UpVecY(pos, targetPos);
 	}
-
-	viewTarget = playerPos;
-#endif // 0
-
-	
 }

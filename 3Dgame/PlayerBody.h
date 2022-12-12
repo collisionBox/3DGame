@@ -23,5 +23,14 @@ private:
 
 	bool rotateNow;
 
+	// ê√ìIä÷êî.
+	static const float Accel;
+	static const float MaxSeed;
+	static const float DefaultDecel;
+	static const float BreakDecel;
+	static const float GripDecel;
+	static const float GripPower;
+	static const float ColideDecelFac;
+
 };
 

@@ -15,6 +15,7 @@ ObjectBase::ObjectBase(ObjectTag tag, VECTOR pos)
 	,pos()
 	,modelHandle(-1)
 	,alive(true)
+	,visible(true)
 {
 	this->pos = pos;
 }
