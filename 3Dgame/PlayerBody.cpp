@@ -136,7 +136,7 @@ void PlayerBody::Input(float deltaTime)
 	// ‰Á‘¬ˆ—.
 	VECTOR accelVec = VGet(0, 0, 0);
 
-	// ã‚ğ‰Ÿ‚µ‚Ä‚¢‚½‚çksk.
+	// ã‚ğ‰Ÿ‚µ‚Ä‚¢‚½‚ç‰Á‘¬.
 	if (key & PAD_INPUT_UP)
 	{
 		accelVec = VScale(dir, Accel);

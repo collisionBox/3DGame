@@ -8,7 +8,7 @@ public:
 	PlayerBody();
 	~PlayerBody();
 
-	static PlayerBody& Instance() { static PlayerBody body; return body; }
+	static PlayerBody& instance() { static PlayerBody body; return body; }
 
 	void Update(float deltaTime) override;// XV.
 	void Draw() override;// •`‰æ.

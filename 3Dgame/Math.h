@@ -27,3 +27,6 @@ float CalcRotationDirectionYAxis(const VECTOR& nowVec, const VECTOR& dirVec);
 
 // @brief nowVecから aimVecに向かってdegreeVerociyの速度でY回転する.
 VECTOR RotateForAimVecYAxis(const VECTOR& nowVec, const VECTOR& aimVec, float degreeVerocity);
+
+// @brief シグモイド関数 x:変数 gain:増加量
+float Sigmoid(float x, float gain);

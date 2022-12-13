@@ -8,6 +8,8 @@
 #include "ObjectBase.h"
 #include "ObjectManager.h"
 #include "AssetManager.h"
+#include "Director.h"
+#include "UI.h"
 #include "PlayerBody.h"
 #include "Camera.h"
 #include "DebugDraw.h"
@@ -35,20 +37,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Ｚバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
-	//奥行0.1～1000までをカメラの描画範囲とする
-	SetCameraNearFar(10.0f, 3000.0f);
 
 	//(0,10,-20)の視点から(0,10,0)のターゲットを見る角度にカメラを設置
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 80, -200), VGet(0.0f, 80.0f, 0.0f));
+	//SetCameraPositionAndTarget_UpVecY(VGet(0, 10, -20), VGet(0.0f, 10.0f, 0.0f));
 
 	//画面モードのセット.
 
 	//マネージャー生成.
 	AssetManager::Initalize();
 	ObjectManager::Initialize();
+	Director::Initalize();
 
 	//カメラ生成.
-	MainCamera* mainCam = new MainCamera(500, -500);
+	MainCamera* mainCam = new MainCamera(40, -250);
 	ObjectManager::Entry(mainCam);
 
 	//プレイヤー生成.
@@ -68,13 +69,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 全オブジェクトの更新.
 		ObjectManager::Update(deltaTime);
 		//ObjectManager::Collition();
+		Director::Update(deltaTime);
 
 		//画面の初期化.
 		ClearDrawScreen();
 
 		// 全オブジェクトの描画.
-		DrawGrid(3000, 30);
+		DrawGrid(3000, 100);
 		ObjectManager::Draw();
+		Director::Draw();
 
 		//裏画面の内容を表画面に反映させる.
 		ScreenFlip();

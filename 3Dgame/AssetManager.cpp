@@ -1,24 +1,24 @@
 #include "AssetManager.h"
 #include <string>
 
-AssetManager* AssetManager::Instance = nullptr;
+AssetManager* AssetManager::instance = nullptr;
 
 AssetManager::AssetManager()
 {
-	Instance = nullptr;
+	instance = nullptr;
 }
 
 AssetManager::~AssetManager()
 {
-	Instance->DeleteAllAsset();
-	Instance = nullptr;
+	instance->DeleteAllAsset();
+	instance = nullptr;
 }
 
 void AssetManager::Initalize()
 {
-	if (!Instance)
+	if (!instance)
 	{
-		Instance = new AssetManager;
+		instance = new AssetManager;
 	}
 }
 
@@ -26,21 +26,21 @@ int AssetManager::GetMesh(std::string meshFileName)
 {
 	int meshID = 0;
 	// 連想配列から以前登録されていないか調べる.
-	auto iter = Instance->meshMap.find(meshFileName);
+	auto iter = instance->meshMap.find(meshFileName);
 
 	// 見つからなければ登録
-	if (iter == Instance->meshMap.end())
+	if (iter == instance->meshMap.end())
 	{
 		meshID = MV1LoadModel(meshFileName.c_str());
 		if (meshID == -1)
 		{
 			return meshID;
 		}
-		Instance->meshMap.emplace(meshFileName, meshID);
+		instance->meshMap.emplace(meshFileName, meshID);
 	}
 
-	meshID = MV1DuplicateModel(Instance->meshMap[meshFileName]);
-	Instance->duplicateMesh.push_back(meshID);
+	meshID = MV1DuplicateModel(instance->meshMap[meshFileName]);
+	instance->duplicateMesh.push_back(meshID);
 	return meshID;
 	
 
@@ -49,8 +49,8 @@ int AssetManager::GetMesh(std::string meshFileName)
 void AssetManager::DeleteMesh(int meshID)
 {
 	// Duplicateの中でメッシュを検索し、削除.
-	auto iter = std::find(Instance->duplicateMesh.begin(), Instance->duplicateMesh.end(), meshID);
-	if (iter == Instance->duplicateMesh.end())
+	auto iter = std::find(instance->duplicateMesh.begin(), instance->duplicateMesh.end(), meshID);
+	if (iter == instance->duplicateMesh.end())
 	{
 		// 未発見.
 		return;
@@ -59,32 +59,32 @@ void AssetManager::DeleteMesh(int meshID)
 	MV1DeleteModel(meshID);
 
 	// 末尾のデータと入れ替えて末尾を削除.
-	std::iter_swap(iter, Instance->duplicateMesh.end() - 1);
-	Instance->duplicateMesh.pop_back();
+	std::iter_swap(iter, instance->duplicateMesh.end() - 1);
+	instance->duplicateMesh.pop_back();
 }
 
 void AssetManager::DeleteAllAsset()
 {
-	for (auto iter = Instance->meshMap.begin(); iter != Instance->meshMap.end(); ++iter)
+	for (auto iter = instance->meshMap.begin(); iter != instance->meshMap.end(); ++iter)
 	{
 		MV1DeleteModel(iter->second);
 	}
-	for (auto iter = Instance->duplicateMesh.begin(); iter != Instance->duplicateMesh.end(); ++iter)
+	for (auto iter = instance->duplicateMesh.begin(); iter != instance->duplicateMesh.end(); ++iter)
 	{
 		MV1DeleteModel(*iter);
 	}
 
-	Instance->meshMap.clear();
-	Instance->duplicateMesh.clear();
+	instance->meshMap.clear();
+	instance->duplicateMesh.clear();
 
 }
 
 void AssetManager::Finalize()
 {
 	DeleteAllAsset();
-	if (Instance)
+	if (instance)
 	{
-		delete Instance;
+		delete instance;
 	}
 }
 

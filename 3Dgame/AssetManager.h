@@ -17,7 +17,7 @@ public:
 private:
 	AssetManager();
 	~AssetManager();
-	static AssetManager* Instance;
+	static AssetManager* instance;
 
 	std::unordered_map<std::string, int> meshMap;// メッシュ原本.
 	std::vector<int> duplicateMesh;// メッシュを複製したもの

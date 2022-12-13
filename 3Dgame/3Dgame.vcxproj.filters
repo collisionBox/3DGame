@@ -60,6 +60,12 @@
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Director.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -77,9 +83,6 @@
     <ClInclude Include="ObjectTag.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Envaironment.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="AssetManager.h">
       <Filter>ソース ファイル\Manager</Filter>
     </ClInclude>
@@ -94,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="DebugDraw.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Director.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

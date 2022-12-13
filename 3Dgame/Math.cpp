@@ -1,4 +1,5 @@
 #include "Math.h"
+#include <math.h>
 //-------------------------------------------------------------------------------
 	// @brief ƒxƒNƒgƒ‹“¯Žm‚Ì‰ÁŽZ
 	//-------------------------------------------------------------------------------
@@ -112,4 +113,9 @@ VECTOR RotateForAimVecYAxis(const VECTOR& nowVec, const VECTOR& aimVec, float de
 	rotVec = VTransform(nowVec, yrotMat);
 
 	return rotVec;
+}
+
+float Sigmoid(float x, float gain)
+{
+	return 1.0 / (1.0 + exp(-gain * x));
 }
