@@ -84,6 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		prevTime = nowTime;
 	}
 
+	delete ui;
 	// オブジェクトの削除.
 	ObjectManager::ReleseAllObj();
 	ObjectManager::Finalize();

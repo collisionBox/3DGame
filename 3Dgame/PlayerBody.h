@@ -13,13 +13,13 @@ public:
 	void Update(float deltaTime) override;// çXêV.
 	void Draw() override;// ï`âÊ.
 	void OnCollisionEnter(const ObjectBase* other) override;
+	VECTOR velocity;
 
 private:
 	void Input(float deltaTime);
 	void Rotate();
 	VECTOR dir;
 	VECTOR aimDir;
-	VECTOR velocity;
 
 	bool rotateNow;
 

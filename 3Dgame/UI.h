@@ -13,8 +13,10 @@ const int blue = GetColor(0, 0, 255);
 class UI
 {
 public:
+	UI();
 	~UI();
 	void Draw(float deltaTime);
+	
 private:
 	void Debug();
 	

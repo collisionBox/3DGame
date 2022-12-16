@@ -24,6 +24,7 @@ public:
 
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw();
+
 	ObjectTag GetTag() const { return tag; }
 
 protected:
