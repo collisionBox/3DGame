@@ -6,7 +6,7 @@
 class MainCamera : public ObjectBase
 {
 public:
-	MainCamera(float camHeigth, float camZPos);
+	MainCamera(float pitchDegree, float yawDegree);
 
 	void Update(float deltaTime);
 
@@ -21,6 +21,7 @@ private:
 	VECTOR aimPos;// 目標位置.
 	VECTOR aimTargetPos;// 注目点目標.
 	//VECTOR forwardVec;//前方方向.
-	
+	float pitch;
+	float yaw;
 };
 

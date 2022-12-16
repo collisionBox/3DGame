@@ -119,3 +119,8 @@ float Sigmoid(float x, float gain)
 {
 	return 1.0 / (1.0 + exp(-gain * x));
 }
+
+float ToRadian(float degree)
+{
+	return degree * DX_PI_F / 180.0f;
+}

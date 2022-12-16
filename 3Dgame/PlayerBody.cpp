@@ -20,7 +20,7 @@ PlayerBody::PlayerBody()
 	modelHandle = AssetManager::GetMesh("data/player/reconTankBody.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
 	pos = VGet(0, 0, 0);
-	dir = VGet(1, 0, 0);
+	dir = VGet(1, 0, 100);
 	aimDir = dir;
 }
 
@@ -32,7 +32,7 @@ PlayerBody::~PlayerBody()
 
 void PlayerBody::Update(float deltaTime)
 {
-	Rotate();
+	//Rotate();
 	Input(deltaTime);
 
 	//pos += velocity;
@@ -41,7 +41,7 @@ void PlayerBody::Update(float deltaTime)
 
 	// 3Dモデルのポジション設定.
 	MATRIX tmpMat = MV1GetMatrix(modelHandle);
-	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI / 180.0f));
+	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	tmpMat = MMult(tmpMat, rotYMat);
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationMatrix(modelHandle, rotYMat);
@@ -132,7 +132,8 @@ void PlayerBody::Input(float deltaTime)
 		velocity *= 0.9f;
 		
 	}
-#else
+#endif
+#if 0
 	// 加速処理.
 	VECTOR accelVec = VGet(0, 0, 0);
 
@@ -208,8 +209,41 @@ void PlayerBody::Input(float deltaTime)
 	{
 		dir = VNorm(velocity);
 	}
+#else
+	VECTOR accelVec = VGet(0, 0, 0);
+	// 上を押していたら加速.
+	if (key & PAD_INPUT_UP)
+	{
+		accelVec = VScale(dir, Accel);
+	}
 
+	//下を押していたら減速.
+	if (key & PAD_INPUT_DOWN)
+	{
+		accelVec = VScale(dir, BreakDecel);
+	}
+	velocity = VAdd(velocity, accelVec);
+	if (key & PAD_INPUT_RIGHT)
+	{
+		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(right, GripPower));
+	}
+	if (key & PAD_INPUT_LEFT)
+	{
+		VECTOR left = VCross(dir, VGet(0.0f, 1.0f, 0.0f));
+		dir = VAdd(dir, VScale(left, GripPower));
+	}
+	// 上下方向にいかないようにvelocityを整える.
+	velocity = (VGet(velocity.x, 0, velocity.z));
 
+	// ポジション更新.
+	pos = VAdd(pos, velocity);
+
+	// 力をかけ終わったvelocityの方向にディレクションを調整.
+	if (VSize(velocity) != 0)
+	{
+		dir = VNorm(velocity);
+	}
 #endif
 }
 

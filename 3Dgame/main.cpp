@@ -37,24 +37,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Ｚバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
-
-	//(0,10,-20)の視点から(0,10,0)のターゲットを見る角度にカメラを設置
-	//SetCameraPositionAndTarget_UpVecY(VGet(0, 10, -20), VGet(0.0f, 10.0f, 0.0f));
-
-	//画面モードのセット.
-
 	//マネージャー生成.
 	AssetManager::Initalize();
 	ObjectManager::Initialize();
 	Director::Initalize();
 
 	//カメラ生成.
-	MainCamera* mainCam = new MainCamera(40, -250);
+	MainCamera* mainCam = new MainCamera(40, -90);
 	ObjectManager::Entry(mainCam);
 
 	//プレイヤー生成.
 	PlayerBody* player = new PlayerBody();
 	ObjectManager::Entry(player);
+
+	// UI生成.
+	UI* ui = new UI();
 
 	//時間計測.
 	int nowTime = GetNowCount();
@@ -79,9 +76,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ObjectManager::Draw();
 		Director::Draw();
 
+		ui->Draw(deltaTime);
+
 		//裏画面の内容を表画面に反映させる.
 		ScreenFlip();
-
+		
 		prevTime = nowTime;
 	}
 

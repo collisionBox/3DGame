@@ -30,3 +30,6 @@ VECTOR RotateForAimVecYAxis(const VECTOR& nowVec, const VECTOR& aimVec, float de
 
 // @brief シグモイド関数 x:変数 gain:増加量
 float Sigmoid(float x, float gain);
+
+// @brief 度数法→弧度法
+float ToRadian(float degree);
