@@ -10,7 +10,7 @@ const int red = GetColor(255, 0, 0);
 const int green = GetColor(0, 255, 0);
 const int blue = GetColor(0, 0, 255);
 
-class UI
+class UI final
 {
 public:
 	UI();

@@ -12,6 +12,7 @@ public:
 
 	const VECTOR& GetPos() const { return pos; }
 	void SetPos(const VECTOR set) { pos = set; }
+	
 
 	bool GetVidible() const { return visible; }
 	void SetVisible(bool set) { visible = set; }

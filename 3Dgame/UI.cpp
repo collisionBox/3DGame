@@ -18,7 +18,10 @@ void UI::Debug()
 {
 	PlayerBody* player = dynamic_cast<PlayerBody*>(ObjectManager::GetFirstObject(ObjectTag::Player));
 	VECTOR pPos = player->GetPos();
-	DrawFormatString(0, 0, white, "pos:\n%f\n%f\n%f\nvel:\n%f\n%f\n%f",
+	DrawFormatString(0, 0, white,
+		"pos:\n%f\n%f\n%f\ndir:\n%f\n%f\n%f\nvel:\n%f\n%f\n%f\n%f\n%f",
 		pPos.x, pPos.y, pPos.z,
-		player->velocity.x, player->velocity.y, player->velocity.z);
+		player->dir.x, player->dir.y, player->dir.z,
+		player->velocity.x, player->velocity.y, player->velocity.z,
+		VSize(player->velocity), (VDot(player->velocity, player->dir)));
 }
