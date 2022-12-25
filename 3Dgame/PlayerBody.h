@@ -15,7 +15,6 @@ public:
 	void OnCollisionEnter(const ObjectBase* other) override;
 	VECTOR velocity;
 	VECTOR dir;
-
 private:
 	void Input(float deltaTime);
 	void Rotate();
@@ -25,12 +24,15 @@ private:
 
 	// ê√ìIä÷êî.
 	static const float Accel;
+	static const float Back;
 	static const float MaxSpeed;
+	static const float MinSpeed;
 	static const float DefaultDecel;
 	static const float BreakDecel;
 	static const float GripDecel;
 	static const float GripPower;
 	static const float ColideDecelFac;
+	float accel = 0;
 	float decel;
 };
 
