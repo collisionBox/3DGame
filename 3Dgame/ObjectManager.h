@@ -26,7 +26,7 @@ public:
 private:
 	ObjectManager();
 	~ObjectManager();
-	static ObjectManager* instance;
+	static ObjectManager* Instance;
 	std::vector<ObjectBase*> pendingObjects;
 	std::unordered_map<ObjectTag, std::vector<ObjectBase*>> objects;
 };

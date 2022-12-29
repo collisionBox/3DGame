@@ -1,6 +1,15 @@
 #include "ObjectBase.h"
 #include "AssetManager.h"
 
+ObjectBase::ObjectBase()
+	: pos()
+	, modelHandle(-1)
+	, visible(true)
+	, alive(true)
+{
+	
+}
+
 ObjectBase::ObjectBase(ObjectTag tag)
 	:tag(tag)
 	,pos()
@@ -8,6 +17,7 @@ ObjectBase::ObjectBase(ObjectTag tag)
 	,visible(true)
 	,alive(true)
 {
+
 }
 
 ObjectBase::ObjectBase(ObjectTag tag, VECTOR pos)
@@ -17,6 +27,7 @@ ObjectBase::ObjectBase(ObjectTag tag, VECTOR pos)
 	,alive(true)
 	,visible(true)
 {
+	
 	this->pos = pos;
 }
 
@@ -28,6 +39,7 @@ ObjectBase::~ObjectBase()
 		modelHandle = -1;
 	}
 }
+
 
 void ObjectBase::Draw()
 {

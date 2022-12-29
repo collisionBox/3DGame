@@ -1,6 +1,7 @@
 #pragma once
 #include "DxLib.h"
 #include "ObjectBase.h"
+#include "PlayerCannon.h"
 
 class PlayerBody : public ObjectBase
 {
@@ -8,17 +9,22 @@ public:
 	PlayerBody();
 	~PlayerBody();
 
-	static PlayerBody& instance() { static PlayerBody body; return body; }
+	static PlayerBody& Instance() { static PlayerBody body; return body; }
 
 	void Update(float deltaTime) override;// çXêV.
 	void Draw() override;// ï`âÊ.
 	void OnCollisionEnter(const ObjectBase* other) override;
+
+	VECTOR GetDir() const { return dir; }
+
 	VECTOR velocity;
 	VECTOR dir;
 private:
 	void Input(float deltaTime);
 	void Rotate();
 	VECTOR aimDir;
+
+	PlayerCannon* cannon;
 
 	bool rotateNow;
 
@@ -32,7 +38,7 @@ private:
 	static const float GripDecel;
 	static const float GripPower;
 	static const float ColideDecelFac;
-	float accel = 0;
-	float decel;
+	float accel;
+
 };
 

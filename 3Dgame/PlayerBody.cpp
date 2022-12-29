@@ -13,10 +13,12 @@ const float PlayerBody::GripDecel = -5.0f;// グリップの減速.
 const float PlayerBody::GripPower = 2.0f;// グリップ力.
 const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
 
-PlayerBody::PlayerBody()
-	:ObjectBase(ObjectTag::Player)
-	,rotateNow(false)
-	,decel()
+PlayerBody::PlayerBody() :
+	ObjectBase(ObjectTag::Player)
+	, cannon(nullptr)
+	, rotateNow(false)
+	, accel()
+
 {
 	velocity = VGet(0.0f, 0.0f, 0.0f);
 	// モデル読み込み.
@@ -25,13 +27,19 @@ PlayerBody::PlayerBody()
 	pos = VGet(0.0f, 13.0f, 0.0f);
 	dir = VGet(0.0f, 0.0f, 1.0f);
 	aimDir = dir;
+	cannon = new PlayerCannon;
+	cannon->Initialize(pos, dir);
 }
 
 PlayerBody::~PlayerBody()
 {
+
 	AssetManager::DeleteMesh(modelHandle);
 	
+	delete cannon;
 }
+
+
 
 void PlayerBody::Update(float deltaTime)
 {
@@ -39,6 +47,8 @@ void PlayerBody::Update(float deltaTime)
 	Input(deltaTime);
 
 	//pos += velocity;
+
+	cannon->Update(pos, deltaTime);
 
 	MV1SetPosition(modelHandle, pos);
 
@@ -50,12 +60,13 @@ void PlayerBody::Update(float deltaTime)
 	////MV1SetRotationMatrix(modelHandle, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 	////collisionUpdate();
+
 }
 
 void PlayerBody::Draw()
 {
 	MV1DrawModel(modelHandle);
-	
+	cannon->Draw();
 }
 
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)
@@ -82,7 +93,6 @@ void PlayerBody::Input(float deltaTime)
 	// キー入力取得.
 	int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
-	// 加速処理.
 	
 
 	VECTOR accelDir = VGet(0.0f,1.0f,0.0f);
@@ -92,141 +102,25 @@ void PlayerBody::Input(float deltaTime)
 	// 入力許可フラグ.
 	bool input = false;
 
-#if 0
-	// 最高速度設定.
-	if (VSize(velocity) <= MaxSpeed && VSize(velocity) >= 0)
-	{
-		input = true;
-	}
-
-	// 入力許可されていたら.
-	if (input)
+	// 加速処理.
+	float dot = VDot(velocity, dir);// 内積.
+	if (dot <= MaxSpeed)
 	{
 		// 上を押していたら加速.
 		if (key & PAD_INPUT_UP)
 		{
-			accelVec = VScale(dir, Accel);
+			accel += Accel;
 		}
-		
+	
+	}
+	if (dot >= MinSpeed)
+	{
 		//下を押していたら減速.
 		if (key & PAD_INPUT_DOWN)
 		{
-			accelVec = VScale(dir, -Back);
-			
+			accel += -Back;
 		}
 	}
-
-	// 止まっていなければ減速させる.
-	if (VSize(velocity) > 0)
-	{
-		// グリップ減速.
-		if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT)
-		{
-			if (VSize(velocity) >= 20)
-			{
-				accelVec = VAdd(accelVec, VScale(dir, GripDecel));
-			}
-		}
-		// キー入力が無ければ.
-		if (!key)
-		{
-			float dot = VDot(velocity, dir);
-			if (dot > 0)
-			{
-				accelVec = VScale(dir, -DefaultDecel);
-			}
-			else
-			{
-				accelVec = VScale(dir, DefaultDecel);
-			}
-
-			if (abs(dot) <= 3)// 速度が０になるように補正.
-			{
-				accelVec = VGet(0, 0, 0);
-				velocity = VGet(0, 0, 0);
-			}
-
-		}
-
-	}
-	// 止まって居なかったら.
-	if (VSize(velocity) > 0)
-	{
-		// ベロシティの大きさがGRIP_POWERより小さかった場合、GRIP_POWERの大きさをベロシティの大きさと同じにする.
-		// これによって曲がるときのベロシティが最大でも45°になる.
-		/*float velSize = VSize(velocity);
-		float gripPower = GripPower;
-		if (gripPower > velSize)
-		{
-			gripPower = velSize;
-		}*/
-		const VECTOR turningNum = VGet(0.0f, 1.0f, 0.0f);
-		// 右を押していたら右方向に力をかける
-		if (key & PAD_INPUT_RIGHT)
-		{
-			VECTOR right = VCross(turningNum, dir);
-			dir = VAdd(dir, VScale(right, GripPower*0.01));
-		}
-		// 左を押していたら左方向に力をかける
-		if (key & PAD_INPUT_LEFT)
-		{
-			VECTOR left = VCross(dir, turningNum);
-			dir = VAdd(dir, VScale(left, GripPower * 0.01));
-		}
-		dir = VNorm(dir);
-	}
-	// 超信地旋回.
-	if (VSize(velocity) <= 0)// 止まっていたら.
-	{
-		float onStopRotateSpeed = GripPower * 0.03;
-		if (key & PAD_INPUT_RIGHT)// 右旋回.
-		{
-			VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-			dir = VAdd(dir, VScale(right, onStopRotateSpeed));
-		}
-		if (key & PAD_INPUT_LEFT)// 左旋回.
-		{
-			VECTOR left = VCross(dir, VGet(0.0f, 1.0f, 0.0f));
-			dir = VAdd(dir, VScale(left, onStopRotateSpeed));
-		}
-		dir = VNorm(dir);
-	}
-
-	velocity = VAdd(velocity, accelVec);
-	
-	// 上下方向にいかないようにvelocityを整える.
-	velocity = VGet(velocity.x, 0, velocity.z);
-	
-	// ポジション更新.
-	pos = VAdd(pos, velocity * deltaTime);
-
-	// 力をかけ終わったvelocityの方向にディレクションを調整・正規化.
-	if (VSize(velocity) != 0)
-	{
-		//dir = VNorm(velocity);
-	}
-
-#else
-
-float dot = VDot(velocity, dir);// 内積.
-if (dot <= MaxSpeed)
-{
-	// 上を押していたら加速.
-	if (key & PAD_INPUT_UP)
-	{
-		accel += Accel;
-	}
-
-}
-if (dot >= MinSpeed)
-{
-	//下を押していたら減速.
-	if (key & PAD_INPUT_DOWN)
-	{
-		accel += -Back;
-	}
-}
-	
 
 	// 自然停止.
 	if(!(key & PAD_INPUT_UP) && !(key & PAD_INPUT_DOWN))
@@ -238,7 +132,7 @@ if (dot >= MinSpeed)
 		}
 	}
 
-	float onStopRotateSpeed = GripPower * 0.03;
+	float onStopRotateSpeed = GripPower * 0.03f;
 	
 	if (key & PAD_INPUT_RIGHT)// 右旋回.
 	{
@@ -267,7 +161,6 @@ if (dot >= MinSpeed)
 
 	// ポジション更新.
 	pos = VAdd(pos, velocity * deltaTime);
-#endif
 }
 
 void PlayerBody::Rotate()

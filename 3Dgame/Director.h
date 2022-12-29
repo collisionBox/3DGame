@@ -11,6 +11,6 @@ private:
 	Director();
 	~Director();
 
-	static Director* instance;
+	static Director* Instance;
 };
 

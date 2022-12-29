@@ -1,30 +1,30 @@
 #include "Director.h"
 #include "DxLib.h"
-Director* Director::instance = nullptr;
+Director* Director::Instance = nullptr;
 
 Director::Director()
 {
-	instance = nullptr;
+	Instance = nullptr;
 }
 
 Director::~Director()
 {
-	instance = nullptr;
+	Instance = nullptr;
 }
 
 void Director::Initalize()
 {
-	if (!instance)
+	if (!Instance)
 	{
-		instance = new Director;
+		Instance = new Director;
 	}
 }
 
 void Director::Finalize()
 {
-	if (instance)
+	if (Instance)
 	{
-		delete instance;
+		delete Instance;
 	}
 }
 

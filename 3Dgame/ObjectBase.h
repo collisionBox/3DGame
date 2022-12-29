@@ -4,6 +4,7 @@
 class ObjectBase
 {
 public:
+	ObjectBase();
 	ObjectBase(ObjectTag tag);
 	ObjectBase(ObjectTag tag, VECTOR pos);
 
