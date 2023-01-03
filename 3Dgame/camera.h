@@ -10,7 +10,6 @@ public:
 
 	void Update(float deltaTime);
 
-
 private:
 	//float length;//‹——£
 	//float rotateZAngle;//ƒJƒƒ‰üˆÍ‰ñ“]•ûŒü‰ñ“]Šp.

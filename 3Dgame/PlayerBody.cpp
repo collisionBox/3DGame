@@ -14,7 +14,7 @@ const float PlayerBody::GripPower = 2.0f;// グリップ力.
 const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
 
 PlayerBody::PlayerBody() :
-	ObjectBase(ObjectTag::Player)
+	ObjectBase(ObjectTag::Body)
 	, cannon(nullptr)
 	, rotateNow(false)
 	, accel()
@@ -47,8 +47,9 @@ void PlayerBody::Update(float deltaTime)
 	Input(deltaTime);
 
 	//pos += velocity;
+	ObjectBase* camera = ObjectManager::GetFirstObject(ObjectTag::Camera);
 
-	cannon->Update(pos, deltaTime);
+	cannon->Update(pos,camera->GetDir(), deltaTime);
 
 	MV1SetPosition(modelHandle, pos);
 
@@ -126,7 +127,7 @@ void PlayerBody::Input(float deltaTime)
 	if(!(key & PAD_INPUT_UP) && !(key & PAD_INPUT_DOWN))
 	{
 		accel *= DefaultDecel;
-		if (VSize(velocity) <= 1.1f)
+		if (VSize(velocity) <= 8.0f)
 		{
 			accel = 0;
 		}
@@ -161,6 +162,8 @@ void PlayerBody::Input(float deltaTime)
 
 	// ポジション更新.
 	pos = VAdd(pos, velocity * deltaTime);
+	//ObjectBase* bullet = ObjectManager::GetFirstObject(ObjectTag::Bullet);
+	
 }
 
 void PlayerBody::Rotate()

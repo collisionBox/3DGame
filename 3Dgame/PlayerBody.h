@@ -3,7 +3,8 @@
 #include "ObjectBase.h"
 #include "PlayerCannon.h"
 
-class PlayerBody : public ObjectBase
+class PlayerBody :
+	public ObjectBase
 {
 public:
 	PlayerBody();
@@ -15,10 +16,8 @@ public:
 	void Draw() override;// •`‰æ.
 	void OnCollisionEnter(const ObjectBase* other) override;
 
-	VECTOR GetDir() const { return dir; }
 
 	VECTOR velocity;
-	VECTOR dir;
 private:
 	void Input(float deltaTime);
 	void Rotate();

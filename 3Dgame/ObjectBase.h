@@ -13,7 +13,9 @@ public:
 
 	const VECTOR& GetPos() const { return pos; }
 	void SetPos(const VECTOR set) { pos = set; }
-	
+
+	const VECTOR& GetDir() const { return dir; }
+	//void SetPos(const VECTOR set) { dir = set; }
 
 	bool GetVidible() const { return visible; }
 	void SetVisible(bool set) { visible = set; }
@@ -32,6 +34,7 @@ public:
 protected:
 	ObjectTag tag;
 	VECTOR pos;
+	VECTOR dir;
 	int modelHandle;
 	bool visible;
 	bool alive;

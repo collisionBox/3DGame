@@ -67,6 +67,7 @@ void MainCamera::Update(float deltaTime)
 		pos.z *= cosf(pitch);
 		// プレイヤー座標を加算.
 		pos = VAdd(pos, aimTargetPos);
+		dir = aimTargetPos - pos;
 		SetCameraPositionAndTarget_UpVecY(pos, aimTargetPos);
 	}
 	

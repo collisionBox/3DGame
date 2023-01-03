@@ -10,6 +10,7 @@
 #include "AssetManager.h"
 #include "Director.h"
 #include "PlayerBody.h"
+#include "Bullet.h"
 #include "UI.h"
 #include "Camera.h"
 #include "DebugDraw.h"
@@ -42,19 +43,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ライトを設定 デリートはDxLib_End()で行なわれるため現状不必要.
 	int lightHandle = CreateDirLightHandle(VGet(-1.0f, 0.0f, 0.0f));
 
-	//マネージャー生成.
+	// マネージャー生成.
 	AssetManager::Initalize();
 	ObjectManager::Initialize();
 	Director::Initalize();
 
-	//カメラ生成.
+	// カメラ生成.
 	MainCamera* mainCam = new MainCamera(40, -90);
 	ObjectManager::Entry(mainCam);
 
-	//プレイヤー生成.
+	// プレイヤー生成.
 	PlayerBody* player = new PlayerBody;
 	ObjectManager::Entry(player);
 
+	// バレット生成.
+	Bullet* bullet = new Bullet;
+	ObjectManager::Entry(bullet);
+
+	
 	// UI生成.
 	UI* ui = new UI();
 
@@ -68,6 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		nowTime = GetNowCount();
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
 
+		
 		// 全オブジェクトの更新.
 		ObjectManager::Update(deltaTime);
 		//ObjectManager::Collition();
