@@ -9,8 +9,7 @@
 #include "ObjectManager.h"
 #include "AssetManager.h"
 #include "Director.h"
-#include "PlayerBody.h"
-#include "Bullet.h"
+#include "Player.h"
 #include "UI.h"
 #include "Camera.h"
 #include "DebugDraw.h"
@@ -26,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(TRUE);// ウィンドウモードの変更.
 
 	// 画面モードセット.
-	float screenMagni = 70;// 画面比率にかける倍率.
+	int screenMagni = 70;// 画面比率にかける倍率.
 	SetGraphMode(16 * screenMagni, 9 * screenMagni, 16);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
@@ -53,12 +52,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ObjectManager::Entry(mainCam);
 
 	// プレイヤー生成.
-	PlayerBody* player = new PlayerBody;
+	Player* player = new Player;
 	ObjectManager::Entry(player);
 
-	// バレット生成.
-	Bullet* bullet = new Bullet;
-	ObjectManager::Entry(bullet);
+
 
 	
 	// UI生成.
@@ -73,7 +70,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//フレーム時間計測.
 		nowTime = GetNowCount();
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
-
 		
 		// 全オブジェクトの更新.
 		ObjectManager::Update(deltaTime);

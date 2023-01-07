@@ -2,20 +2,19 @@
 #include "DxLib.h"
 #include "ObjectBase.h"
 #include "ObjectManager.h"
-
+#include <vector>
 
 class PlayerCannon : public ObjectBase
 {
 public:
 	// 動的シングルトン.
-	static PlayerCannon& Instance() { return *instance; }
+	/*static PlayerCannon& Instance() { return *instance; }
 	static void CreateInstance();
-	static void DereteInstance();
+	static void DereteInstance();*/
 
-	PlayerCannon();
+	PlayerCannon(ObjectBase* body);
 	~PlayerCannon();
 
-	void Initialize(VECTOR pos, VECTOR dir);
 
 	//void Update(VECTOR bodyPos, VECTOR camDir, float deltaTime);// 更新.
 	void Update(float deltaTime) override;
@@ -26,14 +25,10 @@ public:
 	VECTOR GetPos() const { return pos; }
 	VECTOR GetDir() const { return dir; }
 private:
-	bool GetRightDir(VECTOR camDir);
+	bool GetCross(VECTOR camDir);
+	VECTOR dirVec;
 
-	/*int modelHandle;
-	VECTOR pos;
-	VECTOR dir;*/
-
-	static PlayerCannon* instance;
-
+	//static PlayerCannon* instance;
 };
 
 

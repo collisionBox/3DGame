@@ -2,57 +2,41 @@
 #include "AssetManager.h"
 #include "Math.h"
 
-PlayerCannon* PlayerCannon::instance = nullptr;
 
 const float Bullet::speed = 300.0f;
 
 
-Bullet::Bullet() :
+Bullet::Bullet(ObjectBase* cannon) :
 	ObjectBase(ObjectTag::Bullet)
-	
 {
-	// モデルのロード.
-	modelHandle = MV1LoadModel("data/beam.mv1");
-	duplicateModel = MV1DuplicateModel(modelHandle);
-	MV1SetScale(duplicateModel, VGet(0.1f, 0.1f, 0.1f));// サイズの変更.
-	visible = false;
 
-	PlayerCannon::CreateInstance();
+	// モデルのロード.
+	modelHandle = AssetManager::GetMesh("data/beam.mv1");
+	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));// サイズの変更.
+
+	//alive = false;
+	visible = false;
+	pos = cannon->GetPos();
+	dir = cannon->GetDir();
+	velocity = initVec;
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 }
 
 Bullet::~Bullet()
 {
-	MV1DeleteModel(duplicateModel);
 	AssetManager::DeleteMesh(modelHandle);
-	PlayerCannon::DereteInstance();
-}
 
-void Bullet::Initialize(class PlayerCannon* cannon)
-{
-	visible = true;
-	pos = cannon->GetPos();
-	dir = cannon->GetDir();
 }
 
 void Bullet::Update(float deltaTime)
 {
-	Input();
+	MV1SetPosition(modelHandle, pos);
+	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
+	VECTOR negativeVec = VTransform(dir, rotYMat);
+	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 }
 
 void Bullet::Draw()
 {
-	MV1DrawModel(duplicateModel);
+	MV1DrawModel(modelHandle);
 }
-
-void Bullet::Input()
-{
-	
-	if (CheckHitKey(KEY_INPUT_SPACE))
-	{
-		visible = true;
-		pos = PlayerCannon::Instance().GetPos();
-		dir = PlayerCannon::Instance().GetDir();
-		
-	}
-}
-

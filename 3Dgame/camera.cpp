@@ -23,7 +23,7 @@ MainCamera::MainCamera(float pitchDegree, float yawDegree)
 const float maxPitch = 89.0f * DX_PI_F / 180.0f;
 void MainCamera::Update(float deltaTime)
 {
-	ObjectBase* player = ObjectManager::GetFirstObject(ObjectTag::Player);
+	ObjectBase* player = ObjectManager::GetFirstObject(ObjectTag::Body);
 	if (player)
 	{
 		aimTargetPos = player->GetPos();

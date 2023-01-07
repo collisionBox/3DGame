@@ -1,7 +1,9 @@
 #pragma once
 #include "DxLib.h"
 #include "ObjectBase.h"
-#include "PlayerCannon.h"
+#include "ObjectManager.h"
+#include "AssetManager.h"
+#include "Math.h"
 
 class PlayerBody :
 	public ObjectBase
@@ -17,14 +19,13 @@ public:
 	void OnCollisionEnter(const ObjectBase* other) override;
 
 
-	VECTOR velocity;
+
 private:
 	void Input(float deltaTime);
 	void Rotate();
 	VECTOR aimDir;
 
-	PlayerCannon* cannon;
-
+	VECTOR velocity;
 	bool rotateNow;
 
 	// ê√ìIä÷êî.

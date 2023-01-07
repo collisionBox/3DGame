@@ -32,12 +32,13 @@ public:
 	ObjectTag GetTag() const { return tag; }
 
 protected:
-	ObjectTag tag;
-	VECTOR pos;
-	VECTOR dir;
-	int modelHandle;
-	bool visible;
-	bool alive;
+	ObjectTag tag;// 登録名(登録票).
+	VECTOR pos;// 位置ベクトル.
+	VECTOR dir;// 方向ベクトル.
+	int modelHandle;// モデルハンドル.
+	bool visible;// 表示するかどうかのハンドル（何もしなければ表示）.
+	bool alive;// 生きているかどうかのハンドル.
 
+	const VECTOR initVec = VGet(0.0f, 0.0f, 0.0f);// 初期化代入用ベクトル.
 };
 

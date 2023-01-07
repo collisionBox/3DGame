@@ -1,6 +1,4 @@
 #include "PlayerBody.h"
-#include "AssetManager.h"
-#include "Math.h"
 
 // 静的定数.
 const float PlayerBody::Accel = 6.0f;// 通常の加速.
@@ -15,7 +13,6 @@ const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
 
 PlayerBody::PlayerBody() :
 	ObjectBase(ObjectTag::Body)
-	, cannon(nullptr)
 	, rotateNow(false)
 	, accel()
 
@@ -27,16 +24,12 @@ PlayerBody::PlayerBody() :
 	pos = VGet(0.0f, 13.0f, 0.0f);
 	dir = VGet(0.0f, 0.0f, 1.0f);
 	aimDir = dir;
-	cannon = new PlayerCannon;
-	cannon->Initialize(pos, dir);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 }
 
 PlayerBody::~PlayerBody()
 {
-
 	AssetManager::DeleteMesh(modelHandle);
-	
-	delete cannon;
 }
 
 
@@ -49,7 +42,6 @@ void PlayerBody::Update(float deltaTime)
 	//pos += velocity;
 	ObjectBase* camera = ObjectManager::GetFirstObject(ObjectTag::Camera);
 
-	cannon->Update(pos,camera->GetDir(), deltaTime);
 
 	MV1SetPosition(modelHandle, pos);
 
@@ -67,7 +59,7 @@ void PlayerBody::Update(float deltaTime)
 void PlayerBody::Draw()
 {
 	MV1DrawModel(modelHandle);
-	cannon->Draw();
+
 }
 
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)
@@ -96,9 +88,8 @@ void PlayerBody::Input(float deltaTime)
 
 	
 
-	VECTOR accelDir = VGet(0.0f,1.0f,0.0f);
-
-	VECTOR backDir = VScale(dir, -1);
+	const VECTOR accelDir = VGet(0.0f,1.0f,0.0f);
+	const VECTOR backDir = VScale(dir, -1);
 
 	// 入力許可フラグ.
 	bool input = false;
@@ -139,11 +130,13 @@ void PlayerBody::Input(float deltaTime)
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(right, onStopRotateSpeed));
+		dir = VScale(dir, deltaTime);
 	}
 	if (key & PAD_INPUT_LEFT)// 左旋回.
 	{
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, onStopRotateSpeed));
+		dir = VScale(dir, deltaTime);
 	}
 	// グリップ減速.
 	if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT)
