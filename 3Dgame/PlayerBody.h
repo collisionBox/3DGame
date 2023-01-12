@@ -9,10 +9,10 @@ class PlayerBody :
 	public ObjectBase
 {
 public:
-	PlayerBody();
+	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState);
 	~PlayerBody();
 
-	static PlayerBody& Instance() { static PlayerBody body; return body; }
+	//static PlayerBody& Instance() { static PlayerBody body; return body; }
 
 	void Update(float deltaTime) override;// çXêV.
 	void Draw() override;// ï`âÊ.
@@ -28,6 +28,10 @@ private:
 	VECTOR velocity;
 	bool rotateNow;
 
+	int padInput;
+	XINPUT_STATE pad;
+	
+
 	// ê√ìIä÷êî.
 	static const float Accel;
 	static const float Back;
@@ -38,6 +42,7 @@ private:
 	static const float GripDecel;
 	static const float GripPower;
 	static const float ColideDecelFac;
+	static const float TurnPerformance;
 	float accel;
 
 };

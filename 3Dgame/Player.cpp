@@ -1,59 +1,33 @@
 #include "Player.h"
 
-Player::Player() :
+
+//-----------------------------------------------------------------------------
+// @brief コンストラクタ
+// @param[in] initPos	プレイヤーの初期位置.
+// @param[in] inputState DX_INPUT_PAD○○.
+//-----------------------------------------------------------------------------
+Player::Player(VECTOR initPos, VECTOR initDir, int& inputState) :
 	ObjectBase(ObjectTag::Player)
 {
+
 	// 車体生成.
-	body = new PlayerBody;
+	PlayerBody* body = new PlayerBody(initPos, initDir, inputState);
 	ObjectManager::Entry(body);
 
 	// 主砲生成.
-	cannon = new PlayerCannon(body);
+	PlayerCannon* cannon = new PlayerCannon(body, inputState);
 	ObjectManager::Entry(cannon);
 
-	shotTime = 0.0f;
-	for (int i = 0; i < bulletNum; i++)
-	{
-		bullet[i] = nullptr;
-	}
+	BulletManager* bullet = new BulletManager(inputState);
+	ObjectManager::Entry(bullet);
 }
-
-Player::~Player()
-{
-	// 処理なし.
-}
-
 
 void Player::Update(float deltaTime)
-{
-	body->Update(deltaTime);
-	cannon->Update(deltaTime);
-
-	shotTime -= deltaTime;
-	if (shotTime < 0.0f && CheckHitKey(KEY_INPUT_SPACE))
-	{
-		for (int i = 0; i < bulletNum; i++)
-		{
-			if (bullet[i] == nullptr)
-			{
-				bullet[i] = new Bullet(cannon);
-				ObjectManager::Entry(bullet[i]);
-				shotTime = shotIntervalTime;
-				break;
-			}
-		}
-	}
+{	
 }
 
 void Player::Draw()
 {
-	body->Draw();
-	cannon->Draw();
-	for (int i = 0; i < bulletNum; i++)
-	{
-		if (bullet[i] != nullptr)
-		{
-			bullet[i]->Draw();
-		}
-	}
 }
+
+

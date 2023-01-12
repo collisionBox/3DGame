@@ -1,32 +1,39 @@
 #include "PlayerBody.h"
-
+#include "Player.h"
 // 静的定数.
 const float PlayerBody::Accel = 6.0f;// 通常の加速.
 const float PlayerBody::Back = 5.0f;// 後退速度.
-const float PlayerBody::MaxSpeed = 400.0f;// 最高前進速度.
+const float PlayerBody::MaxSpeed = 200.0f;// 最高前進速度.
 const float PlayerBody::MinSpeed = -350.0f;// 最高後退速度.
 const float PlayerBody::DefaultDecel = 0.97f;// なにもしない時の減速.
 const float PlayerBody::BreakDecel = 0.5f;// ブレーキ時の減速.
 const float PlayerBody::GripDecel = -5.0f;// グリップの減速.
 const float PlayerBody::GripPower = 2.0f;// グリップ力.
 const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
+const float PlayerBody::TurnPerformance = 5.0f;// 旋回性能.
 
-PlayerBody::PlayerBody() :
+PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState) :
 	ObjectBase(ObjectTag::Body)
 	, rotateNow(false)
 	, accel()
-
 {
-	velocity = VGet(0.0f, 0.0f, 0.0f);
-	// モデル読み込み.
+	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/player/reconTankBody.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
-	pos = VGet(0.0f, 13.0f, 0.0f);
-	dir = VGet(0.0f, 0.0f, 1.0f);
+	
+	// 位置・方向を初期化.
+	// 左下へ配置.
+	pos = initPos;// (地面にうまるため13上げる.)今回は無視
+	// 中心を向く.
+	dir = initDir;
 	aimDir = dir;
+	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-}
 
+	// 変数の初期化.
+	velocity = initVec;
+	padInput = inputState;
+}
 PlayerBody::~PlayerBody()
 {
 	AssetManager::DeleteMesh(modelHandle);
@@ -41,8 +48,7 @@ void PlayerBody::Update(float deltaTime)
 
 	//pos += velocity;
 	ObjectBase* camera = ObjectManager::GetFirstObject(ObjectTag::Camera);
-
-
+	
 	MV1SetPosition(modelHandle, pos);
 
 	// 3Dモデルのポジション設定.
@@ -54,6 +60,22 @@ void PlayerBody::Update(float deltaTime)
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 	////collisionUpdate();
 
+	if (pos.x > 930.0f)//-885,13,159
+	{
+		pos = VGet(-920.0f, pos.y, pos.z);//920
+	}
+	if (pos.x < -930.0f)//882,13,88
+	{
+		pos = VGet(920.0f, pos.y, pos.z);
+	}
+	if (pos.z > 540)//540
+	{
+		pos = VGet(pos.x, pos.y, -530.0f);
+	}
+	if (pos.z < -540)//540
+	{
+		pos = VGet(pos.x, pos.y, 530.0f);
+	}
 }
 
 void PlayerBody::Draw()
@@ -68,29 +90,43 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 
 	if (tag == ObjectTag::BackGround)
 	{
-		
+		int colModel = other->GetCollisionModel();
+
+		MV1_COLL_RESULT_POLY_DIM colInfo;
+		if (CollisionPair(colSphere, colModel, colInfo))
+		{
+			// 当たっている場合は押し量を計算.
+			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
+			pos = VAdd(pos, poshBuckVec);
+			// コリジョン情報の解放.
+			MV1CollResultPolyDimTerminate(colInfo);
+
+			CollisionUpdate();
+		}
+
+		// 背景と足元線分当たり判定.
+		MV1_COLL_RESULT_POLY colInfoLine;
+		if (CollisionPair(colLine, colModel, colInfoLine))
+		{
+			// 当たっている場合は足元を衝突店に合わせる.
+			pos = colInfoLine.HitPosition;
+
+			CollisionUpdate();
+		}
+	}
+	if (tag == ObjectTag::Bullet)
+	{
+
 	}
 }
 
 void PlayerBody::Input(float deltaTime)
 {
-	/*if (CheckHitKey(KEY_INPUT_O))
-	{
-		pos = VAdd(pos, VGet(0.0f, 1.0f, 0.0f));
-	}
-	if (CheckHitKey(KEY_INPUT_L))
-	{
-		pos = VSub(pos, VGet(0.0f, 1.0f, 0.0f));
-	}*/
-
 	// キー入力取得.
 	int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-
-	
-
+	GetJoypadXInputState(padInput, &pad);
 	const VECTOR accelDir = VGet(0.0f,1.0f,0.0f);
 	const VECTOR backDir = VScale(dir, -1);
-
 	// 入力許可フラグ.
 	bool input = false;
 
@@ -99,47 +135,48 @@ void PlayerBody::Input(float deltaTime)
 	if (dot <= MaxSpeed)
 	{
 		// 上を押していたら加速.
-		if (key & PAD_INPUT_UP)
+		if (key & PAD_INPUT_UP || pad.RightTrigger != 0)
 		{
 			accel += Accel;
 		}
-	
+
 	}
 	if (dot >= MinSpeed)
 	{
 		//下を押していたら減速.
-		if (key & PAD_INPUT_DOWN)
+		if (key & PAD_INPUT_DOWN || pad.LeftTrigger)
 		{
-			accel += -Back;
+			accel -= Back;
 		}
 	}
-
 	// 自然停止.
-	if(!(key & PAD_INPUT_UP) && !(key & PAD_INPUT_DOWN))
+	if(!(key & PAD_INPUT_UP) && !(key & PAD_INPUT_DOWN) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{
 		accel *= DefaultDecel;
 		if (VSize(velocity) <= 8.0f)
 		{
 			accel = 0;
 		}
+		if (accel <= 0.1f)
+		{
+			accel = 0;
+		}
 	}
-
-	float onStopRotateSpeed = GripPower * 0.03f;
 	
-	if (key & PAD_INPUT_RIGHT)// 右旋回.
+	if (key & PAD_INPUT_RIGHT && !(key & PAD_INPUT_LEFT) || pad.ThumbLX > 0)// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(right, onStopRotateSpeed));
-		dir = VScale(dir, deltaTime);
+		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
+		//dir = VScale(dir, deltaTime);
 	}
-	if (key & PAD_INPUT_LEFT)// 左旋回.
+	else if (key & PAD_INPUT_LEFT && !(key & PAD_INPUT_RIGHT) || pad.ThumbLX < 0)// 左旋回.
 	{
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(left, onStopRotateSpeed));
-		dir = VScale(dir, deltaTime);
+		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
+		//dir = VScale(dir, deltaTime);
 	}
 	// グリップ減速.
-	if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT)
+	if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT || pad.ThumbLX)
 	{
 		if (VSize(velocity) >= 20)
 		{
@@ -149,13 +186,12 @@ void PlayerBody::Input(float deltaTime)
 	dir = VNorm(dir);
 
 	velocity = VScale(dir, accel);
-
+	
 	// 上下方向にいかないようにvelocityを整える.
 	velocity = VGet(velocity.x, 0, velocity.z);
 
 	// ポジション更新.
-	pos = VAdd(pos, velocity * deltaTime);
-	//ObjectBase* bullet = ObjectManager::GetFirstObject(ObjectTag::Bullet);
+	pos = VAdd(pos, VScale(velocity, deltaTime));
 	
 }
 

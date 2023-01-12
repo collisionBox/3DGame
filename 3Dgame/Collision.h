@@ -27,10 +27,10 @@ struct Sphere
 	float radius;
 };
 // ƒJƒvƒZƒ‹“–‚½‚è”»’è.
-struct Capsuel
+struct Capsule
 {
-	Capsuel();
-	Capsuel(const VECTOR& start, const VECTOR& end, float radius);
+	Capsule();
+	Capsule(const VECTOR& start, const VECTOR& end, float radius);
 	void Move(const VECTOR& pos);
 
 

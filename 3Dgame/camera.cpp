@@ -5,31 +5,53 @@
 
 const float springSterength = 50.0f;
 
-MainCamera::MainCamera(float pitchDegree, float yawDegree)
+MainCamera::MainCamera()
 	:ObjectBase(ObjectTag::Camera)
-	,pos()
 	,targetPos()
 	,camOffset()
 	,aimPos()
-	,aimTargetPos()
 {
-	this->pitch = ToRadian(pitchDegree);
-	this->yaw = ToRadian(yawDegree);
+	
+	pitch = 0;
+	yaw = 0;
+	pos = VGet(0.0f, 870.0f, -0.1f);
+	float fov = 60 * DX_PI_F / 180;
+	SetupCamera_Perspective(fov);
 	//‰œs0.1`3000‚Ü‚Å‚ðƒJƒƒ‰‚Ì•`‰æ”ÍˆÍ‚Æ‚·‚é
-	SetCameraNearFar(1.0f, 3000.0f);
+	SetCameraNearFar(0.1f, 3000.0f);
+	aimTargetPos = VGet(0.0f, 0.0f, 0.0f);
+	SetCameraPositionAndTarget_UpVecY(pos, aimTargetPos);
+	// •Ï”‚Ì‰Šú‰».
 
 }
 
 const float maxPitch = 89.0f * DX_PI_F / 180.0f;
+//MainCamera::MainCamera(PlayerBody* body)
+//	: ObjectBase(ObjectTag::Camera)
+//	, targetPos()
+//	, camOffset()
+//	, aimPos()
+//	, aimTargetPos()
+//{
+//	pos = VAdd(body->GetPos(), VGet(0.0f, 10.0f, 0.0f));
+//	yaw = 0;
+//	pitch = 0;
+//	SetCameraPositionAndTarget_UpVecY(VGet(0, 100, 0), body->GetPos());
+//	‰œs0.1`3000‚Ü‚Å‚ðƒJƒƒ‰‚Ì•`‰æ”ÍˆÍ‚Æ‚·‚é
+//	SetCameraNearFar(0.1f, 3000.0f);
+//}
+
 void MainCamera::Update(float deltaTime)
 {
-	ObjectBase* player = ObjectManager::GetFirstObject(ObjectTag::Body);
-	if (player)
-	{
-		aimTargetPos = player->GetPos();
+	ObjectBase* body = ObjectManager::GetFirstObject(ObjectTag::Body);
+	ObjectBase* cannon = ObjectManager::GetFirstObject(ObjectTag::Cannon);
+#if 0
+	
+		aimTargetPos = body->GetPos();
 		aimPos = aimTargetPos + camOffset;
 		const float add = 2.0f;
 		const float length = 200.0f;
+
 		if (CheckHitKey(KEY_INPUT_W))
 		{
 			pitch -= add * deltaTime;
@@ -67,9 +89,23 @@ void MainCamera::Update(float deltaTime)
 		pos.z *= cosf(pitch);
 		// ƒvƒŒƒCƒ„[À•W‚ð‰ÁŽZ.
 		pos = VAdd(pos, aimTargetPos);
-		dir = aimTargetPos - pos;
-		SetCameraPositionAndTarget_UpVecY(pos, aimTargetPos);
+		dir = VSub(aimTargetPos, pos);
+		dir = VNorm(dir);
+		SetCameraPositionAndTarget_UpVecY(pos, body->GetPos());
+
+#else
+	if (CheckHitKey(KEY_INPUT_W))
+	{
+		pos.y -= 10;
 	}
+	if (CheckHitKey(KEY_INPUT_S))
+	{
+		pos.y += 10;
+	}
+	SetCameraPositionAndTarget_UpVecY(pos, aimTargetPos);
+
+#endif
+		//
 	
 
 }

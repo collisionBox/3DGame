@@ -1,9 +1,7 @@
 #include "PlayerCannon.h"
-#include "AssetManager.h"
-#include "ObjectManager.h"
-#include "PlayerBody.h"
-#include "Camera.h"
-#include "Math.h"
+
+
+const float PlayerCannon::TurnPerformance = 3.50f;
 
 #if 0
 PlayerCannon::PlayerCannon() :
@@ -14,17 +12,25 @@ PlayerCannon::PlayerCannon() :
 	
 }
 #else
-PlayerCannon::PlayerCannon(ObjectBase* body) :
+PlayerCannon::PlayerCannon(ObjectBase* body, int inputState) :
 	ObjectBase(ObjectTag::Cannon)
 {
+	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/player/reconTankCannon.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
-
+	
+	// 位置・方向を初期化.
 	pos = body->GetPos();
 	pos.y = 0.5f;
 	dir = body->GetDir();
+	MV1SetPosition(modelHandle, pos);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	// 変数の初期化.
 	dirVec = initVec;
-	//bullet[5] = { nullptr }; // ここで初期化しようとしてもされない。何故？.
+	rotateNow = false;
+	padInput = inputState;
+	
 }
 #endif
 PlayerCannon::~PlayerCannon()
@@ -47,26 +53,17 @@ void PlayerCannon::DereteInstance()
 	instance = nullptr;
 }
 #endif
-   
 
-#if 0
-void PlayerCannon::Update(VECTOR bodyPos,VECTOR camDir, float deltaTime)
+#if 1
+void PlayerCannon::Update(float deltaTime)
 {
+	Input(deltaTime);
+	Rotate();
+	ObjectBase* body = ObjectManager::GetFirstObject(ObjectTag::Body);
 	
-	/*if (CheckHitKey(KEY_INPUT_A))
-	{
-		
-		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(left, 0.3));
-	}
-	if (CheckHitKey(KEY_INPUT_D))
-	{
-		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(right, 0.3));
-	}*/
 	
-	VECTOR cameraFront = camDir;
-	cameraFront.y = 0.0f;
+	//VECTOR cameraFront = camDir;
+	//cameraFront.y = 0.0f;
 	/*if (GetRightDir(cameraFront))
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -78,10 +75,10 @@ void PlayerCannon::Update(VECTOR bodyPos,VECTOR camDir, float deltaTime)
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, 0.3));
 	}*/
-	dir = cameraFront;
-	VNorm(dir);
+	//dir = cameraFront;
+	dir = VNorm(dir);
 
-	pos = bodyPos;
+	pos = body->GetPos();
 
 	MV1SetPosition(modelHandle, this->pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
@@ -93,27 +90,39 @@ void PlayerCannon::Update(float deltaTime)
 {
 	ObjectBase* camera = ObjectManager::GetFirstObject(ObjectTag::Camera);
 	ObjectBase* body = ObjectManager::GetFirstObject(ObjectTag::Body);
-	VECTOR cameraFront = camera->GetDir();
-	cameraFront.y = 0.0f;
-	
-#if 0
-	{
-		if (GetCross(camera->GetDir()) > 0.0f)
-		{
-			VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-			dir = VAdd(dir, VScale(right, 0.5f));
-		}
-		else
-		{
-			VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
-			dir = VAdd(dir, VScale(left, 0.5f));
-		}
-	}
-#endif
+	VECTOR cameraDir = camera->GetDir();
 
-	dir = cameraFront;
-	VNorm(dir);
-	
+	if (VDot(dir, cameraDir) > 0.99f)
+	{
+		float rotRadianSpeed = ToRadian(10) * deltaTime;// 角速度.
+		// 左なら角速度を負に.
+		if (VCross(dir, cameraDir).y < 0.0f)
+		{
+			rotRadianSpeed *= -1;
+		}
+		// Y軸回転行列を作成.
+		MATRIX rotMat = MGetRotY(rotRadianSpeed);
+
+		// 回転させる.
+		VECTOR rotVec = VTransform(dir, rotMat);
+
+		//目標角を超えていないか.
+		VECTOR cross1, cross2;
+		cross1 = VCross(dir, cameraDir);
+		cross2 = VCross(rotVec, cameraDir);
+
+		// 目標角度を超えたら終了.
+		if (cross1.y * cross2.y < 0.01f)
+		{
+			rotVec = cameraDir;
+		}
+		rotVec.y = 0.0f;// 補正.
+		rotVec = VNorm(rotVec);
+
+		// 更新.
+		dir = rotVec;
+	}
+
 	pos = body->GetPos();
 	// 変更を反映.
 	MV1SetPosition(modelHandle, pos);
@@ -121,8 +130,7 @@ void PlayerCannon::Update(float deltaTime)
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
-	Input();
-
+	monitorNum[0] = VDot(dir,cameraDir);
 	
 }
 
@@ -133,15 +141,68 @@ void PlayerCannon::Draw()
 	
 }
 
-void PlayerCannon::Input()
+void PlayerCannon::Input(float deltaTime)
 {
+	GetJoypadXInputState(padInput, &pad);
+	if (CheckHitKey(KEY_INPUT_A))
+	{
+
+		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
+	}
+	if (CheckHitKey(KEY_INPUT_D))
+	{
+		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
+	}
+	VECTOR padVec = VGet(pad.ThumbRX, 0.0f, pad.ThumbRY);
 	
+	if (VectorSize(padVec) != 0.0f)
+	{
+		padVec = VNorm(padVec);
+		if (IsNearAngle(padVec, dir))
+		{
+			dir = padVec;
+		}
+		else
+		{
+			rotateNow = true;
+			aimDir = padVec;
+		}
+	}
 }
 
-
-bool PlayerCannon::GetCross(VECTOR camDir)
+void PlayerCannon::Rotate()
 {
-	float cross = (dir.x - camDir.x) - (dir.z - camDir.z);
-	return cross > 0.0f;
+	if (rotateNow)
+	{
+
+		if (IsNearAngle(aimDir, dir))
+		{
+			dir = aimDir;
+			rotateNow = false;
+		}
+		else
+		{
+			//回転させる.
+			VECTOR interPolateDir;
+			interPolateDir = RotateForAimVecYAxis(dir, aimDir, 10.0f);
+
+			// 回転が目標角を超えていないか.
+			VECTOR cross1, cross2;
+			cross1 = VCross(dir, aimDir);
+			cross2 = VCross(interPolateDir, aimDir);
+
+			// 目標角度を超えたら終了.
+			if (cross1.y * cross2.y < 0.0f)
+			{
+				interPolateDir = aimDir;
+				rotateNow = false;
+			}
+			// 目標ベクトルに１０度だけ近づけた角度
+			dir = interPolateDir;
+		}
+	}
 }
+
 

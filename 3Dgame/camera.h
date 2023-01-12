@@ -6,8 +6,8 @@
 class MainCamera : public ObjectBase
 {
 public:
-	MainCamera(float pitchDegree, float yawDegree);
-
+	MainCamera();
+	/*MainCamera(class PlayerBody* body);*/
 	void Update(float deltaTime);
 
 private:

@@ -134,6 +134,7 @@ void ObjectManager::Update(float deltaTime)
 
 			if (!Instance->objects[tag][i]->GetAlive())
 			{
+				Instance->objects[tag][i]->SetVisible(false);
 				deadObject.emplace_back(Instance->objects[tag][i]);
 			}
 		}

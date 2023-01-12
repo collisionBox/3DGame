@@ -1,5 +1,6 @@
 #pragma once
 #include "DxLib.h"
+#include "Math.h"
 
 // @brief ベクトル同士の加算
 VECTOR operator+(const VECTOR& lhs, const VECTOR& rhs);
@@ -33,3 +34,6 @@ float Sigmoid(float x, float gain);
 
 // @brief 度数法→弧度法
 float ToRadian(float degree);
+
+// @brief ベクトルの大きさを求める.
+float VectorSize(VECTOR& vec);

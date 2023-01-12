@@ -1,5 +1,8 @@
 #include "Collision.h"
 
+//-----------------------------------------------------------------------------
+// @brief 線分コンストラクタ
+//-----------------------------------------------------------------------------
 LineSegment::LineSegment()
 	:localStart()
 	,localEnd()
@@ -7,6 +10,9 @@ LineSegment::LineSegment()
 	,worldEnd()
 {
 }
+//-----------------------------------------------------------------------------
+// @brief 線分コンストラクタ初期位置セット
+//-----------------------------------------------------------------------------
 
 LineSegment::LineSegment(const VECTOR& start, const VECTOR& end)
 	:localStart(start)
@@ -16,6 +22,9 @@ LineSegment::LineSegment(const VECTOR& start, const VECTOR& end)
 {
 }
 
+//-----------------------------------------------------------------------------
+// @brief 線分のワールド位置を移動する
+//-----------------------------------------------------------------------------
 void LineSegment::Move(const VECTOR& pos)
 {
 	worldStart = localStart + pos;
@@ -23,6 +32,9 @@ void LineSegment::Move(const VECTOR& pos)
 }
 
 
+//-----------------------------------------------------------------------------
+// @brief 球体コンストラクタ
+//-----------------------------------------------------------------------------
 Sphere::Sphere()
 	:localCenter()
 	, worldCenter()
@@ -30,6 +42,9 @@ Sphere::Sphere()
 {
 }
 
+//-----------------------------------------------------------------------------
+// @brief 球体コンストラクタ
+//-----------------------------------------------------------------------------
 Sphere::Sphere(const VECTOR& center, float radius)
 	:localCenter(center)
 	,worldCenter(center)
@@ -37,12 +52,18 @@ Sphere::Sphere(const VECTOR& center, float radius)
 {
 }
 
+//-----------------------------------------------------------------------------
+// @brief 球体のワールド座標を移動する
+//-----------------------------------------------------------------------------
 void Sphere::Move(const VECTOR& pos)
 {
 	worldCenter = localCenter + pos;
 }
 
-Capsuel::Capsuel()
+//-----------------------------------------------------------------------------
+// @brief カプセル当たり判定コンストラクタ
+//-----------------------------------------------------------------------------
+Capsule::Capsule()
 	:localStart()
 	,localEnd()
 	,worldStart()
@@ -51,7 +72,10 @@ Capsuel::Capsuel()
 {
 }
 
-Capsuel::Capsuel(const VECTOR& start, const VECTOR& end, float radius)
+//-----------------------------------------------------------------------------
+// @brief カプセル当たり判定コンストラクタ
+//-----------------------------------------------------------------------------
+Capsule::Capsule(const VECTOR& start, const VECTOR& end, float radius)
 	:localStart(start)
 	,localEnd(end)
 	,worldStart(start)
@@ -60,7 +84,10 @@ Capsuel::Capsuel(const VECTOR& start, const VECTOR& end, float radius)
 {
 }
 
-void Capsuel::Move(const VECTOR& pos)
+//-----------------------------------------------------------------------------
+// @brief カプセルのワールド座標を移動する
+//-----------------------------------------------------------------------------
+void Capsule::Move(const VECTOR& pos)
 {
 	worldStart = localStart + pos;
 	worldEnd = localEnd + pos;

@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(TRUE);// ウィンドウモードの変更.
 
 	// 画面モードセット.
-	int screenMagni = 70;// 画面比率にかける倍率.
+	int screenMagni = 120;// 画面比率にかける倍率.
 	SetGraphMode(16 * screenMagni, 9 * screenMagni, 16);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
@@ -48,15 +48,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Director::Initalize();
 
 	// カメラ生成.
-	MainCamera* mainCam = new MainCamera(40, -90);
-	ObjectManager::Entry(mainCam);
+	/*MainCamera* mainCam = new MainCamera(40, -90);
+	ObjectManager::Entry(mainCam);*/
+	MainCamera* mainCam = new MainCamera;
 
 	// プレイヤー生成.
-	Player* player = new Player;
-	ObjectManager::Entry(player);
+	int padInput = DX_INPUT_PAD1;
+	Player* player1 = new Player(VGet(-742.0f, 0.0f, -355.0f), VGet(1.5f, 0.0f, 1.5f) ,padInput);
+	ObjectManager::Entry(player1);
+
+	padInput = DX_INPUT_PAD2;
+	Player* player2 = new Player(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput);
+	ObjectManager::Entry(player2);
 
 
-
+	
 	
 	// UI生成.
 	UI* ui = new UI();

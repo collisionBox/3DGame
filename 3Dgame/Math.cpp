@@ -124,3 +124,8 @@ float ToRadian(float degree)
 {
 	return degree * DX_PI_F / 180.0f;
 }
+
+float VectorSize(VECTOR& vec)
+{
+	return sqrtf((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
+}
