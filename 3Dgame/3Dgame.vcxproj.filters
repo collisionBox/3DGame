@@ -34,13 +34,13 @@
     <Filter Include="ソース ファイル\Bullet">
       <UniqueIdentifier>{f537a72d-6e66-432e-b8a2-5a32faf3a772}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Player\base">
+      <UniqueIdentifier>{83987e43-743b-4281-aeef-2c0e8e0c1a86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBody.cpp">
-      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="DebugDraw.cpp">
       <Filter>ソース ファイル</Filter>
@@ -69,9 +69,6 @@
     <ClCompile Include="UI.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerCannon.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -87,6 +84,15 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Player2.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBody.cpp">
+      <Filter>ソース ファイル\Player\base</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCannon.cpp">
+      <Filter>ソース ファイル\Player\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -94,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBody.h">
-      <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="ObjectBase.h">
       <Filter>ソース ファイル\Object</Filter>
@@ -125,9 +128,6 @@
     <ClInclude Include="UI.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerCannon.h">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
@@ -142,6 +142,15 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player2.h">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBody.h">
+      <Filter>ソース ファイル\Player\base</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCannon.h">
+      <Filter>ソース ファイル\Player\base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

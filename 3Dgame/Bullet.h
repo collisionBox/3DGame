@@ -7,9 +7,9 @@ class Bullet :
     public ObjectBase
 {
 public:
-
-    Bullet();
-    //Bullet(VECTOR pos, VECTOR dir);
+    
+    Bullet(ObjectTag tag);
+    Bullet(VECTOR pos, VECTOR dir);
     ~Bullet();
     void Update(float deltaTime);
     void Draw();

@@ -6,28 +6,21 @@
 // @param[in] initPos	プレイヤーの初期位置.
 // @param[in] inputState DX_INPUT_PAD○○.
 //-----------------------------------------------------------------------------
-Player::Player(VECTOR initPos, VECTOR initDir, int& inputState) :
-	ObjectBase(ObjectTag::Player)
+Player::Player(VECTOR initPos, VECTOR initDir, int& inputState)
 {
 
 	// 車体生成.
-	PlayerBody* body = new PlayerBody(initPos, initDir, inputState);
+	PlayerBody* body = new PlayerBody(initPos, initDir, inputState, ObjectTag::Body);
 	ObjectManager::Entry(body);
 
 	// 主砲生成.
-	PlayerCannon* cannon = new PlayerCannon(body, inputState);
+	PlayerCannon* cannon = new PlayerCannon(body, inputState, ObjectTag::Body, ObjectTag::Cannon);
 	ObjectManager::Entry(cannon);
 
-	BulletManager* bullet = new BulletManager(inputState);
+	BulletManager* bullet = new BulletManager(ObjectTag::Cannon, inputState);
 	ObjectManager::Entry(bullet);
 }
 
-void Player::Update(float deltaTime)
-{	
-}
 
-void Player::Draw()
-{
-}
 
 

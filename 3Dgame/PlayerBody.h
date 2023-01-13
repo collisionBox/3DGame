@@ -4,12 +4,13 @@
 #include "ObjectManager.h"
 #include "AssetManager.h"
 #include "Math.h"
+#include "PlayerCannon.h"
 
 class PlayerBody :
 	public ObjectBase
 {
 public:
-	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState);
+	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag);
 	~PlayerBody();
 
 	//static PlayerBody& Instance() { static PlayerBody body; return body; }
@@ -31,7 +32,6 @@ private:
 	int padInput;
 	XINPUT_STATE pad;
 	
-
 	// ê√ìIä÷êî.
 	static const float Accel;
 	static const float Back;

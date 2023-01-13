@@ -11,12 +11,11 @@
 class PlayerCannon : public ObjectBase
 {
 public:
-	// 動的シングルトン.
-	/*static PlayerCannon& Instance() { return *instance; }
-	static void CreateInstance();
-	static void DereteInstance();*/
-
-	PlayerCannon(ObjectBase* body, int inputState);
+	//static PlayerCannon& Instance() { static PlayerCannon instance; return instance; }
+	
+	PlayerCannon();
+	PlayerCannon(class PlayerBody* body, int inputState, ObjectTag userTag, ObjectTag myTag);
+	PlayerCannon(VECTOR pos, VECTOR dir, int inputState, ObjectTag myTag);
 	~PlayerCannon();
 
 
@@ -38,8 +37,7 @@ private:
 	bool rotateNow;
 	int padInput;
 	XINPUT_STATE pad;
-	//static PlayerCannon* instance;
-
+	ObjectTag tag;
 	static const float TurnPerformance;
 
 };

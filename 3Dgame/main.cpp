@@ -10,6 +10,7 @@
 #include "AssetManager.h"
 #include "Director.h"
 #include "Player.h"
+#include "Player2.h"
 #include "UI.h"
 #include "Camera.h"
 #include "DebugDraw.h"
@@ -54,12 +55,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// ÉvÉåÉCÉÑÅ[ê∂ê¨.
 	int padInput = DX_INPUT_PAD1;
-	Player* player1 = new Player(VGet(-742.0f, 0.0f, -355.0f), VGet(1.5f, 0.0f, 1.5f) ,padInput);
-	ObjectManager::Entry(player1);
+	Player* player = new Player(VGet(-742.0f, 0.0f, -355.0f), VGet(1.5f, 0.0f, 1.5f) ,padInput);
+	//ObjectManager::Entry(player1);
 
-	padInput = DX_INPUT_PAD2;
-	Player* player2 = new Player(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput);
-	ObjectManager::Entry(player2);
+	int padInput2 = DX_INPUT_PAD2;
+	Player2* player2 = new Player2(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput2);
+	//ObjectManager::Entry(player2);
 
 
 	

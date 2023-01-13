@@ -113,7 +113,7 @@ void ObjectManager::Update(float deltaTime)
 		// 該当タグにあるすべてのオブジェクトを更新
 		for (int i = 0; i < Instance->objects[tag].size(); ++i)
 		{
-			Instance->objects[tag][i]->Update(deltaTime);
+ 			Instance->objects[tag][i]->Update(deltaTime);
 		}
 	}
 	// ペンディング中のオブジェクトをアクティブリストに追加
@@ -128,24 +128,33 @@ void ObjectManager::Update(float deltaTime)
 	std::vector<ObjectBase*> deadObject;
 	for (auto& tag : ObjectTagAll)
 	{
-		// タグ内をすべて回り、死亡Objectを検索し、deadObjectsへ
-		for (int i = 0; i < Instance->objects[tag].size(); ++i)
-		{
 
-			if (!Instance->objects[tag][i]->GetAlive())
+		//deadObjectに移動
+		for (auto obj : Instance->objects[tag])
+		{
+			if (!obj->GetAlive())
 			{
-				Instance->objects[tag][i]->SetVisible(false);
-				deadObject.emplace_back(Instance->objects[tag][i]);
+				deadObject.emplace_back(obj);
 			}
 		}
+		Instance->objects[tag].erase(std::remove_if(std::begin(Instance->objects[tag]), std::end(Instance->objects[tag]), [](ObjectBase* b) { return !b->GetAlive(); }), std::cend(Instance->objects[tag]));
+
+		//// タグ内をすべて回り、死亡Objectを検索し、deadObjectsへ
+		//for (int i = 0; i < Instance->objects[tag].size(); ++i)
+		//{
+		//	if (!Instance->objects[tag][i]->GetAlive())
+		//	{
+		//		deadObject.emplace_back(Instance->objects[tag][i]);
+		//	}
+		//}
 	}
 
 	// 死んでいるオブジェクトをdelete
-	for (auto deadObj : deadObject)
+	while (!deadObject.empty())
 	{
-		delete deadObj;
+		delete deadObject.back();
+		deadObject.pop_back();
 	}
-	deadObject.clear();
 }
 
 //-------------------------------------------------------------------------------
@@ -158,7 +167,7 @@ void ObjectManager::Draw()
 		for (int i = 0; i < Instance->objects[tag].size(); ++i)
 		{
 			// 描画可能なオブジェクトのみ描画.
-			if (Instance->objects[tag][i]->GetVidible())
+			if (Instance->objects[tag][i]->GetVisible())
 			{
 				Instance->objects[tag][i]->Draw();
 			}

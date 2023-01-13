@@ -16,7 +16,7 @@ public:
 
 	const VECTOR& GetDir() const { return dir; }// 方向取得.
 
-	bool GetVidible() const { return visible; }// 可視状態の取得
+	bool GetVisible() const { return visible; }// 可視状態の取得
 	void SetVisible(bool set) { visible = set; }// 可視状態のセット
 
 	bool GetAlive() const { return alive; }// ゲームオブジェクト生きているか 

@@ -6,11 +6,11 @@
 #include "PlayerBody.h"
 #include "PlayerCannon.h"
 #include "BulletManager.h"
-class Player
+class Player2
 {
-public: 
-    Player(VECTOR initPos, VECTOR initDir, int& inputState);
+public:
+	Player2(VECTOR initPos, VECTOR initDir, int& inputState);
 
-private:
+
 };
 

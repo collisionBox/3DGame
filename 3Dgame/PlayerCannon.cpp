@@ -1,6 +1,5 @@
 #include "PlayerCannon.h"
 
-
 const float PlayerCannon::TurnPerformance = 3.50f;
 
 #if 0
@@ -12,25 +11,50 @@ PlayerCannon::PlayerCannon() :
 	
 }
 #else
-PlayerCannon::PlayerCannon(ObjectBase* body, int inputState) :
-	ObjectBase(ObjectTag::Cannon)
+PlayerCannon::PlayerCannon(PlayerBody* body, int inputState, ObjectTag userTag, ObjectTag myTag) :
+	ObjectBase(myTag)
 {
+
 	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/player/reconTankCannon.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+
+	//if (body)
+	{
+		// 位置・方向を初期化.
+		pos = body->GetPos();
+		pos.y = 0.5f;
+		dir = body->GetDir();
+		MV1SetPosition(modelHandle, pos);
+		MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+	}
 	
-	// 位置・方向を初期化.
-	pos = body->GetPos();
-	pos.y = 0.5f;
-	dir = body->GetDir();
-	MV1SetPosition(modelHandle, pos);
-	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
 	// 変数の初期化.
 	dirVec = initVec;
 	rotateNow = false;
 	padInput = inputState;
-	
+	tag = userTag;
+}
+
+PlayerCannon::PlayerCannon(VECTOR pos, VECTOR dir, int inputState, ObjectTag myTag) :
+	ObjectBase(myTag)
+{
+	// アセットマネージャーからモデルをロード.
+	modelHandle = AssetManager::GetMesh("data/player/reconTankCannon.mv1");
+	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+
+	// 位置・方向を初期化.
+	this->pos = pos;
+	this->pos.y = 0.5f;
+	this->dir = dir;
+	MV1SetPosition(modelHandle, this->pos);
+	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	// 変数の初期化.
+	dirVec = initVec;
+	rotateNow = false;
+	padInput = inputState;
 }
 #endif
 PlayerCannon::~PlayerCannon()
@@ -38,29 +62,13 @@ PlayerCannon::~PlayerCannon()
 	AssetManager::DeleteMesh(modelHandle);
 }
 
-#if 0
-void PlayerCannon::CreateInstance()
-{
-	if (!instance)
-	{
-		instance = new PlayerCannon;
-	}
-}
-
-void PlayerCannon::DereteInstance()
-{
-	delete instance;
-	instance = nullptr;
-}
-#endif
 
 #if 1
 void PlayerCannon::Update(float deltaTime)
 {
 	Input(deltaTime);
 	Rotate();
-	ObjectBase* body = ObjectManager::GetFirstObject(ObjectTag::Body);
-	
+	ObjectBase* body = ObjectManager::GetFirstObject(tag);
 	
 	//VECTOR cameraFront = camDir;
 	//cameraFront.y = 0.0f;
@@ -79,7 +87,6 @@ void PlayerCannon::Update(float deltaTime)
 	dir = VNorm(dir);
 
 	pos = body->GetPos();
-
 	MV1SetPosition(modelHandle, this->pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
@@ -170,6 +177,7 @@ void PlayerCannon::Input(float deltaTime)
 			aimDir = padVec;
 		}
 	}
+	
 }
 
 void PlayerCannon::Rotate()

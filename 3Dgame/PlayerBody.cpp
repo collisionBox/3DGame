@@ -1,5 +1,5 @@
 #include "PlayerBody.h"
-#include "Player.h"
+#include "PlayerCannon.h"
 // 静的定数.
 const float PlayerBody::Accel = 6.0f;// 通常の加速.
 const float PlayerBody::Back = 5.0f;// 後退速度.
@@ -12,8 +12,8 @@ const float PlayerBody::GripPower = 2.0f;// グリップ力.
 const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
 const float PlayerBody::TurnPerformance = 5.0f;// 旋回性能.
 
-PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState) :
-	ObjectBase(ObjectTag::Body)
+PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag) :
+	ObjectBase(myTag)
 	, rotateNow(false)
 	, accel()
 {
@@ -47,7 +47,6 @@ void PlayerBody::Update(float deltaTime)
 	Input(deltaTime);
 
 	//pos += velocity;
-	ObjectBase* camera = ObjectManager::GetFirstObject(ObjectTag::Camera);
 	
 	MV1SetPosition(modelHandle, pos);
 
