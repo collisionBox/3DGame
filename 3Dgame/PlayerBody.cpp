@@ -48,14 +48,10 @@ void PlayerBody::Update(float deltaTime)
 
 	//pos += velocity;
 	
-	MV1SetPosition(modelHandle, pos);
-
 	// 3Dモデルのポジション設定.
-	//MATRIX tmpMat = MV1GetMatrix(modelHandle);
+	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
-	//tmpMat = MMult(tmpMat, rotYMat);
 	VECTOR negativeVec = VTransform(dir, rotYMat);
-	////MV1SetRotationMatrix(modelHandle, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 	////collisionUpdate();
 
@@ -124,8 +120,7 @@ void PlayerBody::Input(float deltaTime)
 	// キー入力取得.
 	int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	GetJoypadXInputState(padInput, &pad);
-	const VECTOR accelDir = VGet(0.0f,1.0f,0.0f);
-	const VECTOR backDir = VScale(dir, -1);
+
 	// 入力許可フラグ.
 	bool input = false;
 
@@ -138,7 +133,6 @@ void PlayerBody::Input(float deltaTime)
 		{
 			accel += Accel;
 		}
-
 	}
 	if (dot >= MinSpeed)
 	{
@@ -148,6 +142,7 @@ void PlayerBody::Input(float deltaTime)
 			accel -= Back;
 		}
 	}
+
 	// 自然停止.
 	if(!(key & PAD_INPUT_UP) && !(key & PAD_INPUT_DOWN) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{
@@ -156,10 +151,7 @@ void PlayerBody::Input(float deltaTime)
 		{
 			accel = 0;
 		}
-		if (accel <= 0.1f)
-		{
-			accel = 0;
-		}
+		
 	}
 	
 	if (key & PAD_INPUT_RIGHT && !(key & PAD_INPUT_LEFT) || pad.ThumbLX > 0)// 右旋回.
@@ -198,7 +190,6 @@ void PlayerBody::Rotate()
 {
 	if (rotateNow)
 	{
-
 		if (IsNearAngle(aimDir,dir))
 		{
 			dir = aimDir;

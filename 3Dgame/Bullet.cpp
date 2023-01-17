@@ -23,6 +23,7 @@ Bullet::Bullet(ObjectTag tag) :
 		dir = cannon->GetDir();
 		dir = VNorm(dir);
 	}
+	
 
 	//pos.x = dir.x * 58;// –C“ƒæ“ª‚ÉƒZƒbƒg‚·‚é‚½‚ß.
 	//pos.z = dir.z * 58;

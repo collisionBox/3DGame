@@ -43,9 +43,8 @@ void BulletManager::Update(float deltaTime)
 void BulletManager::Input()
 {
 	GetJoypadXInputState(padInput, &pad);
-	if (shotTime < 0.0f)
-	{
-		if (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[6])
+
+		if (shotTime < 0.0f && (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[6]))
 		{
 			for (int i = 0; i < bulletNum; i++)
 			{
@@ -59,6 +58,6 @@ void BulletManager::Input()
 			}
 		}
 
-	}
+	
 	
 }

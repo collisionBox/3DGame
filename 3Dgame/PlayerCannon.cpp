@@ -3,13 +3,6 @@
 const float PlayerCannon::TurnPerformance = 3.50f;
 
 #if 0
-PlayerCannon::PlayerCannon() :
-	modelHandle(-1)
-{
-	modelHandle = AssetManager::GetMesh("data/player/reconTankCannon.mv1");
-	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
-	
-}
 #else
 PlayerCannon::PlayerCannon(PlayerBody* body, int inputState, ObjectTag userTag, ObjectTag myTag) :
 	ObjectBase(myTag)
@@ -31,31 +24,11 @@ PlayerCannon::PlayerCannon(PlayerBody* body, int inputState, ObjectTag userTag, 
 	
 
 	// 変数の初期化.
-	dirVec = initVec;
 	rotateNow = false;
 	padInput = inputState;
 	tag = userTag;
 }
 
-PlayerCannon::PlayerCannon(VECTOR pos, VECTOR dir, int inputState, ObjectTag myTag) :
-	ObjectBase(myTag)
-{
-	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/player/reconTankCannon.mv1");
-	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
-
-	// 位置・方向を初期化.
-	this->pos = pos;
-	this->pos.y = 0.5f;
-	this->dir = dir;
-	MV1SetPosition(modelHandle, this->pos);
-	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-
-	// 変数の初期化.
-	dirVec = initVec;
-	rotateNow = false;
-	padInput = inputState;
-}
 #endif
 PlayerCannon::~PlayerCannon()
 {

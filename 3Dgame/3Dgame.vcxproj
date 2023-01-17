@@ -146,12 +146,13 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Director.cpp" />
+    <ClCompile Include="EnemyBody.cpp" />
+    <ClCompile Include="EnemyBulletManager.cpp" />
+    <ClCompile Include="EnemyCannon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="PlayerBody.cpp" />
     <ClCompile Include="PlayerCannon.cpp" />
     <ClCompile Include="SceneBase.cpp" />
@@ -167,6 +168,11 @@
     <ClInclude Include="CollisionType.h" />
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Director.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyBody.h" />
+    <ClInclude Include="EnemyBulletManager.h" />
+    <ClInclude Include="EnemyCannon.h" />
+    <ClInclude Include="foundation.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectManager.h" />
