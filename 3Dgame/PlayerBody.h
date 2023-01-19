@@ -28,7 +28,7 @@ private:
 
 	VECTOR velocity;
 	bool rotateNow;
-
+	bool onHitFlag;
 	int padInput;
 	XINPUT_STATE pad;
 	

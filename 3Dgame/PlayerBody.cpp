@@ -71,23 +71,25 @@ void PlayerBody::Update(float deltaTime)
 	{
 		pos = VGet(pos.x, pos.y, 530.0f);
 	}
+	OnCollisionEnter();
 }
 
 void PlayerBody::Draw()
 {
 	MV1DrawModel(modelHandle);
-
+	DrawCollider();
 }
 
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
-
+	int colModel = other->GetCollisionModel();
 	if (tag == ObjectTag::BackGround)
 	{
-		int colModel = other->GetCollisionModel();
-
+	
 		MV1_COLL_RESULT_POLY_DIM colInfo;
+
+		
 		if (CollisionPair(colSphere, colModel, colInfo))
 		{
 			// 当たっている場合は押し量を計算.
@@ -111,7 +113,17 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 	}
 	if (tag == ObjectTag::Bullet)
 	{
+		MV1_COLL_RESULT_POLY_DIM colInfo;
+		if (CollisionPair(colSphere, colModel, colInfo))
+		{
+			// 当たっている場合は押し量を計算.
+			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
+			pos = VAdd(pos, poshBuckVec);
+			// コリジョン情報の解放.
+			MV1CollResultPolyDimTerminate(colInfo);
 
+			CollisionUpdate();
+		}
 	}
 }
 
@@ -121,15 +133,16 @@ void PlayerBody::Input(float deltaTime)
 	int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	GetJoypadXInputState(padInput, &pad);
 
-	// 入力許可フラグ.
-	bool input = false;
-
 	// 加速処理.
 	float dot = VDot(velocity, dir);// 内積.
 	if (dot <= MaxSpeed)
 	{
 		// 上を押していたら加速.
-		if (key & PAD_INPUT_UP || pad.RightTrigger != 0)
+		if (key & PAD_INPUT_UP)
+		{
+			accel += Accel;
+		}
+		if (pad.RightTrigger != 0)
 		{
 			accel += Accel;
 		}
@@ -137,7 +150,11 @@ void PlayerBody::Input(float deltaTime)
 	if (dot >= MinSpeed)
 	{
 		//下を押していたら減速.
-		if (key & PAD_INPUT_DOWN || pad.LeftTrigger)
+		if (key & PAD_INPUT_DOWN)
+		{
+			accel -= Back;
+		}
+		if (pad.LeftTrigger)
 		{
 			accel -= Back;
 		}
@@ -154,29 +171,38 @@ void PlayerBody::Input(float deltaTime)
 		
 	}
 	
-	if (key & PAD_INPUT_RIGHT && !(key & PAD_INPUT_LEFT) || pad.ThumbLX > 0)// 右旋回.
+	if (key & PAD_INPUT_RIGHT && !(key & PAD_INPUT_LEFT))// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 		//dir = VScale(dir, deltaTime);
 	}
-	else if (key & PAD_INPUT_LEFT && !(key & PAD_INPUT_RIGHT) || pad.ThumbLX < 0)// 左旋回.
+	else if (key & PAD_INPUT_LEFT && !(key & PAD_INPUT_RIGHT))// 左旋回.
 	{
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
-		//dir = VScale(dir, deltaTime);
+	}
+	if (pad.ThumbLX > 0)
+	{
+		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
+	}
+	else if (pad.ThumbLX < 0)
+	{
+		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 	}
 	// グリップ減速.
-	if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT || pad.ThumbLX)
+	if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT || pad.ThumbLX != 0)
 	{
 		if (VSize(velocity) >= 20)
 		{
 			velocity = VAdd(velocity, VScale(dir, GripDecel));
 		}
 	}
-	dir = VNorm(dir);
+	dir = VNorm(dir);// 正規化.
 
-	velocity = VScale(dir, accel);
+	velocity = VScale(dir, accel);// 方向ベクトルに加速力を加えて加速ベクトルとする.
 	
 	// 上下方向にいかないようにvelocityを整える.
 	velocity = VGet(velocity.x, 0, velocity.z);
