@@ -6,6 +6,7 @@
 class ObjectBase
 {
 public:
+	ObjectBase();
 	ObjectBase(ObjectTag tag);  // ゲームオブジェクトコンストラクタ
 	ObjectBase(ObjectTag tag, VECTOR pos);  // ゲームオブジェクトコンストラクタ
 

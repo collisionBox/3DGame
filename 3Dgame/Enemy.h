@@ -3,22 +3,23 @@
 #include "EnemyBody.h"
 #include "EnemyCannon.h"
 #include "EnemyBulletManager.h"
-class Enemy
+class Enemy :
+	public ObjectBase
 {
 public:
-	Enemy(VECTOR initPos, VECTOR initDir)
-	{
-		EnemyBody* body = new EnemyBody(initPos, initDir);
-		ObjectManager::Entry(body);
+	Enemy(VECTOR initPos, VECTOR initDir);
+	~Enemy();
 
-		EnemyCannon* cannon = new EnemyCannon(body, ObjectTag::EBody, ObjectTag::ECannon);
-		ObjectManager::Entry(cannon);
+	void Update(float deltaTime);
+	void Draw();
+	void OnCollisionEnter();
 
-		EnemyBulletManager* bullet = new EnemyBulletManager(ObjectTag::ECannon);
-		ObjectManager::Entry(bullet);
-		
-	}
+private:
+	void Input();
+	class EnemyBody* body;
+	class EnemyCannon* cannon;
 
+	VECTOR velocity;
 	
 };
 

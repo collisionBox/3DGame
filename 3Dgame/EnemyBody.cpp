@@ -13,11 +13,13 @@ const float EnemyBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
 const float EnemyBody::TurnPerformance = 5.0f;// 旋回性能.
 
 EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):
-	ObjectBase(ObjectTag::EBody)
+	ObjectBase(ObjectTag::Enemy)
 {
 	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/enemy/enemyBody.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+
+	cannon = new EnemyCannon(initPos, initDir);
 
 	// 位置・方向を初期化.
 	// 左下へ配置.
@@ -26,6 +28,12 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):
 	dir = initDir;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	// 当たり判定球セット.
+	colType = CollisionType::Sphere;
+	colSphere.worldCenter = pos;
+	colSphere.worldCenter.y = 0;
+	colSphere.radius = 32.0f;
 
 	// 変数の初期化.
 	velocity = initVec;
@@ -37,14 +45,15 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):
 EnemyBody::~EnemyBody()
 {
 	AssetManager::DeleteMesh(modelHandle);
+	delete cannon;
 }
 
 void EnemyBody::Update(float deltaTime)
 {
-	if (VDot(velocity, dir) <= MaxSpeed)
+	/*if (VDot(velocity, dir) <= MaxSpeed)
 	{
 		accel += Accel;
-	}
+	}*/
 
 	time -= deltaTime;
 	if (time < 0 && !rotateNow)
@@ -53,9 +62,10 @@ void EnemyBody::Update(float deltaTime)
 		rotateNow = true;
 		aimDir = VScale(dir, -1);
 	}
+
 	Rotate(10);
 
-	dir = VNorm(dir);
+	dir = VNorm(dir);// 正規化.
 
 	velocity = VScale(dir, accel);
 	// 上下方向にいかないようにvelocityを整える.
@@ -64,18 +74,30 @@ void EnemyBody::Update(float deltaTime)
 	// ポジション更新.
 	pos = VAdd(pos, VScale(velocity, deltaTime));
 
-
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-	////collisionUpdate();
+	
+	cannon->Updateeeee(pos, deltaTime);
+
+	CollisionUpdate();
 }
+
+
 
 void EnemyBody::Draw()
 {
 	MV1DrawModel(modelHandle);
+	cannon->Draw();
+	DrawCollider();
+
+}
+
+void EnemyBody::OnCollisionEnter(const ObjectBase* other)
+{
+
 }
 
 void EnemyBody::Rotate(float degree)

@@ -180,6 +180,32 @@ void ObjectManager::Draw()
 //-------------------------------------------------------------------------------
 void ObjectManager::Collition()
 {
+	// プレイヤーVS弾.
+	for (int playerNum = 0; playerNum < Instance->objects[ObjectTag::Body].size(); ++playerNum)
+	{
+		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
+		{
+			Instance->objects[ObjectTag::Body][playerNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::Bullet][bulletNum]);
+
+			Instance->objects[ObjectTag::Bullet][bulletNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::Body][playerNum]);
+		}
+	}
+
+	// エネミーVS弾.
+	for (int enemyNum = 0; enemyNum < Instance->objects[ObjectTag::Enemy].size(); ++enemyNum)
+	{
+		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
+		{
+			Instance->objects[ObjectTag::Enemy][enemyNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::Bullet][bulletNum]);
+
+			Instance->objects[ObjectTag::Bullet][bulletNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::Enemy][enemyNum]);
+		}
+	}
+
 }
 
 //-------------------------------------------------------------------------------

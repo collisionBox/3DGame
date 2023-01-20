@@ -9,7 +9,7 @@
 
 #include "Player.h"
 #include "Player2.h"
-#include "Enemy.h"
+#include "EnemyBody.h"
 
 #include "UI.h"
 #include "Camera.h"
@@ -62,8 +62,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//Player2* player2 = new Player2(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput2);
 	//ObjectManager::Entry(player2);
 
-	Enemy* enemy = new Enemy(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.5f));
-
+	EnemyBody* enemy = new EnemyBody(VGet(742.0f, -10.0f, 355.0f), VGet(0.0f, 0.0f, -1.5f));
+	ObjectManager::Entry(enemy);
 	
 	
 	// UI生成.
@@ -81,7 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		// 全オブジェクトの更新.
 		ObjectManager::Update(deltaTime);
-		//ObjectManager::Collition();
+		ObjectManager::Collition();
 		Director::Update(deltaTime);
 
 		//画面の初期化.

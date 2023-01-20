@@ -1,23 +1,23 @@
 #include "EnemyCannon.h"
 
-EnemyCannon::EnemyCannon(EnemyBody* body, ObjectTag userTag, ObjectTag myTag):
-	ObjectBase(myTag)
+EnemyCannon::EnemyCannon(VECTOR bodyPos, VECTOR bodyDir)
 {
 	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/enemy/enemyCannon.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
 
+	bulletManager = new EnemyBulletManager(ObjectTag::ECannon);
+
 	// 位置・方向を初期化.
-	pos = body->GetPos();
+	pos = bodyPos;
 	pos.y = 0.5f;
-	dir = body->GetDir();
+	dir = bodyDir;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
 	// 変数の初期化.
 	rotateNow = false;
 	aimDir = dir;
-	tag = userTag;
 }
 
 EnemyCannon::~EnemyCannon()
@@ -27,8 +27,11 @@ EnemyCannon::~EnemyCannon()
 
 void EnemyCannon::Update(float deltaTime)
 {
-	ObjectBase* body = ObjectManager::GetFirstObject(tag);
+	
+}
 
+void EnemyCannon::Updateeeee(VECTOR& bodyPos, float deltaTime)
+{
 	// aimDirにPlayer座標を参照
 	ObjectBase* Player = ObjectManager::GetFirstObject(ObjectTag::Body);
 	aimDir = VSub(Player->GetPos(), pos);
@@ -37,13 +40,15 @@ void EnemyCannon::Update(float deltaTime)
 
 	Rotate();
 
+	pos = bodyPos;
 	dir = VNorm(dir);
-	pos = body->GetPos();
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	bulletManager->Update(pos, dir, deltaTime);
 }
 
 void EnemyCannon::Draw()

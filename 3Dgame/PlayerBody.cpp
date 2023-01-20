@@ -24,36 +24,37 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	// 位置・方向を初期化.
 	// 左下へ配置.
 	pos = initPos;// (地面にうまるため13上げる.)今回は無視
-	// 中心を向く.
+	// 中心っぽい方向を向く.
 	dir = initDir;
 	aimDir = dir;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
+	// 当たり判定球セット.
+	colType = CollisionType::Sphere;
+	colSphere.worldCenter = pos;
+	colSphere.radius = 32.0f;
+
 	// 変数の初期化.
 	velocity = initVec;
 	padInput = inputState;
 }
+
 PlayerBody::~PlayerBody()
 {
 	AssetManager::DeleteMesh(modelHandle);
 }
 
-
-
 void PlayerBody::Update(float deltaTime)
 {
 	//Rotate();
 	Input(deltaTime);
-
-	//pos += velocity;
 	
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-	////collisionUpdate();
 
 	if (pos.x > 930.0f)//-885,13,159
 	{
@@ -71,7 +72,8 @@ void PlayerBody::Update(float deltaTime)
 	{
 		pos = VGet(pos.x, pos.y, 530.0f);
 	}
-	OnCollisionEnter();
+
+	CollisionUpdate();
 }
 
 void PlayerBody::Draw()
@@ -86,10 +88,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 	int colModel = other->GetCollisionModel();
 	if (tag == ObjectTag::BackGround)
 	{
-	
 		MV1_COLL_RESULT_POLY_DIM colInfo;
-
-		
 		if (CollisionPair(colSphere, colModel, colInfo))
 		{
 			// 当たっている場合は押し量を計算.
@@ -116,11 +115,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 		MV1_COLL_RESULT_POLY_DIM colInfo;
 		if (CollisionPair(colSphere, colModel, colInfo))
 		{
-			// 当たっている場合は押し量を計算.
-			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
-			pos = VAdd(pos, poshBuckVec);
-			// コリジョン情報の解放.
-			MV1CollResultPolyDimTerminate(colInfo);
+			
 
 			CollisionUpdate();
 		}

@@ -1,13 +1,12 @@
 #pragma once
 #include "foundation.h"
 #include "Bullet.h"
-class EnemyBulletManager :
-	public ObjectBase
+class EnemyBulletManager
 {
 public:
 	EnemyBulletManager(ObjectTag tag);
 	~EnemyBulletManager();
-	void Update(float deltaTime);
+	void Update(VECTOR& pos, VECTOR& dir, float deltaTime);
 private:
 	ObjectTag userTag;
 	//EnemyBullet* bullet[5];

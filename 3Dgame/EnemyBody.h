@@ -1,6 +1,6 @@
 #pragma once
 #include "foundation.h"
-
+#include "EnemyCannon.h"
 class EnemyBody:
 	public ObjectBase
 {
@@ -9,6 +9,7 @@ public:
 	~EnemyBody();
 
 	void Update(float deltaTime);
+	void OnCollisionEnter(const ObjectBase* other);
 	void Draw();
 private:
 	void Rotate(float degree);
@@ -28,5 +29,7 @@ private:
 	static const float ColideDecelFac;
 	static const float TurnPerformance;
 	float accel;
+
+	class EnemyCannon* cannon;
 };
 

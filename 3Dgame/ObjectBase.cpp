@@ -2,6 +2,15 @@
 #include "AssetManager.h"
 
 
+ObjectBase::ObjectBase()
+	: pos()
+	, dir()
+	, modelHandle(-1)
+	, visible(true)
+	, alive(true)
+{
+}
+
 ObjectBase::ObjectBase(ObjectTag tag)
 	: tag(tag)
 	, pos()

@@ -12,6 +12,7 @@ public:
     Bullet(VECTOR pos, VECTOR dir);
     ~Bullet();
     void Update(float deltaTime);
+    void OnCollisionEnter(const ObjectBase* other) override;
     void Draw();
 
 

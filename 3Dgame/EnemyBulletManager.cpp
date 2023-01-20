@@ -1,8 +1,7 @@
 #include "EnemyBulletManager.h"
 
 const float EnemyBulletManager::ShotIntervalTime = 5.0f;
-EnemyBulletManager::EnemyBulletManager(ObjectTag tag):
-	ObjectBase(ObjectTag::EBulletManager)
+EnemyBulletManager::EnemyBulletManager(ObjectTag tag)
 {
 	shotTime = ShotIntervalTime;
 	for (int i = 0; i < bulletNum; i++)
@@ -15,17 +14,17 @@ EnemyBulletManager::EnemyBulletManager(ObjectTag tag):
 
 EnemyBulletManager::~EnemyBulletManager()
 {
-	// ObjectManager::ReleseAllObj‚Å‰ð•ú.
+	// ˆ—‚È‚µ.
 }
 
-void EnemyBulletManager::Update(float deltaTime)
+void EnemyBulletManager::Update(VECTOR& pos, VECTOR& dir, float deltaTime)
 {
 	shotTime -= deltaTime;
 	for (int i = 0; i < bulletNum; i++)
 	{
 		if (shotTime <= 0 && bullet[i] == nullptr)
 		{
-			bullet[i] = new Bullet(userTag);
+			bullet[i] = new Bullet(pos, dir);
 			ObjectManager::Entry(bullet[i]);
 			shotTime = ShotIntervalTime;
 			break;
@@ -40,7 +39,7 @@ void EnemyBulletManager::Update(float deltaTime)
 			if (ConvWorldPosToScreenPos(checkPos).x < 0 || ConvWorldPosToScreenPos(checkPos).x > 1920 ||
 				ConvWorldPosToScreenPos(checkPos).y < 0 || ConvWorldPosToScreenPos(checkPos).y > 1080)
 			{
-				SetVisible(false);
+				bullet[i]->SetAlive(false);
 				bullet[i] = nullptr;
 			}
 
