@@ -6,7 +6,7 @@ EnemyCannon::EnemyCannon(VECTOR bodyPos, VECTOR bodyDir)
 	modelHandle = AssetManager::GetMesh("data/enemy/enemyCannon.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
 
-	bulletManager = new EnemyBulletManager(ObjectTag::ECannon);
+	bulletManager = new EnemyBulletManager(ObjectTag::Enemy);
 
 	// 位置・方向を初期化.
 	pos = bodyPos;
@@ -33,7 +33,7 @@ void EnemyCannon::Update(float deltaTime)
 void EnemyCannon::Updateeeee(VECTOR& bodyPos, float deltaTime)
 {
 	// aimDirにPlayer座標を参照
-	ObjectBase* Player = ObjectManager::GetFirstObject(ObjectTag::Body);
+	ObjectBase* Player = ObjectManager::GetFirstObject(ObjectTag::Player);
 	aimDir = VSub(Player->GetPos(), pos);
 	aimDir.y = 0.0f;
 	aimDir = VNorm(aimDir);

@@ -4,29 +4,29 @@ const float PlayerCannon::TurnPerformance = 3.50f;
 
 #if 0
 #else
-PlayerCannon::PlayerCannon(PlayerBody* body, int inputState, ObjectTag userTag, ObjectTag myTag) :
-	ObjectBase(myTag)
+PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag) :
+	ObjectBase(ObjectTag::Cannon)
 {
 
 	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/player/reconTankCannon.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
 
-	//if (body)
-	{
-		// 位置・方向を初期化.
-		pos = body->GetPos();
-		pos.y = 0.5f;
-		dir = body->GetDir();
-		MV1SetPosition(modelHandle, pos);
-		MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-	}
 	
+	
+	// 位置・方向を初期化.
+	pos = initPos;
+	pos.y = 0.5f;
+	dir = initDir;
+	MV1SetPosition(modelHandle, pos);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+	
+	bulletManager = new BulletManager(userTag, inputState);
 
 	// 変数の初期化.
+	aimDir = initVec;
 	rotateNow = false;
 	padInput = inputState;
-	tag = userTag;
 }
 
 #endif
@@ -39,31 +39,7 @@ PlayerCannon::~PlayerCannon()
 #if 1
 void PlayerCannon::Update(float deltaTime)
 {
-	Input(deltaTime);
-	Rotate();
-	ObjectBase* body = ObjectManager::GetFirstObject(tag);
 	
-	//VECTOR cameraFront = camDir;
-	//cameraFront.y = 0.0f;
-	/*if (GetRightDir(cameraFront))
-	{
-		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-		
-		dir = VAdd(dir, VScale(right, 0.1));
-	}
-	else
-	{
-		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(left, 0.3));
-	}*/
-	//dir = cameraFront;
-	dir = VNorm(dir);
-
-	pos = body->GetPos();
-	MV1SetPosition(modelHandle, this->pos);
-	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
-	VECTOR negativeVec = VTransform(dir, rotYMat);
-	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 }
 #else
 void PlayerCannon::Update(float deltaTime)
@@ -115,6 +91,35 @@ void PlayerCannon::Update(float deltaTime)
 }
 
 #endif
+void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
+{
+	Input(deltaTime);
+	Rotate();
+
+	//VECTOR cameraFront = camDir;
+	//cameraFront.y = 0.0f;
+	/*if (GetRightDir(cameraFront))
+	{
+		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
+
+		dir = VAdd(dir, VScale(right, 0.1));
+	}
+	else
+	{
+		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(left, 0.3));
+	}*/
+	//dir = cameraFront;
+	dir = VNorm(dir);
+
+	pos = bodyPos;
+	MV1SetPosition(modelHandle, this->pos);
+	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
+	VECTOR negativeVec = VTransform(dir, rotYMat);
+	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	bulletManager->Update(deltaTime);
+}
 void PlayerCannon::Draw()
 {
 	MV1DrawModel(modelHandle);
@@ -150,6 +155,8 @@ void PlayerCannon::Input(float deltaTime)
 			aimDir = padVec;
 		}
 	}
+
+	bulletManager->Input(pos, dir);
 	
 }
 

@@ -181,15 +181,15 @@ void ObjectManager::Draw()
 void ObjectManager::Collition()
 {
 	// ÉvÉåÉCÉÑÅ[VSíe.
-	for (int playerNum = 0; playerNum < Instance->objects[ObjectTag::Body].size(); ++playerNum)
+	for (int playerNum = 0; playerNum < Instance->objects[ObjectTag::Player].size(); ++playerNum)
 	{
 		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
 		{
-			Instance->objects[ObjectTag::Body][playerNum]->
+			Instance->objects[ObjectTag::Player][playerNum]->
 				OnCollisionEnter(Instance->objects[ObjectTag::Bullet][bulletNum]);
 
 			Instance->objects[ObjectTag::Bullet][bulletNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::Body][playerNum]);
+				OnCollisionEnter(Instance->objects[ObjectTag::Player][playerNum]);
 		}
 	}
 

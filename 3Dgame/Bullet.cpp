@@ -37,7 +37,7 @@ Bullet::Bullet(ObjectTag tag) :
 	velocity = initVec;
 }
 
-Bullet::Bullet(VECTOR pos, VECTOR dir) :
+Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	ObjectBase(ObjectTag::Bullet)
 {
 	// アセットマネージャーからモデルをロード.
@@ -46,8 +46,7 @@ Bullet::Bullet(VECTOR pos, VECTOR dir) :
 
 	// 位置・方向を初期化.
 	this->dir = dir;
-	this->dir = VNorm(this->dir);
-	this->pos = pos;// 砲身に合わせるため.
+	this->pos = pos;
 	this->pos.x += this->dir.x * 58;// 砲塔先頭にセットするため.
 	this->pos.z += this->dir.z * 58;
 	MV1SetPosition(modelHandle, this->pos);
@@ -60,7 +59,7 @@ Bullet::Bullet(VECTOR pos, VECTOR dir) :
 
 	// 変数の初期化.
 	velocity = initVec;
-
+	myTag = userTag;
 }
 
 
@@ -92,7 +91,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
 	
-	if (tag == ObjectTag::Body)
+	if (tag != myTag)
 	{
 		Sphere colModel = other->GetCollisionSphere();
 		if (CollisionPair(colSphere, colModel))
@@ -103,7 +102,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 		}
 	}
 
-	if (tag == ObjectTag::Enemy)
+	/*if (tag == ObjectTag::Enemy && myTag != ObjectTag::Enemy)
 	{
 		Sphere collision = other->GetCollisionSphere();
 		if (CollisionPair(colSphere, collision))
@@ -112,5 +111,5 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 
 			CollisionUpdate();
 		}
-	}
+	}*/
 }

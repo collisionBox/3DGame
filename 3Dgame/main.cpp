@@ -55,7 +55,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// ÉvÉåÉCÉÑÅ[ê∂ê¨.
 	int padInput = DX_INPUT_PAD1;
-	Player* player = new Player(VGet(-742.0f, 0.0f, -355.0f), VGet(1.5f, 0.0f, 1.5f) ,padInput);
+	PlayerBody* player = new PlayerBody(VGet(-742.0f, 0.0f, -355.0f), VGet(1.5f, 0.0f, 1.5f) ,padInput, ObjectTag::Player);
+	ObjectManager::Entry(player);
 	//ObjectManager::Entry(player1);
 
 	int padInput2 = DX_INPUT_PAD2;

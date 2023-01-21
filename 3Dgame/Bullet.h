@@ -9,7 +9,7 @@ class Bullet :
 public:
     
     Bullet(ObjectTag tag);
-    Bullet(VECTOR pos, VECTOR dir);
+    Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag);
     ~Bullet();
     void Update(float deltaTime);
     void OnCollisionEnter(const ObjectBase* other) override;
@@ -19,7 +19,7 @@ public:
 private:
     static const float speed;// ’e‘¬.
     VECTOR velocity;// ’e‘¬ƒxƒNƒgƒ‹.
-   
+    ObjectTag myTag;
     static const float DamagePoint;
 
 };

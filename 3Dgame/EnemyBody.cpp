@@ -11,7 +11,7 @@ const float EnemyBody::GripDecel = -5.0f;// グリップの減速.
 const float EnemyBody::GripPower = 2.0f;// グリップ力.
 const float EnemyBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
 const float EnemyBody::TurnPerformance = 5.0f;// 旋回性能.
-
+int EnemyBody::corner = 0;
 EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):
 	ObjectBase(ObjectTag::Enemy)
 {
@@ -39,7 +39,8 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):
 	velocity = initVec;
 	rotateNow = false;
 	accel = 0;
-	time = 4;
+	time = 2;
+	rand = GetRand(6);
 }
 
 EnemyBody::~EnemyBody()
@@ -50,19 +51,8 @@ EnemyBody::~EnemyBody()
 
 void EnemyBody::Update(float deltaTime)
 {
-	/*if (VDot(velocity, dir) <= MaxSpeed)
-	{
-		accel += Accel;
-	}*/
-
-	time -= deltaTime;
-	if (time < 0 && !rotateNow)
-	{
-		time = 3;
-		rotateNow = true;
-		aimDir = VScale(dir, -1);
-	}
-
+	
+	MoveMethod(deltaTime);
 	Rotate(10);
 
 	dir = VNorm(dir);// 正規化.
@@ -73,6 +63,24 @@ void EnemyBody::Update(float deltaTime)
 
 	// ポジション更新.
 	pos = VAdd(pos, VScale(velocity, deltaTime));
+
+
+	if (pos.x > 930.0f)//-885,13,159
+	{
+		pos = VGet(-920.0f, pos.y, pos.z);//920
+	}
+	if (pos.x < -930.0f)//882,13,88
+	{
+		pos = VGet(920.0f, pos.y, pos.z);
+	}
+	if (pos.z > 540)//540
+	{
+		pos = VGet(pos.x, pos.y, -530.0f);
+	}
+	if (pos.z < -540)//540
+	{
+		pos = VGet(pos.x, pos.y, 530.0f);
+	}
 
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
@@ -98,6 +106,35 @@ void EnemyBody::Draw()
 void EnemyBody::OnCollisionEnter(const ObjectBase* other)
 {
 
+}
+
+void EnemyBody::MoveMethod(float deltaTime)
+{
+	time -= deltaTime;
+	if (time < 0 && !rotateNow)
+	{
+		rotateNow = true;
+		aimDir = VScale(dir, -1);
+	}
+	if (time < 0)
+	{
+		rand = GetRand(6);
+		time = 4;
+	}
+
+	if (VDot(velocity, dir) <= MaxSpeed && rand < 5)
+	{
+		accel += Accel;
+	}
+	if (rand == 5)
+	{
+		accel = 0;
+	}
+	if (VDot(velocity, dir) >= MinSpeed && rand == 6)
+	{
+		accel -= Back;
+	}
+	
 }
 
 void EnemyBody::Rotate(float degree)

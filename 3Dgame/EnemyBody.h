@@ -12,11 +12,13 @@ public:
 	void OnCollisionEnter(const ObjectBase* other);
 	void Draw();
 private:
+	void MoveMethod(float deltaTime);
 	void Rotate(float degree);
 	VECTOR aimDir;
 	VECTOR velocity;
 	bool rotateNow;
 	float time;
+	int rand;
 
 	static const float Accel;
 	static const float Back;
@@ -31,5 +33,9 @@ private:
 	float accel;
 
 	class EnemyCannon* cannon;
+
+
+	static int corner;
+	bool stopWhenSeeEnemy;
 };
 

@@ -21,11 +21,10 @@ public:
 		ObjectManager::Entry(body);
 
 		// éÂñCê∂ê¨.
-		PlayerCannon* cannon = new PlayerCannon(body, inputState, ObjectTag::Body, ObjectTag::Cannon);
-		ObjectManager::Entry(cannon);
+		/*PlayerCannon* cannon = new PlayerCannon(body, inputState, ObjectTag::Body, ObjectTag::Cannon);
+		ObjectManager::Entry(cannon);*/
 
-		BulletManager* bullet = new BulletManager(ObjectTag::Cannon, inputState);
-		ObjectManager::Entry(bullet);
+		
     }
 
 private:

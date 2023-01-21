@@ -31,6 +31,8 @@ private:
 	bool onHitFlag;
 	int padInput;
 	XINPUT_STATE pad;
+
+	class PlayerCannon* cannon;
 	
 	// ê√ìIä÷êî.
 	static const float Accel;

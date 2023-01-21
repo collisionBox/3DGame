@@ -24,7 +24,7 @@ void EnemyBulletManager::Update(VECTOR& pos, VECTOR& dir, float deltaTime)
 	{
 		if (shotTime <= 0 && bullet[i] == nullptr)
 		{
-			bullet[i] = new Bullet(pos, dir);
+			bullet[i] = new Bullet(pos, dir, userTag);
 			ObjectManager::Entry(bullet[i]);
 			shotTime = ShotIntervalTime;
 			break;

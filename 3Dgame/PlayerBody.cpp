@@ -1,5 +1,4 @@
 #include "PlayerBody.h"
-#include "PlayerCannon.h"
 // 静的定数.
 const float PlayerBody::Accel = 6.0f;// 通常の加速.
 const float PlayerBody::Back = 5.0f;// 後退速度.
@@ -29,6 +28,8 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	aimDir = dir;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	cannon = new PlayerCannon(initPos, initDir, inputState, myTag);
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
@@ -73,12 +74,16 @@ void PlayerBody::Update(float deltaTime)
 		pos = VGet(pos.x, pos.y, 530.0f);
 	}
 
+	cannon->Updateeeee(pos, deltaTime);
+
 	CollisionUpdate();
+
 }
 
 void PlayerBody::Draw()
 {
 	MV1DrawModel(modelHandle);
+	cannon->Draw();
 	DrawCollider();
 }
 
@@ -133,7 +138,7 @@ void PlayerBody::Input(float deltaTime)
 	if (dot <= MaxSpeed)
 	{
 		// 上を押していたら加速.
-		if (key & PAD_INPUT_UP)
+		if (CheckHitKey(KEY_INPUT_UP))
 		{
 			accel += Accel;
 		}
@@ -145,7 +150,7 @@ void PlayerBody::Input(float deltaTime)
 	if (dot >= MinSpeed)
 	{
 		//下を押していたら減速.
-		if (key & PAD_INPUT_DOWN)
+		if (CheckHitKey(KEY_INPUT_UP))
 		{
 			accel -= Back;
 		}
@@ -156,7 +161,7 @@ void PlayerBody::Input(float deltaTime)
 	}
 
 	// 自然停止.
-	if(!(key & PAD_INPUT_UP) && !(key & PAD_INPUT_DOWN) && pad.LeftTrigger - pad.RightTrigger == 0)
+	if(!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{
 		accel *= DefaultDecel;
 		if (VSize(velocity) <= 8.0f)
@@ -166,17 +171,18 @@ void PlayerBody::Input(float deltaTime)
 		
 	}
 	
-	if (key & PAD_INPUT_RIGHT && !(key & PAD_INPUT_LEFT))// 右旋回.
+	if (CheckHitKey(KEY_INPUT_RIGHT))// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 		//dir = VScale(dir, deltaTime);
 	}
-	else if (key & PAD_INPUT_LEFT && !(key & PAD_INPUT_RIGHT))// 左旋回.
+	else if (CheckHitKey(KEY_INPUT_LEFT))// 左旋回.
 	{
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
+
 	if (pad.ThumbLX > 0)
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -184,9 +190,10 @@ void PlayerBody::Input(float deltaTime)
 	}
 	else if (pad.ThumbLX < 0)
 	{
-		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
+		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
+
 	// グリップ減速.
 	if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT || pad.ThumbLX != 0)
 	{

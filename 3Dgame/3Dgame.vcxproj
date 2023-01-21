@@ -146,7 +146,6 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Director.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBody.cpp" />
     <ClCompile Include="EnemyBulletManager.cpp" />
     <ClCompile Include="EnemyCannon.cpp" />
@@ -169,7 +168,6 @@
     <ClInclude Include="CollisionType.h" />
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Director.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBody.h" />
     <ClInclude Include="EnemyBulletManager.h" />
     <ClInclude Include="EnemyCannon.h" />
