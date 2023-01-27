@@ -171,60 +171,69 @@ bool CollisionPair(const Sphere& sphere, int modelHandle, MV1_COLL_RESULT_POLY_D
 
 VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT_POLY_DIM& collisionInfo)
 {
-	// 衝突球.
-	VECTOR moveCandidate = sphere.worldCenter;// 球中心候補.
-	float radius = sphere.radius;// 球半径.
-	VECTOR planeNormal;// ポリゴン平面法線.
-	VECTOR moveVec = VGet(0, 0, 0);// 移動ベクトル.
-	float moveLen = 0.0f;// 移動量.
 
-	VECTOR newCenter = sphere.worldCenter;// 移動候補.
+	// 衝突球
+	std::vector<VECTOR> moveCandidate; // 球中心候補 
+	float  radius = sphere.radius; // 球半径
+	VECTOR planeNormal;                    // ポリゴン平面法線
+	VECTOR moveVec = VGet(0, 0, 0);    // 移動ベクトル
+	float  moveLen = 0.0f;           // 移動量
+
+	VECTOR newCenter = sphere.worldCenter; // 移動候補  
+	float lenNum;
 	int i = 0, j = 0;
-	moveCandidate = sphere.worldCenter;
 
-	// 衝突ポリゴンをすべて回って、弾のめり込みを解消する.
-	for (int i = 0; i < collisionInfo.HitNum; ++i)
+	// 衝突ポリゴンをすべて回って、球のめり込みを解消する
+	for (i = 0; i < collisionInfo.HitNum; ++i)
 	{
-		// 衝突ポリゴンの辺.
+		moveCandidate.push_back(sphere.worldCenter);
+		// 衝突ポリゴンの辺 
 		VECTOR edge1, edge2;
 		edge1 = collisionInfo.Dim[i].Position[1] - collisionInfo.Dim[i].Position[0];
 		edge2 = collisionInfo.Dim[i].Position[2] - collisionInfo.Dim[i].Position[0];
 
-
-		// 衝突ポリゴンの辺より、ポリゴン面の法専ベクトルを求める.
+		// 衝突ポリゴンの辺より、ポリゴン面の法線ベクトルを求める
 		planeNormal = VCross(edge1, edge2);
 		planeNormal = VNorm(planeNormal);
 
-		// 球中心に最も近いポリゴン平面の点を求める.
-		VECTOR tmp = moveCandidate = collisionInfo.Dim[i].Position[0];
-		float dot = VDot(planeNormal, tmp);
+		// 球中心に最も近いポリゴン平面の点を求める
+		VECTOR tmp = moveCandidate[i] - collisionInfo.Dim[i].Position[0];
+		float  dot = VDot(planeNormal, tmp);
 
-		// 衝突点.
-		VECTOR hitPos = moveCandidate - planeNormal * dot;
+		// 衝突点
+		VECTOR hitPos = moveCandidate[i] - planeNormal * dot;
 
-		// 球がどれくらいめり込んでいるか算出.
-		VECTOR tmp2 = moveCandidate - hitPos;
-		float len = VSize(tmp2);
+		// 球がどれくらいめり込んでいるかを算出
+		VECTOR tmp2 = moveCandidate[i] - hitPos;
+		float  len = VSize(tmp2);
 
-		// めり込んでいる場合は球の中心を押し戻し.
-		if (HitCheck_Sphere_Triangle(moveCandidate, radius,
+		// めり込んでいる場合は球の中心を押し戻し
+		if (HitCheck_Sphere_Triangle(moveCandidate[i], radius,
 			collisionInfo.Dim[i].Position[0],
 			collisionInfo.Dim[i].Position[1],
 			collisionInfo.Dim[i].Position[2]) == TRUE)
 		{
-			// めり込みを解消する位置まで移動.
+			// めり込み解消する位置まで移動
 			VECTOR moveVec;
 			len = radius - len;
+			//len += 0.0001f;
 			moveVec = planeNormal * len;
-			moveCandidate += moveVec;
+			moveCandidate[i] += moveVec;
 		}
-		// 移動候補を移動位置にする.
-		newCenter = moveCandidate;
-
-		// 押し戻し量を返却.
-		return newCenter - sphere.worldCenter;
+	}
+	for (int j = 0; j < moveCandidate.size(); j++)
+	{
 
 	}
+	// 移動候補を移動位置にする
+	//newCenter = moveCandidate;
 
+	// 押し戻し量を返却
+	return newCenter - sphere.worldCenter;
 }
+//計算のループですること
+//ベクター配列moveCandidateを作成。worldCenterをHitNum分初期値として入れる。
+//計算結果をmoveCandidateに入れる。lenを用意してその値が最小値を見つける
+// 新規ループですること
+//ポジションとmoveCandidateの差が最も小さい値をnewCenterとして返す
 

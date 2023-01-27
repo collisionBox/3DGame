@@ -11,6 +11,8 @@
 #include "Player2.h"
 #include "EnemyBody.h"
 
+#include "Map1.h"
+
 #include "UI.h"
 #include "Camera.h"
 #include "DebugDraw.h"
@@ -28,7 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 画面モードセット.
 	int screenMagni = 120;// 画面比率にかける倍率.
 	SetGraphMode(16 * screenMagni, 9 * screenMagni, 16);
-
+	SetBackgroundColor(70,70, 70);
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
 		return -1;			// エラーが起きたら直ちに終了
@@ -40,8 +42,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Ｚバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
-	// ライトを設定 デリートはDxLib_End()で行なわれるため現状不必要.
-	int lightHandle = CreateDirLightHandle(VGet(-1.0f, 0.0f, 0.0f));
+	// ライトを設定.
+	SetLightDirection(VGet(0.0f, -1.0f, 0.0f));
 
 	// マネージャー生成.
 	AssetManager::Initalize();
@@ -55,17 +57,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// プレイヤー生成.
 	int padInput = DX_INPUT_PAD1;
-	PlayerBody* player = new PlayerBody(VGet(-742.0f, 0.0f, -355.0f), VGet(1.5f, 0.0f, 1.5f) ,padInput, ObjectTag::Player);
+	PlayerBody* player = new PlayerBody(VGet(-742.0f, 0.0f, -30.0f), VGet(1.0f, 0.0f, 0.0f) ,padInput, ObjectTag::Player);
 	ObjectManager::Entry(player);
 	//ObjectManager::Entry(player1);
 
-	int padInput2 = DX_INPUT_PAD2;
-	//Player2* player2 = new Player2(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput2);
-	//ObjectManager::Entry(player2);
+	/*int padInput2 = DX_INPUT_PAD2;
+	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput2, ObjectTag::Player2);
+	ObjectManager::Entry(player2);*/
 
-	EnemyBody* enemy = new EnemyBody(VGet(742.0f, -10.0f, 355.0f), VGet(0.0f, 0.0f, -1.5f));
-	ObjectManager::Entry(enemy);
+	//EnemyBody* enemy = new EnemyBody(VGet(742.0f, -10.0f, 355.0f), VGet(0.0f, 0.0f, -1.5f));
+	//ObjectManager::Entry(enemy);
 	
+	Map1* map = new Map1;
+	ObjectManager::Entry(map);
 	
 	// UI生成.
 	UI* ui = new UI();
@@ -81,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
 		
 		// 全オブジェクトの更新.
-		ObjectManager::Update(deltaTime);
+		ObjectManager::Update(1.0f/60.0f);
 		ObjectManager::Collition();
 		Director::Update(deltaTime);
 

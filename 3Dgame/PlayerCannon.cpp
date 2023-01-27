@@ -9,8 +9,8 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 {
 
 	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/player/reconTankCannon.mv1");
-	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+	modelHandle = AssetManager::GetMesh("data/player/playerCannon.mv1");
+	MV1SetScale(modelHandle, moveModelScale);
 
 	
 	

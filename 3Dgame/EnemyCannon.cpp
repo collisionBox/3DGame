@@ -4,7 +4,7 @@ EnemyCannon::EnemyCannon(VECTOR bodyPos, VECTOR bodyDir)
 {
 	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/enemy/enemyCannon.mv1");
-	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+	MV1SetScale(modelHandle, moveModelScale);
 
 	bulletManager = new EnemyBulletManager(ObjectTag::Enemy);
 

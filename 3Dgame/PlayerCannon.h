@@ -1,10 +1,6 @@
 #pragma once
-#include "DxLib.h"
-#include "ObjectBase.h"
-#include "ObjectManager.h"
-#include "AssetManager.h"
+#include "foundation.h"
 #include "Camera.h"
-#include "Math.h"
 #include "BulletManager.h"
 
 class PlayerCannon : public ObjectBase

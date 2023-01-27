@@ -17,9 +17,9 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	, accel()
 {
 	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/player/reconTankBody.mv1");
-	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
-	
+	modelHandle = AssetManager::GetMesh("data/player/playerBody.mv1");
+	MV1SetScale(modelHandle, moveModelScale);
+
 	// 位置・方向を初期化.
 	// 左下へ配置.
 	pos = initPos;// (地面にうまるため13上げる.)今回は無視
@@ -90,15 +90,17 @@ void PlayerBody::Draw()
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
-	int colModel = other->GetCollisionModel();
 	if (tag == ObjectTag::BackGround)
 	{
+		int colModel = other->GetCollisionModel();
+
 		MV1_COLL_RESULT_POLY_DIM colInfo;
 		if (CollisionPair(colSphere, colModel, colInfo))
 		{
 			// 当たっている場合は押し量を計算.
 			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
 			pos = VAdd(pos, poshBuckVec);
+
 			// コリジョン情報の解放.
 			MV1CollResultPolyDimTerminate(colInfo);
 
@@ -117,13 +119,6 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 	}
 	if (tag == ObjectTag::Bullet)
 	{
-		MV1_COLL_RESULT_POLY_DIM colInfo;
-		if (CollisionPair(colSphere, colModel, colInfo))
-		{
-			
-
-			CollisionUpdate();
-		}
 	}
 }
 
@@ -134,8 +129,7 @@ void PlayerBody::Input(float deltaTime)
 	GetJoypadXInputState(padInput, &pad);
 
 	// 加速処理.
-	float dot = VDot(velocity, dir);// 内積.
-	if (dot <= MaxSpeed)
+	if (accel <= MaxSpeed)
 	{
 		// 上を押していたら加速.
 		if (CheckHitKey(KEY_INPUT_UP))
@@ -147,10 +141,10 @@ void PlayerBody::Input(float deltaTime)
 			accel += Accel;
 		}
 	}
-	if (dot >= MinSpeed)
+	if (accel >= MinSpeed)
 	{
 		//下を押していたら減速.
-		if (CheckHitKey(KEY_INPUT_UP))
+		if (CheckHitKey(KEY_INPUT_DOWN))
 		{
 			accel -= Back;
 		}
@@ -158,17 +152,6 @@ void PlayerBody::Input(float deltaTime)
 		{
 			accel -= Back;
 		}
-	}
-
-	// 自然停止.
-	if(!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
-	{
-		accel *= DefaultDecel;
-		if (VSize(velocity) <= 8.0f)
-		{
-			accel = 0;
-		}
-		
 	}
 	
 	if (CheckHitKey(KEY_INPUT_RIGHT))// 右旋回.
@@ -183,6 +166,7 @@ void PlayerBody::Input(float deltaTime)
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
 
+
 	if (pad.ThumbLX > 0)
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -192,6 +176,17 @@ void PlayerBody::Input(float deltaTime)
 	{
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
+	}
+
+	// 自然停止.
+	if (!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
+	{
+		accel *= DefaultDecel;
+		if (abs(VSize(velocity)) <= 8.0f)
+		{
+			accel = 0;
+		}
+
 	}
 
 	// グリップ減速.

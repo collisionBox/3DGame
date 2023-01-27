@@ -150,6 +150,7 @@
     <ClCompile Include="EnemyBulletManager.cpp" />
     <ClCompile Include="EnemyCannon.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map1.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="EnemyBulletManager.h" />
     <ClInclude Include="EnemyCannon.h" />
     <ClInclude Include="foundation.h" />
+    <ClInclude Include="Map1.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectManager.h" />

@@ -180,9 +180,10 @@ void ObjectManager::Draw()
 //-------------------------------------------------------------------------------
 void ObjectManager::Collition()
 {
-	// プレイヤーVS弾.
+	// プレイヤー.
 	for (int playerNum = 0; playerNum < Instance->objects[ObjectTag::Player].size(); ++playerNum)
 	{
+		// VS弾.
 		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
 		{
 			Instance->objects[ObjectTag::Player][playerNum]->
@@ -191,11 +192,19 @@ void ObjectManager::Collition()
 			Instance->objects[ObjectTag::Bullet][bulletNum]->
 				OnCollisionEnter(Instance->objects[ObjectTag::Player][playerNum]);
 		}
+
+		// VS背景.
+		for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
+		{
+			Instance->objects[ObjectTag::Player][playerNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
+		}
 	}
 
-	// エネミーVS弾.
+	// エネミー.
 	for (int enemyNum = 0; enemyNum < Instance->objects[ObjectTag::Enemy].size(); ++enemyNum)
 	{
+		//VS弾.
 		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
 		{
 			Instance->objects[ObjectTag::Enemy][enemyNum]->
@@ -204,8 +213,16 @@ void ObjectManager::Collition()
 			Instance->objects[ObjectTag::Bullet][bulletNum]->
 				OnCollisionEnter(Instance->objects[ObjectTag::Enemy][enemyNum]);
 		}
+
+		// VS背景.
+		for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
+		{
+			Instance->objects[ObjectTag::Enemy][enemyNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
+		}
 	}
 
+	
 }
 
 //-------------------------------------------------------------------------------

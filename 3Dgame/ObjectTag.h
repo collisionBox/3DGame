@@ -19,6 +19,7 @@ enum class ObjectTag : unsigned char
 	Camera,
 	Effect,
 	BackGround,
+	Map,
 };
 
 constexpr static ObjectTag ObjectTagAll[] =
@@ -39,4 +40,5 @@ constexpr static ObjectTag ObjectTagAll[] =
 	ObjectTag::Camera,
 	ObjectTag::Effect,
 	ObjectTag::BackGround,
+	ObjectTag::Map,
 };

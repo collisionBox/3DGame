@@ -17,7 +17,7 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):
 {
 	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/enemy/enemyBody.mv1");
-	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+	MV1SetScale(modelHandle, moveModelScale);
 
 	cannon = new EnemyCannon(initPos, initDir);
 

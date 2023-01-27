@@ -1,7 +1,7 @@
 #pragma once
 #include "DxLib.h"
 #include "Math.h"
-
+#include <vector>
 // ü•ª“–‚½‚è”»’è.
 struct LineSegment
 {
