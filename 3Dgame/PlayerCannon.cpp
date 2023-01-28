@@ -39,7 +39,7 @@ PlayerCannon::~PlayerCannon()
 #if 1
 void PlayerCannon::Update(float deltaTime)
 {
-	
+	// 引数にdeltaTime以外のものも使いたいから不使用.
 }
 #else
 void PlayerCannon::Update(float deltaTime)
@@ -93,26 +93,12 @@ void PlayerCannon::Update(float deltaTime)
 #endif
 void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 {
+
 	Input(deltaTime);
 	Rotate();
-
-	//VECTOR cameraFront = camDir;
-	//cameraFront.y = 0.0f;
-	/*if (GetRightDir(cameraFront))
-	{
-		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-
-		dir = VAdd(dir, VScale(right, 0.1));
-	}
-	else
-	{
-		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(left, 0.3));
-	}*/
-	//dir = cameraFront;
 	dir = VNorm(dir);
-
 	pos = bodyPos;
+
 	MV1SetPosition(modelHandle, this->pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);

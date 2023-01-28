@@ -180,7 +180,7 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 	float  moveLen = 0.0f;           // 移動量
 
 	VECTOR newCenter = sphere.worldCenter; // 移動候補  
-	float lenNum;
+	VECTOR lenNum = VGet(0.0f, 0.0f, 0.0f);
 	int i = 0, j = 0;
 
 	// 衝突ポリゴンをすべて回って、球のめり込みを解消する
@@ -220,16 +220,18 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 			moveVec = planeNormal * len;
 			moveCandidate[i] += moveVec;
 		}
+		if (VSize(lenNum) == 0)
+		{
+			lenNum = moveCandidate[i];
+		}
+		else if (VSize(lenNum) > VSize(moveCandidate[i]))
+		{
+			lenNum = moveCandidate[i];
+		}
 	}
-	for (int j = 0; j < moveCandidate.size(); j++)
-	{
-
-	}
-	// 移動候補を移動位置にする
-	//newCenter = moveCandidate;
-
-	// 押し戻し量を返却
-	return newCenter - sphere.worldCenter;
+	
+	newCenter = lenNum - sphere.worldCenter;
+	return newCenter;
 }
 //計算のループですること
 //ベクター配列moveCandidateを作成。worldCenterをHitNum分初期値として入れる。

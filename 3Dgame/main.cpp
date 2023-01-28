@@ -7,8 +7,7 @@
 
 #include "Director.h"
 
-#include "Player.h"
-#include "Player2.h"
+#include "PlayerBody.h"
 #include "EnemyBody.h"
 
 #include "Map1.h"
@@ -57,7 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// ÉvÉåÉCÉÑÅ[ê∂ê¨.
 	int padInput = DX_INPUT_PAD1;
-	PlayerBody* player = new PlayerBody(VGet(-742.0f, 0.0f, -30.0f), VGet(1.0f, 0.0f, 0.0f) ,padInput, ObjectTag::Player);
+	PlayerBody* player = new PlayerBody(VGet(-742.0f, 0.0f, -30.0f), VGet(1.0f, 0.0f, 0.0f) ,padInput, ObjectTag::Player, "data/player/playerBody.mv1");
 	ObjectManager::Entry(player);
 	//ObjectManager::Entry(player1);
 
@@ -65,8 +64,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput2, ObjectTag::Player2);
 	ObjectManager::Entry(player2);*/
 
-	//EnemyBody* enemy = new EnemyBody(VGet(742.0f, -10.0f, 355.0f), VGet(0.0f, 0.0f, -1.5f));
-	//ObjectManager::Entry(enemy);
+	EnemyBody* enemy = new EnemyBody(VGet(742.0f, -10.0f, 355.0f), VGet(0.0f, 0.0f, -1.5f));
+	ObjectManager::Entry(enemy);
 	
 	Map1* map = new Map1;
 	ObjectManager::Entry(map);

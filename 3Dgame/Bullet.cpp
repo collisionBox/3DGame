@@ -4,7 +4,7 @@
 #include "PlayerCannon.h"
 
 const float Bullet::speed = 300.0f;
-const float Bullet::DamagePoint = 10.0f;
+const float Bullet::DamagePoint = 20.0f;
 
 Bullet::Bullet(ObjectTag tag) :
 	ObjectBase(ObjectTag::Bullet)
@@ -90,18 +90,35 @@ void Bullet::Draw()
 void Bullet::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
-	
+	/*if (tag == ObjectTag::BackGround)
+	{
+		SetAlive(false);
+		CollisionUpdate();
+	}*/
+
 	if (tag != myTag)
 	{
 		Sphere colModel = other->GetCollisionSphere();
 		if (CollisionPair(colSphere, colModel))
 		{
 			SetAlive(false);
-
+			ObjectBase* object = ObjectManager::GetFirstObject(tag);
+			object->OnDamage(DamagePoint);
 			CollisionUpdate();
 		}
 	}
 
+	/*if (tag == ObjectTag::Player)
+	{
+
+		Sphere collision = other->GetCollisionSphere();
+		if (CollisionPair(colSphere, collision))
+		{
+			SetAlive(false);
+
+			CollisionUpdate();
+		}
+	}*/
 	/*if (tag == ObjectTag::Enemy && myTag != ObjectTag::Enemy)
 	{
 		Sphere collision = other->GetCollisionSphere();

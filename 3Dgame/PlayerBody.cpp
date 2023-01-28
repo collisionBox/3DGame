@@ -10,14 +10,15 @@ const float PlayerBody::GripDecel = -5.0f;// グリップの減速.
 const float PlayerBody::GripPower = 2.0f;// グリップ力.
 const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
 const float PlayerBody::TurnPerformance = 5.0f;// 旋回性能.
+const float PlayerBody::OnShootingDownWaitTime = 5.0f;// 被撃墜時待機時間.
 
-PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag) :
+PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
 	ObjectBase(myTag)
 	, rotateNow(false)
 	, accel()
 {
 	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/player/playerBody.mv1");
+	modelHandle = AssetManager::GetMesh(failName);
 	MV1SetScale(modelHandle, moveModelScale);
 
 	// 位置・方向を初期化.
@@ -39,6 +40,10 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	// 変数の初期化.
 	velocity = initVec;
 	padInput = inputState;
+	HP = 100;
+	hpGauge = new HPGauge(HP);
+	deltaWaitTime = 0;
+	
 }
 
 PlayerBody::~PlayerBody()
@@ -49,7 +54,20 @@ PlayerBody::~PlayerBody()
 void PlayerBody::Update(float deltaTime)
 {
 	//Rotate();
-	Input(deltaTime);
+	if (HP > 0.0f)
+	{
+		Input(deltaTime);
+	}
+	else
+	{
+		deltaWaitTime += deltaTime;
+		// 爆発エフェクトをいれる.
+
+		if (deltaWaitTime > OnShootingDownWaitTime)// エフェクト再生が終わったらにいつか変更.
+		{
+			// OVERへシーン遷移.
+		}
+	}
 	
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
@@ -75,6 +93,7 @@ void PlayerBody::Update(float deltaTime)
 	}
 
 	cannon->Updateeeee(pos, deltaTime);
+	hpGauge->Update(pos, HP, deltaTime);
 
 	CollisionUpdate();
 
@@ -83,7 +102,10 @@ void PlayerBody::Update(float deltaTime)
 void PlayerBody::Draw()
 {
 	MV1DrawModel(modelHandle);
+
 	cannon->Draw();
+	hpGauge->Draw();
+
 	DrawCollider();
 }
 
@@ -104,6 +126,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 			// コリジョン情報の解放.
 			MV1CollResultPolyDimTerminate(colInfo);
 
+			velocity = initVec;
 			CollisionUpdate();
 		}
 
@@ -117,9 +140,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 			CollisionUpdate();
 		}
 	}
-	if (tag == ObjectTag::Bullet)
-	{
-	}
+	
 }
 
 void PlayerBody::Input(float deltaTime)

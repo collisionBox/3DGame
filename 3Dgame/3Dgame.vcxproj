@@ -149,6 +149,7 @@
     <ClCompile Include="EnemyBody.cpp" />
     <ClCompile Include="EnemyBulletManager.cpp" />
     <ClCompile Include="EnemyCannon.cpp" />
+    <ClCompile Include="HPGauge.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map1.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -173,13 +174,12 @@
     <ClInclude Include="EnemyBulletManager.h" />
     <ClInclude Include="EnemyCannon.h" />
     <ClInclude Include="foundation.h" />
+    <ClInclude Include="HPGauge.h" />
     <ClInclude Include="Map1.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectTag.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Player2.h" />
     <ClInclude Include="PlayerBody.h" />
     <ClInclude Include="PlayerCannon.h" />
     <ClInclude Include="SceneBase.h" />

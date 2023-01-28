@@ -1,12 +1,12 @@
 #pragma once
 #include "foundation.h"
 #include "PlayerCannon.h"
-
+#include "HPGauge.h"
 class PlayerBody :
 	public ObjectBase
 {
 public:
-	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag);
+	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName);
 	~PlayerBody();
 
 	//static PlayerBody& Instance() { static PlayerBody body; return body; }
@@ -20,16 +20,20 @@ public:
 private:
 	void Input(float deltaTime);
 	void Rotate();
-	VECTOR aimDir;
 
+
+	VECTOR aimDir;
 	VECTOR velocity;
 	bool rotateNow;
-	bool onHitFlag;
+	float deltaWaitTime;
+	float accel;
+	// コントローラー変数.
 	int padInput;
 	XINPUT_STATE pad;
 
 	class PlayerCannon* cannon;
-	
+	class HPGauge* hpGauge;
+
 	// 静的関数.
 	static const float Accel;
 	static const float Back;
@@ -41,7 +45,7 @@ private:
 	static const float GripPower;
 	static const float ColideDecelFac;
 	static const float TurnPerformance;
-	float accel;
+	static const float OnShootingDownWaitTime;
 
 };
 

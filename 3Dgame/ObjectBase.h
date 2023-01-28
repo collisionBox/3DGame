@@ -23,8 +23,9 @@ public:
 	bool GetAlive() const { return alive; }// ゲームオブジェクト生きているか 
 	void SetAlive(bool setFlag) { alive = setFlag; }// ゲームオブジェクト生死セット
 
-	float GetArmor() const { return armorPoint; }// 装甲値の取得.
-	void SetArmor(const float set) { armorPoint = set; }// 装甲値のセット.
+	float GetHP() const { return HP; }// 装甲値の取得.
+	void SetHP(const float set) { HP = set; }// 装甲値のセット.
+	void OnDamage(const float set) { HP -= set; };// ダメージを受けたとき.
 
 
 	virtual void Update(float deltaTime) = 0;  // ゲームオブジェクト更新処理
@@ -48,7 +49,7 @@ protected:
 	int modelHandle;// モデルハンドル.
 	bool visible;// 表示するかどうかのハンドル（何もしなければ表示）.
 	bool alive;// 生きているかどうかのハンドル.
-	float armorPoint;// 残りの体力(HP).
+	float HP;// 残りの体力(HP).
 
 	// 当たり判定関連.
 	CollisionType colType;// 当たり判定タイプ.

@@ -102,6 +102,9 @@
     <ClCompile Include="Map1.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="HPGauge.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -137,14 +140,8 @@
     <ClInclude Include="UI.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Player2.h">
-      <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="foundation.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -174,6 +171,9 @@
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Map1.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HPGauge.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

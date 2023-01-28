@@ -1,6 +1,6 @@
 #include "EnemyBulletManager.h"
 
-const float EnemyBulletManager::ShotIntervalTime = 5.0f;
+const float EnemyBulletManager::ShotIntervalTime = 1.0f;
 EnemyBulletManager::EnemyBulletManager(ObjectTag tag)
 {
 	shotTime = ShotIntervalTime;
