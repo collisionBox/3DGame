@@ -4,12 +4,13 @@ const float PlayerCannon::TurnPerformance = 3.50f;
 
 #if 0
 #else
-PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag) :
+PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag, const char* failName) :
 	ObjectBase(ObjectTag::Cannon)
 {
 
 	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/player/playerCannon.mv1");
+	string str = "playerCannon.mv1";
+	modelHandle = AssetManager::GetMesh(failName + str);
 	MV1SetScale(modelHandle, moveModelScale);
 
 	

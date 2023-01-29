@@ -5,7 +5,7 @@ class EnemyBody:
 	public ObjectBase
 {
 public:
-	EnemyBody(VECTOR initPos, VECTOR initDir);
+	EnemyBody(VECTOR initPos, VECTOR initDir, const char* failName);
 	~EnemyBody();
 
 	void Update(float deltaTime);

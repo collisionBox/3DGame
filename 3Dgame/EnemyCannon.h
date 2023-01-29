@@ -6,7 +6,7 @@ class EnemyCannon:
 	public ObjectBase
 {
 public:
-	EnemyCannon(VECTOR bodyPos, VECTOR bodyDir);
+	EnemyCannon(VECTOR bodyPos, VECTOR bodyDir, const char* failName);
 	~EnemyCannon();
 
 	void Update(float deltaTime);// ‚²‚Ü‚©‚·—p.

@@ -8,7 +8,7 @@ class PlayerCannon : public ObjectBase
 public:
 	//static PlayerCannon& Instance() { static PlayerCannon instance; return instance; }
 	
-	PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag);
+	PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag, const char* failName);
 	~PlayerCannon();
 
 

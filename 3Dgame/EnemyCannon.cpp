@@ -1,9 +1,10 @@
 #include "EnemyCannon.h"
 
-EnemyCannon::EnemyCannon(VECTOR bodyPos, VECTOR bodyDir)
+EnemyCannon::EnemyCannon(VECTOR bodyPos, VECTOR bodyDir, const char* failName)
 {
 	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/enemy/enemyCannon.mv1");
+	string str = "enemyCannon.mv1";
+	modelHandle = AssetManager::GetMesh(failName + str);
 	MV1SetScale(modelHandle, moveModelScale);
 
 	bulletManager = new EnemyBulletManager(ObjectTag::Enemy);

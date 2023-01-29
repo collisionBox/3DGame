@@ -18,7 +18,12 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	, accel()
 {
 	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh(failName);
+	string str = "playerBody.mv1";
+	modelHandle = AssetManager::GetMesh(failName + str);
+	if (modelHandle == -1)
+	{
+		printfDx("playerBodyを読み込めません");
+	}
 	MV1SetScale(modelHandle, moveModelScale);
 
 	// 位置・方向を初期化.
@@ -30,7 +35,7 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
-	cannon = new PlayerCannon(initPos, initDir, inputState, myTag);
+	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
@@ -54,11 +59,11 @@ PlayerBody::~PlayerBody()
 void PlayerBody::Update(float deltaTime)
 {
 	//Rotate();
-	if (HP > 0.0f)
+	//if (HP > 0.0f)
 	{
 		Input(deltaTime);
 	}
-	else
+	//else
 	{
 		deltaWaitTime += deltaTime;
 		// 爆発エフェクトをいれる.

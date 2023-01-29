@@ -56,15 +56,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// ÉvÉåÉCÉÑÅ[ê∂ê¨.
 	int padInput = DX_INPUT_PAD1;
-	PlayerBody* player = new PlayerBody(VGet(-742.0f, 0.0f, -30.0f), VGet(1.0f, 0.0f, 0.0f) ,padInput, ObjectTag::Player, "data/player/playerBody.mv1");
+	PlayerBody* player = new PlayerBody(VGet(-742.0f+600, 0.0f, -30.0f), VGet(1.0f, 0.0f, 0.0f) ,padInput, ObjectTag::Player, "data/player1/");
 	ObjectManager::Entry(player);
-	//ObjectManager::Entry(player1);
 
-	/*int padInput2 = DX_INPUT_PAD2;
-	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, 355.0f), VGet(-1.5f, 0.0f, -1.5f), padInput2, ObjectTag::Player2);
-	ObjectManager::Entry(player2);*/
+	int padInput2 = DX_INPUT_PAD2;
+	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player2, "data/player2/");
+	ObjectManager::Entry(player2);
 
-	EnemyBody* enemy = new EnemyBody(VGet(742.0f, -10.0f, 355.0f), VGet(0.0f, 0.0f, -1.5f));
+	EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");
 	ObjectManager::Entry(enemy);
 	
 	Map1* map = new Map1;
