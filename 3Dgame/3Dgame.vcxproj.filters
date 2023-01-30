@@ -103,7 +103,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="HPGauge.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +143,6 @@
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="foundation.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBody.h">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClInclude>
@@ -174,7 +171,10 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="HPGauge.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation.h">
+      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

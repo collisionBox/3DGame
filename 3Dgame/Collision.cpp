@@ -171,14 +171,13 @@ bool CollisionPair(const Sphere& sphere, int modelHandle, MV1_COLL_RESULT_POLY_D
 
 VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT_POLY_DIM& collisionInfo)
 {
-
 	// 衝突球
 	std::vector<VECTOR> moveCandidate; // 球中心候補 
 	float  radius = sphere.radius; // 球半径
 	VECTOR planeNormal;                    // ポリゴン平面法線
 	VECTOR moveVec = VGet(0, 0, 0);    // 移動ベクトル
 	float  moveLen = 0.0f;           // 移動量
-#if 1
+#if 0
 	VECTOR newCenter = sphere.worldCenter; // 移動候補  
 	VECTOR lenNum = VGet(0.0f, 0.0f, 0.0f);
 	int i = 0, j = 0;
@@ -275,7 +274,7 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 			
 			minLen = radius - len;
 			//len += 0.0001f;
-			moveVec = planeNormal * len;
+			moveVec = planeNormal * minLen;
 			moveCandidate[i] = moveVec;
 
 			// 今押し戻した距離はこれまでの候補よりも短い距離か
@@ -292,10 +291,4 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 #endif
 }
 
-
-//計算のループですること
-//ベクター配列moveCandidateを作成。worldCenterをHitNum分初期値として入れる。
-//計算結果をmoveCandidateに入れる。lenを用意してその値が最小値を見つける
-// 新規ループですること
-//ポジションとmoveCandidateの差が最も小さい値をnewCenterとして返す
 
