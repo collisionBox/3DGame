@@ -168,7 +168,9 @@ bool CollisionPair(const Sphere& sphere, int modelHandle, MV1_COLL_RESULT_POLY_D
 	}
 	return true;
 }
-
+//-----------------------------------------------------------------------------
+// 押し戻す量を返す.
+//-----------------------------------------------------------------------------
 VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT_POLY_DIM& collisionInfo)
 {
 	// 衝突球
@@ -177,64 +179,8 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 	VECTOR planeNormal;                    // ポリゴン平面法線
 	VECTOR moveVec = VGet(0, 0, 0);    // 移動ベクトル
 	float  moveLen = 0.0f;           // 移動量
-#if 0
 	VECTOR newCenter = sphere.worldCenter; // 移動候補  
-	VECTOR lenNum = VGet(0.0f, 0.0f, 0.0f);
-	int i = 0, j = 0;
-
-	// 衝突ポリゴンをすべて回って、球のめり込みを解消する
-	for (i = 0; i < collisionInfo.HitNum; ++i)
-	{
-		moveCandidate.push_back(sphere.worldCenter);
-		// 衝突ポリゴンの辺 
-		VECTOR edge1, edge2;
-		edge1 = collisionInfo.Dim[i].Position[1] - collisionInfo.Dim[i].Position[0];
-		edge2 = collisionInfo.Dim[i].Position[2] - collisionInfo.Dim[i].Position[0];
-
-		// 衝突ポリゴンの辺より、ポリゴン面の法線ベクトルを求める
-		planeNormal = VCross(edge1, edge2);
-		planeNormal = VNorm(planeNormal);
-
-		// 球中心に最も近いポリゴン平面の点を求める
-		VECTOR tmp = moveCandidate[i] - collisionInfo.Dim[i].Position[0];
-		float  dot = VDot(planeNormal, tmp);
-
-		// 衝突点
-		VECTOR hitPos = moveCandidate[i] - planeNormal * dot;
-
-		// 球がどれくらいめり込んでいるかを算出
-		VECTOR tmp2 = moveCandidate[i] - hitPos;
-		float  len = VSize(tmp2);
-
-		// めり込んでいる場合は球の中心を押し戻し
-		if (HitCheck_Sphere_Triangle(moveCandidate[i], radius,
-			collisionInfo.Dim[i].Position[0],
-			collisionInfo.Dim[i].Position[1],
-			collisionInfo.Dim[i].Position[2]) == TRUE)
-		{
-			// めり込み解消する位置まで移動
-			VECTOR moveVec;
-			len = radius - len;
-			//len += 0.0001f;
-			moveVec = planeNormal * len;
-			moveCandidate[i] += moveVec;
-		}
-		if (VSize(lenNum) == 0)
-		{
-			lenNum = moveCandidate[i];
-		}
-		else if (VSize(lenNum) > VSize(moveCandidate[i]))
-		{
-			lenNum = moveCandidate[i];
-		}
-	}
-	
-	newCenter = lenNum - sphere.worldCenter;
-	return newCenter;
-#else
-
-	VECTOR newCenter = sphere.worldCenter; // 移動候補  
-	int i = 0, j = 0;
+	int i = 0;
 
 	int   minindex = 0;                  // 最短距離候補インデックス
 	float minLen = sphere.radius * 2.0f; // 押し戻し最短距離（直径以上は押し戻しはないはず）
@@ -288,7 +234,6 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 
 	//moveCandidate[minindex]には最短移動距離が入っており、移動後の新しい球の中心位置とする
 	return moveCandidate[minindex];
-#endif
 }
 
 

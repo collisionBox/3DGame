@@ -2,8 +2,8 @@
 // 静的定数.
 const float PlayerBody::Accel = 6.0f;// 通常の加速.
 const float PlayerBody::Back = 5.0f;// 後退速度.
-const float PlayerBody::MaxSpeed = 200.0f;// 最高前進速度.
-const float PlayerBody::MinSpeed = -350.0f;// 最高後退速度.
+const float PlayerBody::MaxSpeed = 300.0f;// 最高前進速度.
+const float PlayerBody::MinSpeed = -200.0f;// 最高後退速度.
 const float PlayerBody::DefaultDecel = 0.97f;// なにもしない時の減速.
 const float PlayerBody::BreakDecel = 0.5f;// ブレーキ時の減速.
 const float PlayerBody::GripDecel = -5.0f;// グリップの減速.
@@ -58,7 +58,8 @@ PlayerBody::~PlayerBody()
 
 void PlayerBody::Update(float deltaTime)
 {
-	//Rotate();
+	CollisionUpdate();
+
 	//if (HP > 0.0f)
 	{
 		Input(deltaTime);
@@ -73,7 +74,8 @@ void PlayerBody::Update(float deltaTime)
 			// OVERへシーン遷移.
 		}
 	}
-	
+	hpGauge->Update(pos, HP, deltaTime);
+
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
@@ -98,9 +100,7 @@ void PlayerBody::Update(float deltaTime)
 	}
 
 	cannon->Updateeeee(pos, deltaTime);
-	hpGauge->Update(pos, HP, deltaTime);
 
-	CollisionUpdate();
 
 }
 

@@ -152,6 +152,8 @@
     <ClCompile Include="HPGauge.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map1.cpp" />
+    <ClCompile Include="MapModelBlock.cpp" />
+    <ClCompile Include="MapModelCylinder.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -176,6 +178,8 @@
     <ClInclude Include="foundation.h" />
     <ClInclude Include="HPGauge.h" />
     <ClInclude Include="Map1.h" />
+    <ClInclude Include="MapModelBlock.h" />
+    <ClInclude Include="MapModelCylinder.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectManager.h" />

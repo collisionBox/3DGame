@@ -24,5 +24,5 @@ void UI::Debug()
 	PlayerCannon* cannon = dynamic_cast<PlayerCannon*>(ObjectManager::GetFirstObject(ObjectTag::Cannon));
 	/*DrawFormatString(0, 0, white, "0:%f\n1:%f\n2:%f", cannon->monitorNum[0], cannon->monitorNum[1],
 		cannon->monitorNum[2]);*/
-	DrawFormatString(0, 0, white, "%d", GetJoypadInputState(DX_INPUT_PAD2));
+	//DrawFormatString(0, 0, white, "%d", GetJoypadInputState(DX_INPUT_PAD2));
 }

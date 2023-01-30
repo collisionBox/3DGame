@@ -60,28 +60,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ObjectManager::Entry(player);
 
 	int padInput2 = DX_INPUT_PAD2;
-	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player2, "data/player2/");
+	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player, "data/player2/");
 	ObjectManager::Entry(player2);
 
 	EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");
 	ObjectManager::Entry(enemy);
 	
 	Map1* map = new Map1;
-	ObjectManager::Entry(map);
 	
 	// UI生成.
 	UI* ui = new UI();
-
+	
 	//時間計測.
-	int nowTime = GetNowCount();
-	int prevTime = nowTime;
+	LONGLONG nowTime = GetNowHiPerformanceCount();
+	LONGLONG prevTime = nowTime;
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 		//フレーム時間計測.
-		nowTime = GetNowCount();
-		float deltaTime = (nowTime - prevTime) / 1000.0f;
-		
+		nowTime = GetNowHiPerformanceCount();
+		float deltaTime = (nowTime - prevTime) / 1000000000.0f;
 		// 全オブジェクトの更新.
 		ObjectManager::Update(1.0f/60.0f);
 		ObjectManager::Collition();
@@ -96,10 +94,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		Director::Draw();
 
 		ui->Draw(deltaTime);
-
+		DrawFormatString(100, 0, GetColor(255, 255, 255), "%f", deltaTime);
 		//裏画面の内容を表画面に反映させる.
 		ScreenFlip();
-		
+		https://animestore.docomo.ne.jp/animestore/ci_pc?workId=25964
 		prevTime = nowTime;
 	}
 
