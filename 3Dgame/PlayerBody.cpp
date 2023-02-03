@@ -29,6 +29,7 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	// 位置・方向を初期化.
 	// 左下へ配置.
 	pos = initPos;// (地面にうまるため13上げる.)今回は無視
+	prevPos = pos;
 	// 中心っぽい方向を向く.
 	dir = initDir;
 	aimDir = dir;
@@ -58,7 +59,6 @@ PlayerBody::~PlayerBody()
 
 void PlayerBody::Update(float deltaTime)
 {
-	CollisionUpdate();
 
 	//if (HP > 0.0f)
 	{
@@ -74,34 +74,26 @@ void PlayerBody::Update(float deltaTime)
 			// OVERへシーン遷移.
 		}
 	}
+
+	if (prevPos.x + colSphere.radius > windowSizeXMax ||
+		prevPos.x - colSphere.radius < windowSizeXMin ||
+		prevPos.z + colSphere.radius > windowSizeZMax ||
+		prevPos.z - colSphere.radius < windowSizeZMin)//-885,13,159
+	{
+		velocity = initVec;
+		prevPos = pos;
+	}
+
+	pos = prevPos;
+	cannon->Updateeeee(pos, deltaTime);
 	hpGauge->Update(pos, HP, deltaTime);
+	CollisionUpdate();
 
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-
-	if (pos.x > 930.0f)//-885,13,159
-	{
-		pos = VGet(-920.0f, pos.y, pos.z);//920
-	}
-	if (pos.x < -930.0f)//882,13,88
-	{
-		pos = VGet(920.0f, pos.y, pos.z);
-	}
-	if (pos.z > 540)//540
-	{
-		pos = VGet(pos.x, pos.y, -530.0f);
-	}
-	if (pos.z < -540)//540
-	{
-		pos = VGet(pos.x, pos.y, 530.0f);
-	}
-
-	cannon->Updateeeee(pos, deltaTime);
-
-
 }
 
 void PlayerBody::Draw()
@@ -110,7 +102,7 @@ void PlayerBody::Draw()
 
 	cannon->Draw();
 	hpGauge->Draw();
-
+	MV1SetMaterialEmiColor(ModelHandle, 0, GetColorF(0.2f, 0.2f, 0.0f, 1.0f));
 	DrawCollider();
 }
 
@@ -126,7 +118,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 		{
 			// 当たっている場合は押し量を計算.
 			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
-			pos = VAdd(pos, poshBuckVec);
+			prevPos= VAdd(prevPos, poshBuckVec);
 
 			// コリジョン情報の解放.
 			MV1CollResultPolyDimTerminate(colInfo);
@@ -231,7 +223,7 @@ void PlayerBody::Input(float deltaTime)
 	velocity = VGet(velocity.x, 0, velocity.z);
 
 	// ポジション更新.
-	pos = VAdd(pos, VScale(velocity, deltaTime));
+	prevPos = VAdd(pos, VScale(velocity, deltaTime));
 	
 }
 

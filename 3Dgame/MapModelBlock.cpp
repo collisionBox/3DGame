@@ -1,13 +1,13 @@
 #include "MapModelBlock.h"
 
-MapModelBlock::MapModelBlock() :
+MapModelBlock::MapModelBlock(VECTOR initPos) :
 	ObjectBase(ObjectTag::BackGround)
 {
 	modelHandle = MV1LoadModel("data/map/block.mv1");
-	MV1SetScale(modelHandle, VGet(0.5f, 0.5f, 0.5f));
+	MV1SetScale(modelHandle, VGet(1.0f, 0.2f, 1.0f));// ÉTÉCÉYÇ100*100Ç…Ç∑ÇÈ.
 	colModel = modelHandle;
-
-	MV1SetPosition(modelHandle, VGet(100.0f, 0.0f, 100.0f));
+	pos = initPos;
+	MV1SetPosition(modelHandle, pos);
 	CollisionUpdate();
 }
 

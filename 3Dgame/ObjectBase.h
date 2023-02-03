@@ -12,6 +12,8 @@ public:
 
 	virtual ~ObjectBase(); // デストラクタ
 
+	const int GetModelHandle() const { return modelHandle; }
+
 	const VECTOR& GetPos() const { return pos; }// 位置取得 
 	void SetPos(const VECTOR set) { pos = set; }// 位置セット
 
@@ -57,6 +59,5 @@ protected:
 	Sphere colSphere;// 当たり判定球.
 	Capsule colCapsule;// 当たり判定カプセル.
 	int colModel;// 当たり判定用モデル（表示モデルと別に簡易当たり判定モデルをセット）
-	const VECTOR initVec = VGet(0.0f, 0.0f, 0.0f);// 初期化代入用ベクトル.
 };
 

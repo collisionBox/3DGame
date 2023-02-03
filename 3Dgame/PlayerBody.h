@@ -24,6 +24,7 @@ private:
 
 	VECTOR aimDir;
 	VECTOR velocity;
+	VECTOR prevPos;
 	bool rotateNow;
 	float deltaWaitTime;
 	float accel;

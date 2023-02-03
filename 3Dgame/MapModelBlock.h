@@ -4,7 +4,7 @@ class MapModelBlock :
 	public ObjectBase
 {
 public:
-	MapModelBlock();
+	MapModelBlock(VECTOR initPos);
 	~MapModelBlock();
 
 	void Update(float deltaTime);

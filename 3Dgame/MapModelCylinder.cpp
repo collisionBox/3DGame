@@ -1,13 +1,13 @@
 #include "MapModelCylinder.h"
 
-MapModelCylinder::MapModelCylinder():
+MapModelCylinder::MapModelCylinder(VECTOR initPos):
 	ObjectBase(ObjectTag::BackGround)
 {
 	modelHandle = MV1LoadModel("data/map/cylinder.mv1");
-	MV1SetScale(modelHandle, VGet(0.3f, 0.3f, 0.3f));
+	MV1SetScale(modelHandle, VGet(0.24f, 0.3f, 0.24f));// ÉTÉCÉYÇ100*100Ç…Ç∑ÇÈ.
 	colModel = modelHandle;
-
-	MV1SetPosition(modelHandle, VGet(100.0f, 0.0f, 200.0f));
+	pos = initPos;
+	MV1SetPosition(modelHandle, initPos);
 	CollisionUpdate();
 }
 

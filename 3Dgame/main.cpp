@@ -10,7 +10,7 @@
 #include "PlayerBody.h"
 #include "EnemyBody.h"
 
-#include "Map1.h"
+#include "MapManager.h"
 
 #include "UI.h"
 #include "Camera.h"
@@ -66,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");
 	ObjectManager::Entry(enemy);
 	
-	Map1* map = new Map1;
+	MapManager* map = new MapManager;
 	
 	// UI¶¬.
 	UI* ui = new UI();
@@ -94,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		Director::Draw();
 
 		ui->Draw(deltaTime);
-		DrawFormatString(100, 0, GetColor(255, 255, 255), "%f", deltaTime);
+		DrawFormatString(100, 0, GetColor(255, 255, 255), "%f,%f", player->GetPos().x, player->GetPos().z);
 		//— ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f‚³‚¹‚é.
 		ScreenFlip();
 		https://animestore.docomo.ne.jp/animestore/ci_pc?workId=25964

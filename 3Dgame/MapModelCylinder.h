@@ -4,7 +4,7 @@ class MapModelCylinder :
 	public ObjectBase
 {
 public:
-	MapModelCylinder();
+	MapModelCylinder(VECTOR initPos);
 	~MapModelCylinder();
 
 	void Update(float deltaTime);

@@ -151,7 +151,7 @@
     <ClCompile Include="EnemyCannon.cpp" />
     <ClCompile Include="HPGauge.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map1.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapModelBlock.cpp" />
     <ClCompile Include="MapModelCylinder.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -177,7 +177,8 @@
     <ClInclude Include="EnemyCannon.h" />
     <ClInclude Include="foundation.h" />
     <ClInclude Include="HPGauge.h" />
-    <ClInclude Include="Map1.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapModelBlock.h" />
     <ClInclude Include="MapModelCylinder.h" />
     <ClInclude Include="Math.h" />

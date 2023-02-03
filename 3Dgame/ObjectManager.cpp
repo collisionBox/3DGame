@@ -169,6 +169,7 @@ void ObjectManager::Draw()
 			// 描画可能なオブジェクトのみ描画.
 			if (Instance->objects[tag][i]->GetVisible())
 			{
+				
 				Instance->objects[tag][i]->Draw();
 			}
 		}
