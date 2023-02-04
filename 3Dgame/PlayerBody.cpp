@@ -102,7 +102,6 @@ void PlayerBody::Draw()
 
 	cannon->Draw();
 	hpGauge->Draw();
-	MV1SetMaterialEmiColor(ModelHandle, 0, GetColorF(0.2f, 0.2f, 0.0f, 1.0f));
 	DrawCollider();
 }
 
@@ -118,7 +117,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 		{
 			// “–‚½‚Á‚Ä‚¢‚éê‡‚Í‰Ÿ‚µ—Ê‚ğŒvZ.
 			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
-			prevPos= VAdd(prevPos, poshBuckVec);
+			pos = VAdd(pos, poshBuckVec);
 
 			// ƒRƒŠƒWƒ‡ƒ“î•ñ‚Ì‰ğ•ú.
 			MV1CollResultPolyDimTerminate(colInfo);

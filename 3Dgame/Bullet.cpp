@@ -62,7 +62,6 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	myTag = userTag;
 }
 
-
 Bullet::~Bullet()
 {
 	AssetManager::DeleteMesh(modelHandle);
@@ -71,11 +70,15 @@ Bullet::~Bullet()
 
 void Bullet::Update(float deltaTime)
 {
-	pos = VAdd(pos, VScale(VScale(dir, speed), deltaTime));
+	velocity = VScale(VScale(dir, speed), deltaTime);
+	pos = VAdd(pos, velocity);
 
 	// 位置の更新.
 	MV1SetPosition(modelHandle, pos);
-	
+	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
+	VECTOR negativeVec = VTransform(dir, rotYMat);
+	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
 	CollisionUpdate();
 }
 
@@ -90,11 +93,44 @@ void Bullet::Draw()
 void Bullet::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
-	/*if (tag == ObjectTag::BackGround)
+	if (tag == ObjectTag::BackGround)
 	{
-		SetAlive(false);
-		CollisionUpdate();
-	}*/
+		int colModel = other->GetCollisionModel();
+
+		MV1_COLL_RESULT_POLY_DIM colInfo;
+		
+		if (CollisionPair(colSphere, colModel, colInfo))
+		{
+			// 当たっている場合は押し量を計算.
+			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
+			pos = VAdd(pos, poshBuckVec);
+
+			VECTOR planeNormal;                    // ポリゴン平面法線
+			for (int i = 0; i < colInfo.HitNum; ++i)
+			{
+				// 衝突ポリゴンの辺 
+				VECTOR edge1, edge2;
+				edge1 = colInfo.Dim[i].Position[1] - colInfo.Dim[i].Position[0];
+				edge2 = colInfo.Dim[i].Position[2] - colInfo.Dim[i].Position[0];
+				// 衝突ポリゴンの辺より、ポリゴン面の法線ベクトルを求める
+				planeNormal = VCross(edge1, edge2);
+				planeNormal = VNorm(planeNormal);
+				if (planeNormal.x == 1 || planeNormal.z == 1)
+				{
+					break;
+				}
+				
+			}
+			float a = VDot(VScale(velocity, -1.0f), planeNormal);
+			VECTOR b = VScale(planeNormal, 2.0f * a);
+			dir = VAdd(velocity, b);
+			dir = VNorm(dir);
+
+			// コリジョン情報の解放.
+			MV1CollResultPolyDimTerminate(colInfo);
+			CollisionUpdate();
+		}
+	}
 
 	if (tag != myTag)
 	{
@@ -104,29 +140,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 			SetAlive(false);
 			ObjectBase* object = ObjectManager::GetFirstObject(tag);
 			object->OnDamage(DamagePoint);
-			CollisionUpdate();
 		}
 	}
 
-	/*if (tag == ObjectTag::Player)
-	{
-
-		Sphere collision = other->GetCollisionSphere();
-		if (CollisionPair(colSphere, collision))
-		{
-			SetAlive(false);
-
-			CollisionUpdate();
-		}
-	}*/
-	/*if (tag == ObjectTag::Enemy && myTag != ObjectTag::Enemy)
-	{
-		Sphere collision = other->GetCollisionSphere();
-		if (CollisionPair(colSphere, collision))
-		{
-			SetAlive(false);
-
-			CollisionUpdate();
-		}
-	}*/
 }

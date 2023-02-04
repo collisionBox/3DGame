@@ -223,6 +223,16 @@ void ObjectManager::Collition()
 		}
 	}
 
+	// îwåi.
+	for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
+	{
+		// VSíe.
+		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
+		{
+			Instance->objects[ObjectTag::Bullet][bulletNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
+		}
+	}
 	
 }
 

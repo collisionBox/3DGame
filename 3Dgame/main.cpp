@@ -63,8 +63,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player, "data/player2/");
 	ObjectManager::Entry(player2);
 
-	EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");
-	ObjectManager::Entry(enemy);
+	//EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");
+	//ObjectManager::Entry(enemy);
 	
 	MapManager* map = new MapManager;
 	
@@ -97,7 +97,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		DrawFormatString(100, 0, GetColor(255, 255, 255), "%f,%f", player->GetPos().x, player->GetPos().z);
 		//— ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f‚³‚¹‚é.
 		ScreenFlip();
-		https://animestore.docomo.ne.jp/animestore/ci_pc?workId=25964
 		prevTime = nowTime;
 	}
 

@@ -2,6 +2,8 @@
 
 MapManager::MapManager()
 {
+	MapModelBlock* block = new MapModelBlock(VGet(0, 0, 0));
+	ObjectManager::Entry(block);
 	const float objLen = 100;//オブジェクトの距離
 	vector<ObjectBase*> obj;
 	for (int i = 0; i < mapObjectNumX; i++)
@@ -20,11 +22,11 @@ MapManager::MapManager()
 			}
 		}
 	}
-	
-	
+
 
 	for (auto& i : obj)
 	{
 		ObjectManager::Entry(i);
 	}
 }
+
