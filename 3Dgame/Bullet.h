@@ -17,6 +17,7 @@ public:
 
 
 private:
+    bool reflectionFlag;// 一度反射しているかどうか.
     static const float speed;// 弾速.
     VECTOR velocity;// 弾速ベクトル.
     ObjectTag myTag;

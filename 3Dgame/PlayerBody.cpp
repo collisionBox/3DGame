@@ -136,7 +136,6 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 			CollisionUpdate();
 		}
 	}
-	
 }
 
 void PlayerBody::Input(float deltaTime)
@@ -183,7 +182,6 @@ void PlayerBody::Input(float deltaTime)
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
 
-
 	if (pad.ThumbLX > 0)
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -203,7 +201,6 @@ void PlayerBody::Input(float deltaTime)
 		{
 			accel = 0;
 		}
-
 	}
 
 	// ƒOƒŠƒbƒvŒ¸‘¬.
