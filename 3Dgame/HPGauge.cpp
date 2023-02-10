@@ -5,6 +5,11 @@ HPGauge::HPGauge(float maxHP)
 	this->maxHP = maxHP;
 }
 
+void HPGauge::Initialize(float maxHP)
+{
+	maxHP = maxHP;
+}
+
 void HPGauge::Update(VECTOR& pos, float& HP, float deltaTime)
 {
 	screenPos = ConvWorldPosToScreenPos(pos);

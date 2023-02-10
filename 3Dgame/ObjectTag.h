@@ -4,11 +4,8 @@
 enum class ObjectTag : unsigned char
 {
 	Player,
-	Player2,
 	Body,
-	Body2,
 	Cannon,
-	Cannon2,
 	BulletManager,
 	Bullet,
 	Enemy,
@@ -25,11 +22,8 @@ enum class ObjectTag : unsigned char
 constexpr static ObjectTag ObjectTagAll[] =
 {
 	ObjectTag::Player,
-	ObjectTag::Player2,
 	ObjectTag::Body,
-	ObjectTag::Body2,
 	ObjectTag::Cannon,
-	ObjectTag::Cannon2,
 	ObjectTag::BulletManager,
 	ObjectTag::Bullet,
 	ObjectTag::Enemy,

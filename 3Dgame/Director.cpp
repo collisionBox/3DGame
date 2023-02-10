@@ -1,5 +1,5 @@
 #include "Director.h"
-#include "DxLib.h"
+
 Director* Director::Instance = nullptr;
 
 Director::Director()
@@ -18,6 +18,7 @@ void Director::Initalize()
 	{
 		Instance = new Director;
 	}
+	joypadNum = 0;
 }
 
 void Director::Finalize()
@@ -28,11 +29,14 @@ void Director::Finalize()
 	}
 }
 
-void Director::Update(float deltaTime)
+void Director::Update()
 {
+	
+
 }
 
-void Director::Draw()
+void Director::OrderChangeScene()
 {
 	
 }
+

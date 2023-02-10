@@ -115,18 +115,21 @@ void PlayerCannon::Draw()
 
 void PlayerCannon::Input(float deltaTime)
 {
-	GetJoypadXInputState(padInput, &pad);
-	if (CheckHitKey(KEY_INPUT_A))
+	// キーボード入力.
+	if (CheckHitKey(KEY_INPUT_A))// 右.
 	{
 
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
-	if (CheckHitKey(KEY_INPUT_D))
+	if (CheckHitKey(KEY_INPUT_D))// 左.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 	}
+
+	// ジョイパッド入力.
+	GetJoypadXInputState(padInput, &pad);
 	VECTOR padVec = VGet(pad.ThumbRX, 0.0f, pad.ThumbRY);
 	
 	if (VectorSize(padVec) != 0.0f)

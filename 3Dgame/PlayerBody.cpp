@@ -27,16 +27,13 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	MV1SetScale(modelHandle, moveModelScale);
 
 	// 位置・方向を初期化.
-	// 左下へ配置.
 	pos = initPos;// (地面にうまるため13上げる.)今回は無視
 	prevPos = pos;
-	// 中心っぽい方向を向く.
 	dir = initDir;
 	aimDir = dir;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
-	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
@@ -47,9 +44,13 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	velocity = initVec;
 	padInput = inputState;
 	HP = 100;
-	hpGauge = new HPGauge(HP);
 	deltaWaitTime = 0;
-	
+
+	// 砲を生成.
+	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
+	// HPゲージを生成.
+	hpGauge = new HPGauge(HP);
+
 }
 
 PlayerBody::~PlayerBody()
@@ -59,7 +60,6 @@ PlayerBody::~PlayerBody()
 
 void PlayerBody::Update(float deltaTime)
 {
-
 	//if (HP > 0.0f)
 	{
 		Input(deltaTime);
@@ -169,7 +169,7 @@ void PlayerBody::Input(float deltaTime)
 			accel -= Back;
 		}
 	}
-	
+	// 旋回処理.
 	if (CheckHitKey(KEY_INPUT_RIGHT))// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -182,12 +182,12 @@ void PlayerBody::Input(float deltaTime)
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
 
-	if (pad.ThumbLX > 0)
+	if (pad.ThumbLX > 0)// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 	}
-	else if (pad.ThumbLX < 0)
+	else if (pad.ThumbLX < 0)// 左旋回.
 	{
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
@@ -211,9 +211,11 @@ void PlayerBody::Input(float deltaTime)
 			velocity = VAdd(velocity, VScale(dir, GripDecel));
 		}
 	}
-	dir = VNorm(dir);// 正規化.
+	// 正規化.
+	dir = VNorm(dir);
 
-	velocity = VScale(dir, accel);// 方向ベクトルに加速力を加えて加速ベクトルとする.
+	// 方向ベクトルに加速力を加えて加速ベクトルとする.
+	velocity = VScale(dir, accel);
 	
 	// 上下方向にいかないようにvelocityを整える.
 	velocity = VGet(velocity.x, 0, velocity.z);
