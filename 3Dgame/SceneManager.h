@@ -15,3 +15,4 @@ public:
 	class SceneBase* nowScene;
 };
 
+#define SCENEINSTANCE SceneBase* GetInstance()

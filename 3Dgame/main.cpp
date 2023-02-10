@@ -83,7 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 全オブジェクトの更新.
 		ObjectManager::Update(1.0f/60.0f);
 		ObjectManager::Collition();
-		Director::Update(deltaTime);
+		Director::Update();
 
 		//画面の初期化.
 		ClearDrawScreen();
@@ -91,7 +91,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 全オブジェクトの描画.
 		DrawGrid(3000, 100);
 		ObjectManager::Draw();
-		Director::Draw();
 
 		ui->Draw(deltaTime);
 		DrawFormatString(100, 0, GetColor(255, 255, 255), "%f,%f", player->GetPos().x, player->GetPos().z);
