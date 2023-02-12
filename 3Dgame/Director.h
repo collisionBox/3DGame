@@ -14,7 +14,7 @@ private:
 	~Director();
 
 
-	static int joypadNum;
+	//static int joypadNum;
 
 	static Director* Instance;
 

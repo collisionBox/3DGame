@@ -22,10 +22,10 @@ private:
 	void Rotate();
 
 
-	VECTOR aimDir;
-	VECTOR velocity;
-	VECTOR prevPos;
-	bool rotateNow;
+	VECTOR aimDir;// 目標方向.
+	VECTOR velocity;// 加速ベクトル.
+	VECTOR prevPos; // 予測ポジション.
+	bool rotateNow;// 回転しているかどうか.
 	float deltaWaitTime;
 	float accel;
 	// コントローラー変数.

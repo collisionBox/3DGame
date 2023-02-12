@@ -4,9 +4,9 @@ class SceneManager
 {
 public:
 	~SceneManager();
-	static SceneBase* GetInstance()
+	static SceneManager& GetInstance()
 	{
-		static SceneBase* instance;
+		static SceneManager instance;
 		return instance;
 	}
 	void SetScene(SceneBase* scene) { nowScene = scene; }
@@ -15,4 +15,4 @@ public:
 	class SceneBase* nowScene;
 };
 
-#define SCENEINSTANCE SceneBase* GetInstance()
+#define SCENEINSTANCE SceneManager::GetInstance()

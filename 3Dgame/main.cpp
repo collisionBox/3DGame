@@ -10,6 +10,7 @@
 #include "PlayerBody.h"
 #include "EnemyBody.h"
 
+#include "SceneHedder.h"
 #include "MapManager.h"
 
 #include "UI.h"
@@ -49,24 +50,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ObjectManager::Initialize();
 	Director::Initalize();
 
-	// カメラ生成.
-	/*MainCamera* mainCam = new MainCamera(40, -90);
-	ObjectManager::Entry(mainCam);*/
-	MainCamera* mainCam = new MainCamera;
-
-	// プレイヤー生成.
-	int padInput = DX_INPUT_PAD1;
-	PlayerBody* player = new PlayerBody(VGet(-742.0f+600, 0.0f, -30.0f), VGet(1.0f, 0.0f, 0.0f) ,padInput, ObjectTag::Player, "data/player1/");
-	ObjectManager::Entry(player);
-
-	int padInput2 = DX_INPUT_PAD2;
-	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player, "data/player2/");
-	ObjectManager::Entry(player2);
-
-	/*EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");
-	ObjectManager::Entry(enemy);*/
-	
-	MapManager* map = new MapManager;
+	SCENEINSTANCE.SetScene(new PlayScene);
 	
 	// UI生成.
 	UI* ui = new UI();
@@ -79,21 +63,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		//フレーム時間計測.
 		nowTime = GetNowHiPerformanceCount();
-		float deltaTime = (nowTime - prevTime) / 1000000000.0f;
-		// 全オブジェクトの更新.
-		ObjectManager::Update(1.0f/60.0f);
-		ObjectManager::Collition();
+		float deltaTime = (nowTime - prevTime) / 1000000.0f;
+
+
 		Director::Update();
 
 		//画面の初期化.
 		ClearDrawScreen();
-
-		// 全オブジェクトの描画.
+		SCENEINSTANCE.Update(deltaTime);
+		SCENEINSTANCE.Draw();
+	
 		DrawGrid(3000, 100);
-		ObjectManager::Draw();
+
 
 		ui->Draw(deltaTime);
-		DrawFormatString(100, 0, GetColor(255, 255, 255), "%f,%f", player->GetPos().x, player->GetPos().z);
 		//裏画面の内容を表画面に反映させる.
 		ScreenFlip();
 		prevTime = nowTime;

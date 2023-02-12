@@ -83,7 +83,16 @@ void PlayerBody::Update(float deltaTime)
 		velocity = initVec;
 		prevPos = pos;
 	}
+	// 方向ベクトルに加速力を加えて加速ベクトルとする.
+	velocity = VScale(dir, accel);
 
+	// 上下方向にいかないようにvelocityを整える.
+	velocity = VGet(velocity.x, 0, velocity.z);
+
+	// 予測ポジション更新.
+	prevPos = VAdd(pos, VScale(velocity, deltaTime));
+
+	// ポジション更新.
 	pos = prevPos;
 	cannon->Updateeeee(pos, deltaTime);
 	hpGauge->Update(pos, HP, deltaTime);
@@ -117,7 +126,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 		{
 			// 当たっている場合は押し量を計算.
 			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
-			pos = VAdd(pos, poshBuckVec);
+			pos = VAdd(prevPos, poshBuckVec);
 
 			// コリジョン情報の解放.
 			MV1CollResultPolyDimTerminate(colInfo);
@@ -214,14 +223,7 @@ void PlayerBody::Input(float deltaTime)
 	// 正規化.
 	dir = VNorm(dir);
 
-	// 方向ベクトルに加速力を加えて加速ベクトルとする.
-	velocity = VScale(dir, accel);
 	
-	// 上下方向にいかないようにvelocityを整える.
-	velocity = VGet(velocity.x, 0, velocity.z);
-
-	// ポジション更新.
-	prevPos = VAdd(pos, VScale(velocity, deltaTime));
 	
 }
 

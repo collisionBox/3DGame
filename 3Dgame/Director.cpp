@@ -18,7 +18,7 @@ void Director::Initalize()
 	{
 		Instance = new Director;
 	}
-	joypadNum = 0;
+	//joypadNum = 0;
 }
 
 void Director::Finalize()
