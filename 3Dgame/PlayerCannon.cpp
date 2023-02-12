@@ -28,7 +28,6 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 	aimDir = initVec;
 	rotateNow = false;
 	padInput = inputState;
-	shotTime = 0.0f;
 }
 
 #endif
@@ -95,7 +94,6 @@ void PlayerCannon::Update(float deltaTime)
 #endif
 void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 {
-
 	Input(deltaTime);
 	Rotate();
 	dir = VNorm(dir);
@@ -105,6 +103,9 @@ void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	bulletManager->Update(pos, dir, deltaTime);
+
 
 }
 void PlayerCannon::Draw()
@@ -145,13 +146,7 @@ void PlayerCannon::Input(float deltaTime)
 			aimDir = padVec;
 		}
 	}
-	shotTime -= deltaTime;
-	if (shotTime < ShotIntervalTime)
-	{
-		shotTime = ShotIntervalTime;
-		bulletManager->Input(pos, dir);
-
-	}
+	
 
 }
 

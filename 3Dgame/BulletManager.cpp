@@ -16,10 +16,17 @@ BulletManager::~BulletManager()
 	// ObjectManager::ReleseAllObj‚Å‰ð•ú.
 }
 
-void BulletManager::Update(float deltaTime)
+void BulletManager::Update(VECTOR pos, VECTOR dir, float deltaTime)
 {
-
+	Input(pos, dir);
 	shotTime -= deltaTime;
+	for (int i = 0; i < bulletNum; i++)
+	{
+		if (bullet[i] != nullptr && !bullet[i]->GetVisible())
+		{
+			bullet[i] = nullptr;
+		}
+	}
 	
 }
 
@@ -27,8 +34,9 @@ void BulletManager::Input(VECTOR pos, VECTOR dir)
 {
 	GetJoypadXInputState(padInput, &pad);
 	
-		if ((CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[9]))
+		if (shotTime < 0 && (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[9]))
 		{
+			shotTime = shotIntervalTime;
 			for (int i = 0; i < bulletNum; i++)
 			{
 				if (bullet[i] == nullptr)

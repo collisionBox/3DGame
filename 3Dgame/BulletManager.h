@@ -6,7 +6,7 @@ class BulletManager
 public:
 	BulletManager(ObjectTag tag, int inputState);
 	~BulletManager();
-	void Update(float deltaTime);
+	void Update(VECTOR pos, VECTOR dir, float deltaTime);
 	void Input(VECTOR pos, VECTOR dir);
 private:
 	Bullet* bullet[5];
