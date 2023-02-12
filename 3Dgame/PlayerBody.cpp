@@ -131,6 +131,11 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 			// ƒRƒŠƒWƒ‡ƒ“î•ñ‚Ì‰ð•ú.
 			MV1CollResultPolyDimTerminate(colInfo);
 
+			if (accel > 0)
+			{
+				accel = 0;
+			}
+
 			velocity = initVec;
 			CollisionUpdate();
 		}

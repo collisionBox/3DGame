@@ -76,6 +76,11 @@ void Bullet::Update(float deltaTime)
 	velocity = VScale(VScale(dir, speed), deltaTime);
 	pos = VAdd(pos, velocity);
 
+	if (ConvWorldPosToScreenPos(pos).x < 0 || ConvWorldPosToScreenPos(pos).x > 1920 ||
+		ConvWorldPosToScreenPos(pos).y < 0 || ConvWorldPosToScreenPos(pos).y > 1080)
+	{
+		SetVisible(false);
+	}
 	// à íuÇÃçXêV.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));

@@ -15,20 +15,14 @@ public:
 	const int GetModelHandle() const { return modelHandle; }
 
 	const VECTOR& GetPos() const { return pos; }// 位置取得 
-	void SetPos(const VECTOR set) { pos = set; }// 位置セット
 
 	const VECTOR& GetDir() const { return dir; }// 方向取得.
 
 	bool GetVisible() const { return visible; }// 可視状態の取得
-	void SetVisible(bool set) { visible = set; }// 可視状態のセット
 
 	bool GetAlive() const { return alive; }// ゲームオブジェクト生きているか 
-	void SetAlive(bool setFlag) { alive = setFlag; }// ゲームオブジェクト生死セット
 
 	float GetHP() const { return HP; }// 装甲値の取得.
-	void SetHP(const float set) { HP = set; }// 装甲値のセット.
-	void OnDamage(const float set) { HP -= set; };// ダメージを受けたとき.
-
 
 	virtual void Update(float deltaTime) = 0;  // ゲームオブジェクト更新処理
 	virtual void Draw();// ゲームオブジェクト描画
@@ -43,6 +37,16 @@ public:
 	int GetCollisionModel() const { return colModel; }// 当たり判定モデルを返却（持っていれば).
 
 protected:
+	void SetPos(const VECTOR set) { pos = set; }// 位置セット
+
+	void SetVisible(bool set) { visible = set; }// 可視状態のセット
+
+	void SetAlive(bool setFlag) { alive = setFlag; }// ゲームオブジェクト生死セット
+
+	void SetHP(const float set) { HP = set; }// 装甲値のセット.
+	void OnDamage(const float set) { HP -= set; };// ダメージを受けたとき.
+
+
 	void DrawCollider();
 	void CollisionUpdate();
 	ObjectTag tag;// 登録名(登録票).

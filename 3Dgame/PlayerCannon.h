@@ -27,6 +27,8 @@ private:
 	int padInput;
 	XINPUT_STATE pad;
 	static const float TurnPerformance;
+	float shotTime;
+	const float ShotIntervalTime = 1.0f;
 	class BulletManager* bulletManager;
 };
 
