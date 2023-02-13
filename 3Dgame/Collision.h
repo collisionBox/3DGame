@@ -46,6 +46,7 @@ bool CollisionPair(const Sphere& sphere1, const Sphere& sphere2);
 bool CollisionPair(const LineSegment& line, const Sphere& sphere);
 bool CollisionPair(const Sphere& sphere, const LineSegment& line);
 bool CollisionPair(const Sphere& sphere, int modelHandle, MV1_COLL_RESULT_POLY_DIM& collisionInfo);
+bool CollisionPair(const Capsule& capsule, int modelHandle, MV1_COLL_RESULT_POLY_DIM& collisionInfo);
 bool CollisionPair(const LineSegment& line, const int modelHandle, MV1_COLL_RESULT_POLY& collisionInfo);
 bool CollisionPair(const int modelHandle, const LineSegment& line, MV1_COLL_RESULT_POLY& collisionInfo);
 

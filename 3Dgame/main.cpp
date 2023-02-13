@@ -48,7 +48,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// マネージャー生成.
 	AssetManager::Initalize();
 	ObjectManager::Initialize();
-	Director::Initalize();
 
 	SCENEINSTANCE.SetScene(new PlayScene);
 	
@@ -66,7 +65,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		float deltaTime = (nowTime - prevTime) / 1000000.0f;
 
 
-		Director::Update();
 
 		//画面の初期化.
 		ClearDrawScreen();
@@ -75,6 +73,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 		DrawGrid(3000, 100);
 
+		
 
 		ui->Draw(deltaTime);
 		//裏画面の内容を表画面に反映させる.

@@ -139,14 +139,6 @@ void ObjectManager::Update(float deltaTime)
 		}
 		Instance->objects[tag].erase(std::remove_if(std::begin(Instance->objects[tag]), std::end(Instance->objects[tag]), [](ObjectBase* b) { return !b->GetAlive(); }), std::cend(Instance->objects[tag]));
 
-		//// タグ内をすべて回り、死亡Objectを検索し、deadObjectsへ
-		//for (int i = 0; i < Instance->objects[tag].size(); ++i)
-		//{
-		//	if (!Instance->objects[tag][i]->GetAlive())
-		//	{
-		//		deadObject.emplace_back(Instance->objects[tag][i]);
-		//	}
-		//}
 	}
 
 	// 死んでいるオブジェクトをdelete

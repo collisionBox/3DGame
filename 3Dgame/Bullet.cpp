@@ -3,7 +3,7 @@
 #include "Math.h"
 #include "PlayerCannon.h"
 
-const float Bullet::speed = 300.0f;
+const float Bullet::speed = 800.0f;
 const float Bullet::DamagePoint = 20.0f;
 
 Bullet::Bullet(ObjectTag tag) :
@@ -49,8 +49,8 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	// 位置・方向を初期化.
 	this->dir = dir;
 	this->pos = pos;
-	this->pos.x += this->dir.x * 58;// 砲塔先頭にセットするため.
-	this->pos.z += this->dir.z * 58;
+	this->pos.x += this->dir.x * 65;// 砲塔先頭にセットするため.
+	this->pos.z += this->dir.z * 65;
 	MV1SetPosition(modelHandle, this->pos);
 	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
@@ -58,7 +58,7 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
 	colSphere.radius = 10.0f;
-
+	CollisionUpdate();
 	// 変数の初期化.
 	velocity = initVec;
 	reflectionFlag = false;
@@ -143,6 +143,14 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 				CollisionUpdate();
 				reflectionFlag = true;
 			}
+		}
+	}
+	if (tag == ObjectTag::Player)
+	{
+		Sphere colSphere = other->GetCollisionSphere();
+		if (CollisionPair(this->colSphere, colSphere))
+		{
+			SetAlive(false);
 		}
 	}
 

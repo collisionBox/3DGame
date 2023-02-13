@@ -168,6 +168,15 @@ bool CollisionPair(const Sphere& sphere, int modelHandle, MV1_COLL_RESULT_POLY_D
 	}
 	return true;
 }
+bool CollisionPair(const Capsule& capsule, int modelHandle, MV1_COLL_RESULT_POLY_DIM& collisionInfo)
+{
+	collisionInfo = MV1CollCheck_Capsule(modelHandle, -1, capsule.worldStart, capsule.worldEnd, capsule.radius);
+	if (collisionInfo.HitNum == 0)
+	{
+		return false;
+	}
+	return true;
+}
 //-----------------------------------------------------------------------------
 // ‰Ÿ‚µ–ß‚·—Ê‚ð•Ô‚·.
 //-----------------------------------------------------------------------------

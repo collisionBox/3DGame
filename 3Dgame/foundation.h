@@ -1,6 +1,7 @@
 #pragma once
 #include "DxLib.h"
 #include <string>
+#include "Director.h"
 #include "ObjectBase.h"
 #include "ObjectManager.h"
 #include "AssetManager.h"

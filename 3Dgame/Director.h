@@ -1,22 +1,18 @@
 #pragma once
-#include "foundation.h"
-
-class Director final
+#include "SceneManager.h"
+class Director
 {
 public:
-
-	static void Initalize();// ‰Šú‰»
-	static void Finalize();// I—¹ˆ—
-	static void Update();// XV
-	static void OrderChangeScene();
+	static Director& GetInstance()
+	{
+		static Director instance;
+		return instance;
+	}
+	void OrderChangeScene();
 private:
-	Director();
-	~Director();
 
 
-	//static int joypadNum;
 
-	static Director* Instance;
 
 };
-
+#define DIRECTORINSTANCE Director::GetInstance()
