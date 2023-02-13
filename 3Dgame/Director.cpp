@@ -1,8 +1,8 @@
 #include "Director.h"
 
 
-void Director::OrderChangeScene()
+void Director::OrderChangeScene(SceneBase* nextScene)
 {
-	SCENEINSTANCE.SetScene(nullptr);
+	SCENEINSTANCE.SetScene(nextScene);
 }
 
