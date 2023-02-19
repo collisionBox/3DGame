@@ -22,7 +22,7 @@ void BulletManager::Update(VECTOR pos, VECTOR dir, float deltaTime)
 	shotTime -= deltaTime;
 	for (int i = 0; i < bulletNum; i++)
 	{
-		if (bullet[i] != nullptr && !bullet[i]->GetVisible())
+		if (bullet[i] != nullptr && (!bullet[i]->GetVisible() || !bullet[i]->GetAlive()))
 		{
 			bullet[i] = nullptr;
 		}

@@ -72,7 +72,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		SCENEINSTANCE.Draw();
 	
 		DrawGrid(3000, 100);
-
+		if (CheckHitKey(KEY_INPUT_TAB))
+		{
+			SCENEINSTANCE.SetScene(new OverScene);
+		}
 		
 
 		ui->Draw(deltaTime);

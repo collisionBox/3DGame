@@ -6,7 +6,7 @@ class PlayerBody :
 	public ObjectBase
 {
 public:
-	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName);
+	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, PlayerTag myTag, const char* failName);
 	~PlayerBody();
 
 	//static PlayerBody& Instance() { static PlayerBody body; return body; }
@@ -15,7 +15,7 @@ public:
 	void Draw() override;// 描画.
 	void OnCollisionEnter(const ObjectBase* other) override;
 
-
+	const PlayerTag GetPlayerTag() const { return playerTag; }
 
 private:
 	void Input(float deltaTime);
@@ -28,6 +28,8 @@ private:
 	bool rotateNow;// 回転しているかどうか.
 	float deltaWaitTime;
 	float accel;
+	PlayerTag playerTag;
+
 	// コントローラー変数.
 	int padInput;
 	XINPUT_STATE pad;
@@ -36,17 +38,14 @@ private:
 	class HPGauge* hpGauge;
 
 	// 静的関数.
-	static const float Accel;
-	static const float Back;
-	static const float MaxSpeed;
-	static const float MinSpeed;
-	static const float DefaultDecel;
-	static const float BreakDecel;
-	static const float GripDecel;
-	static const float GripPower;
-	static const float ColideDecelFac;
-	static const float TurnPerformance;
-	static const float OnShootingDownWaitTime;
+	static const float Accel;// 前進加速度.
+	static const float Back;// .後退加速度
+	static const float MaxSpeed;// 最大前進速度.
+	static const float MinSpeed;// 最大更新速度.
+	static const float OnShootingDownWaitTime;// 被撃墜時待機時間.
+	const float DefaultDecel = 0.97f;// なにもしない時の減速.
+	const float GripDecel = -5.0f;// グリップの減速.
+	const float TurnPerformance = 5.0f;// 旋回性能.
 
 };
 

@@ -8,11 +8,10 @@ public:
 	~EnemyBulletManager();
 	void Update(VECTOR& pos, VECTOR& dir, float deltaTime);
 private:
-	ObjectTag userTag;
-	//EnemyBullet* bullet[5];
+	ObjectTag userTag;// ©•ª‚Ìƒ^ƒO.
 	Bullet* bullet[5];
-	const int bulletNum = 5;
+	const int bulletNum = 5;// Å‘å”­Ë”.
 	float shotTime;
-	static const float ShotIntervalTime;
+	static const float ShotIntervalTime;// ËŒ‚ŠÔŠu.
 };
 

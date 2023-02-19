@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneManager.h"
-
+#include "ObjectBase.h"
 class Director
 {
 public:
@@ -10,6 +10,7 @@ public:
 		return instance;
 	}
 	void OrderChangeScene(SceneBase* nextScene);
+	void CheckWinner();
 private:
 
 

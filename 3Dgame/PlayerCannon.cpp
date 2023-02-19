@@ -99,6 +99,7 @@ void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 	dir = VNorm(dir);
 	pos = bodyPos;
 
+	// 変更を反映.
 	MV1SetPosition(modelHandle, this->pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
@@ -119,7 +120,6 @@ void PlayerCannon::Input(float deltaTime)
 	// キーボード入力.
 	if (CheckHitKey(KEY_INPUT_A))// 右.
 	{
-
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}

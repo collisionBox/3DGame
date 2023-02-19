@@ -5,13 +5,7 @@ const float EnemyBody::Accel = 6.0f;// 通常の加速.
 const float EnemyBody::Back = 5.0f;// 後退速度.
 const float EnemyBody::MaxSpeed = 200.0f;// 最高前進速度.
 const float EnemyBody::MinSpeed = -350.0f;// 最高後退速度.
-const float EnemyBody::DefaultDecel = 0.97f;// なにもしない時の減速.
-const float EnemyBody::BreakDecel = 0.5f;// ブレーキ時の減速.
-const float EnemyBody::GripDecel = -5.0f;// グリップの減速.
-const float EnemyBody::GripPower = 2.0f;// グリップ力.
-const float EnemyBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
-const float EnemyBody::TurnPerformance = 5.0f;// 旋回性能.
-int EnemyBody::corner = 0;
+
 EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir, const char* failName):
 	ObjectBase(ObjectTag::Enemy)
 {

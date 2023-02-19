@@ -3,7 +3,7 @@
 MapModelBlock::MapModelBlock(VECTOR initPos) :
 	ObjectBase(ObjectTag::BackGround)
 {
-	modelHandle = MV1LoadModel("data/map/block.mv1");
+	modelHandle = AssetManager::GetMesh("data/map/block.mv1");
 	MV1SetScale(modelHandle, VGet(1.0f, 0.2f, 1.0f));// ÉTÉCÉYÇ100*100Ç…Ç∑ÇÈ.
 	colModel = modelHandle;
 	pos = initPos;

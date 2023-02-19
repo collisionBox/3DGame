@@ -1,19 +1,13 @@
 #include "PlayerBody.h"
 // 静的定数.
-const float PlayerBody::Accel = 6.0f;// 通常の加速.
-const float PlayerBody::Back = 5.0f;// 後退速度.
-const float PlayerBody::MaxSpeed = 300.0f;// 最高前進速度.
-const float PlayerBody::MinSpeed = -200.0f;// 最高後退速度.
-const float PlayerBody::DefaultDecel = 0.97f;// なにもしない時の減速.
-const float PlayerBody::BreakDecel = 0.5f;// ブレーキ時の減速.
-const float PlayerBody::GripDecel = -5.0f;// グリップの減速.
-const float PlayerBody::GripPower = 2.0f;// グリップ力.
-const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
-const float PlayerBody::TurnPerformance = 5.0f;// 旋回性能.
-const float PlayerBody::OnShootingDownWaitTime = 5.0f;// 被撃墜時待機時間.
+const float PlayerBody::Accel = 6.0f;
+const float PlayerBody::Back = 5.0f;
+const float PlayerBody::MaxSpeed = 300.0f;
+const float PlayerBody::MinSpeed = -200.0f;
+const float PlayerBody::OnShootingDownWaitTime = 5.0f;
 
-PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
-	ObjectBase(myTag)
+PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, PlayerTag myTag, const char* failName) :
+	ObjectBase(ObjectTag::Player)
 	, rotateNow(false)
 	, accel()
 {
@@ -45,9 +39,9 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	padInput = inputState;
 	HP = 100;
 	deltaWaitTime = 0;
-
+	playerTag = myTag;
 	// 砲を生成.
-	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
+	cannon = new PlayerCannon(initPos, initDir, inputState, ObjectTag::Player, failName);
 	// HPゲージを生成.
 	hpGauge = new HPGauge(HP);
 
@@ -74,7 +68,7 @@ void PlayerBody::Update(float deltaTime)
 			// OVERへシーン遷移.
 		}
 	}
-
+	// 画面外へ行かないようにする.
 	if (prevPos.x + colSphere.radius > windowSizeXMax ||
 		prevPos.x - colSphere.radius < windowSizeXMin ||
 		prevPos.z + colSphere.radius > windowSizeZMax ||
@@ -117,6 +111,7 @@ void PlayerBody::Draw()
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
+	// 背景と当たった時の処理.
 	if (tag == ObjectTag::BackGround)
 	{
 		int colModel = other->GetCollisionModel();
@@ -171,6 +166,7 @@ void PlayerBody::Input(float deltaTime)
 			accel += Accel;
 		}
 	}
+	// 減速後退処理.
 	if (accel >= MinSpeed)
 	{
 		//下を押していたら減速.

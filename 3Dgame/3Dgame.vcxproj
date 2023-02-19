@@ -157,6 +157,7 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="PlayerBody.cpp" />
     <ClCompile Include="PlayerCannon.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectTag.h" />
+    <ClInclude Include="OverScene.h" />
     <ClInclude Include="PlayerBody.h" />
     <ClInclude Include="PlayerCannon.h" />
     <ClInclude Include="PlayScene.h" />

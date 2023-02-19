@@ -245,22 +245,4 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 	return moveCandidate[minindex];
 }
 
-VECTOR PlaneNormal(const MV1_COLL_RESULT_POLY_DIM& collisionInfo)
-{
-	VECTOR planeNormal;                    // ポリゴン平面法線
-	for (int i = 0; i < collisionInfo.HitNum; ++i)
-	{
-		// 衝突ポリゴンの辺 
-		VECTOR edge1, edge2;
-		edge1 = collisionInfo.Dim[i].Position[1] - collisionInfo.Dim[i].Position[0];
-		edge2 = collisionInfo.Dim[i].Position[2] - collisionInfo.Dim[i].Position[0];
-
-		// 衝突ポリゴンの辺より、ポリゴン面の法線ベクトルを求める
-		planeNormal = VCross(edge1, edge2);
-		planeNormal = VNorm(planeNormal);
-	}
-
-	return VECTOR();
-}
-
 
