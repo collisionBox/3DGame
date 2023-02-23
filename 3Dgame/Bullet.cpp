@@ -4,7 +4,6 @@
 #include "PlayerCannon.h"
 
 
-
 Bullet::Bullet(ObjectTag tag) :
 	ObjectBase(ObjectTag::Bullet)
 {
