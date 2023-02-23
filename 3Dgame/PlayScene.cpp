@@ -16,7 +16,7 @@ PlayScene::PlayScene()
 	PlayerBody* player2 = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player, "data/player2/");
 	ObjectManager::Entry(player2);
 
-	/*EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");
+	/*EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");a
 	ObjectManager::Entry(enemy);*/
 
 	MapManager* map = new MapManager;
