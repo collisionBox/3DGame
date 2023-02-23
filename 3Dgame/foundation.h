@@ -15,3 +15,9 @@ const float windowSizeXMin = -873.0f;
 const float windowSizeXMax = windowSizeXMin * -1;
 const float windowSizeZMin = -495.0f;
 const float windowSizeZMax = windowSizeZMin * -1;
+
+bool offscreenDecidion(const VECTOR pos, const Sphere colSphere);// ‰æ–ÊŠO”»’è.
+
+
+
+
