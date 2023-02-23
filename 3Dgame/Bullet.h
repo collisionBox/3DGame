@@ -18,10 +18,10 @@ public:
 
 private:
     bool reflectionFlag;// ˆê“x”½ŽË‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©.
-    static const float speed;// ’e‘¬.
+    
     VECTOR velocity;// ’e‘¬ƒxƒNƒgƒ‹.
     ObjectTag myTag;
-    static const float DamagePoint;
-
+    const float speed = 800.0f;
+    const float DamagePoint = 20.0f;
 };
 

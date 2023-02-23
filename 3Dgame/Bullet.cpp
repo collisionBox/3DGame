@@ -3,8 +3,7 @@
 #include "Math.h"
 #include "PlayerCannon.h"
 
-const float Bullet::speed = 800.0f;
-const float Bullet::DamagePoint = 20.0f;
+
 
 Bullet::Bullet(ObjectTag tag) :
 	ObjectBase(ObjectTag::Bullet)
