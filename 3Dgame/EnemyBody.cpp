@@ -2,6 +2,7 @@
 
 // Ã“I’è”.
 
+int EnemyBody::corner = 0;
 EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir, const char* failName):
 	ObjectBase(ObjectTag::Enemy)
 {
