@@ -1,10 +1,6 @@
 #include "EnemyBody.h"
 
 // 静的定数.
-const float EnemyBody::Accel = 6.0f;// 通常の加速.
-const float EnemyBody::Back = 5.0f;// 後退速度.
-const float EnemyBody::MaxSpeed = 200.0f;// 最高前進速度.
-const float EnemyBody::MinSpeed = -350.0f;// 最高後退速度.
 
 EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir, const char* failName):
 	ObjectBase(ObjectTag::Enemy)

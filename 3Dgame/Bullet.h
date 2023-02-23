@@ -8,20 +8,20 @@ class Bullet :
 {
 public:
     
-    Bullet(ObjectTag tag);// コンストラクタ.
-    Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag);// コンストラクタ(メイン).
-    ~Bullet();// デストラクタ.
+    Bullet(ObjectTag tag);
+    Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag);
+    ~Bullet();
     void Update(float deltaTime);
-    void OnCollisionEnter(const ObjectBase* other);// 当たり判定処理.
+    void OnCollisionEnter(const ObjectBase* other) override;
     void Draw();
 
 
 private:
     bool reflectionFlag;// 一度反射しているかどうか.
-    static const float speed;// 弾速.
     VECTOR velocity;// 弾速ベクトル.
-    ObjectTag myTag;// 射撃したタグを保持するタグ.
-    static const float DamagePoint;// ダメージ量.
+    ObjectTag myTag;
+    const float speed = 800.0f;// 弾速.
+    const float DamagePoint = 20.0f;// ダメージ量.
 
 };
 

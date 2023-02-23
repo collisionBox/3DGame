@@ -3,14 +3,13 @@
 #include "Math.h"
 #include "PlayerCannon.h"
 
-const float Bullet::speed = 700.0f;
-const float Bullet::DamagePoint = 20.0f;
+
 
 Bullet::Bullet(ObjectTag tag) :
 	ObjectBase(ObjectTag::Bullet)
 {
 	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/beam.mv1");// モデルのロード.
+	modelHandle = AssetManager::GetMesh("data/beam.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.08f));// サイズの変更.
 
 	ObjectBase* cannon = ObjectManager::GetFirstObject(tag);
@@ -26,8 +25,8 @@ Bullet::Bullet(ObjectTag tag) :
 
 	pos.x += dir.x * 58;// 砲塔先頭にセットするため.
 	pos.z += dir.z * 58;
-	MV1SetPosition(modelHandle, pos);// ポジションを反映.
-	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);// 傾きを反映.
+	MV1SetPosition(modelHandle, pos);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
@@ -51,16 +50,14 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	this->pos = pos;
 	this->pos.x += this->dir.x * 65;// 砲塔先頭にセットするため.
 	this->pos.z += this->dir.z * 65;
-	MV1SetPosition(modelHandle, this->pos);// ポジションの反映.
-	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);// 傾きを反映.
+	MV1SetPosition(modelHandle, this->pos);
+	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
 	colSphere.radius = 10.0f;
-	velocity = VScale(dir, speed);
 	CollisionUpdate();
-
 	// 変数の初期化.
 	velocity = initVec;
 	reflectionFlag = false;
@@ -75,15 +72,14 @@ Bullet::~Bullet()
 
 void Bullet::Update(float deltaTime)
 {
-	pos = VAdd(pos, VScale(velocity, deltaTime));
+	velocity = VScale(VScale(dir, speed), deltaTime);
+	pos = VAdd(pos, velocity);
 
-	// 画面外処理.
 	if (ConvWorldPosToScreenPos(pos).x < 0 || ConvWorldPosToScreenPos(pos).x > 1920 ||
 		ConvWorldPosToScreenPos(pos).y < 0 || ConvWorldPosToScreenPos(pos).y > 1080)
 	{
 		SetVisible(false);
 	}
-
 	// 位置の更新.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
@@ -104,7 +100,6 @@ void Bullet::Draw()
 void Bullet::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
-	// 背景オブジェクトと当たった時の処理.
 	if (tag == ObjectTag::BackGround)
 	{
 		int colModel = other->GetCollisionModel();
@@ -149,7 +144,6 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 			}
 		}
 	}
-	// プレイヤーと当たった時の処理.
 	if (tag == ObjectTag::Player)
 	{
 		Sphere colSphere = other->GetCollisionSphere();

@@ -12,21 +12,27 @@ public:
 	void OnCollisionEnter(const ObjectBase* other);
 	void Draw();
 private:
-	void MoveMethod(float deltaTime);// 移動処理.
-	void Rotate(float degree);// 回転処理.
+	void MoveMethod(float deltaTime);
+	void Rotate(float degree);
 	VECTOR aimDir;
 	VECTOR velocity;
 	bool rotateNow;
-	float time;
-	int rand;
+	float time;// タイムカウンター.
+	int rand;// ランダム値.
 
-	static const float Accel;// 前進加速度.
-	static const float Back;// 後進加速度.
-	static const float MaxSpeed;// 最高前進速度.
-	static const float MinSpeed;// 最高更新速度.
 	float accel;
 
 	class EnemyCannon* cannon;
 
+
+	int corner;
+	bool stopWhenSeeEnemy;
+
+	const float Accel = 6.0f;// 通常の加速.
+	const float Back = 5.0f;// 後退速度.
+	const float MaxSpeed = 200.0f;// 最高前進速度.
+	const float MinSpeed = -350.0f;// 最高後退速度.
+	const float ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
+	const float TurnPerformance = 5.0f;// 旋回性能.
 };
 

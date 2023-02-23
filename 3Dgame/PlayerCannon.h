@@ -26,7 +26,7 @@ private:
 	bool rotateNow;
 	int padInput;
 	XINPUT_STATE pad;
-	static const float TurnPerformance;
+	const float TurnPerformance = 3.50f;// ù‰ñ‘¬“x.
 	class BulletManager* bulletManager;
 };
 

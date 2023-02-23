@@ -1,13 +1,8 @@
 #include "PlayerBody.h"
-// 静的定数.
-const float PlayerBody::Accel = 6.0f;
-const float PlayerBody::Back = 5.0f;
-const float PlayerBody::MaxSpeed = 300.0f;
-const float PlayerBody::MinSpeed = -200.0f;
-const float PlayerBody::OnShootingDownWaitTime = 5.0f;
 
-PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, PlayerTag myTag, const char* failName) :
-	ObjectBase(ObjectTag::Player)
+
+PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
+	ObjectBase(myTag)
 	, rotateNow(false)
 	, accel()
 {
@@ -39,9 +34,9 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, PlayerTag
 	padInput = inputState;
 	HP = 100;
 	deltaWaitTime = 0;
-	playerTag = myTag;
+
 	// 砲を生成.
-	cannon = new PlayerCannon(initPos, initDir, inputState, ObjectTag::Player, failName);
+	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
 	// HPゲージを生成.
 	hpGauge = new HPGauge(HP);
 
@@ -68,15 +63,7 @@ void PlayerBody::Update(float deltaTime)
 			// OVERへシーン遷移.
 		}
 	}
-	// 画面外へ行かないようにする.
-	if (prevPos.x + colSphere.radius > windowSizeXMax ||
-		prevPos.x - colSphere.radius < windowSizeXMin ||
-		prevPos.z + colSphere.radius > windowSizeZMax ||
-		prevPos.z - colSphere.radius < windowSizeZMin)//-885,13,159
-	{
-		velocity = initVec;
-		prevPos = pos;
-	}
+
 	// 方向ベクトルに加速力を加えて加速ベクトルとする.
 	velocity = VScale(dir, accel);
 
@@ -85,6 +72,14 @@ void PlayerBody::Update(float deltaTime)
 
 	// 予測ポジション更新.
 	prevPos = VAdd(pos, VScale(velocity, deltaTime));
+
+	// 画面外判定.
+	if (offscreenDecidion(prevPos, colSphere))
+	{
+		accel = 0;
+		velocity = initVec;
+		prevPos = pos;
+	}
 
 	// ポジション更新.
 	pos = prevPos;
@@ -111,7 +106,6 @@ void PlayerBody::Draw()
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 {
 	ObjectTag tag = other->GetTag();
-	// 背景と当たった時の処理.
 	if (tag == ObjectTag::BackGround)
 	{
 		int colModel = other->GetCollisionModel();
@@ -135,15 +129,6 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 			CollisionUpdate();
 		}
 
-		// 背景と足元線分当たり判定.
-		MV1_COLL_RESULT_POLY colInfoLine;
-		if (CollisionPair(colLine, colModel, colInfoLine))
-		{
-			// 当たっている場合は足元を衝突店に合わせる.
-			pos = colInfoLine.HitPosition;
-
-			CollisionUpdate();
-		}
 	}
 }
 
@@ -166,7 +151,6 @@ void PlayerBody::Input(float deltaTime)
 			accel += Accel;
 		}
 	}
-	// 減速後退処理.
 	if (accel >= MinSpeed)
 	{
 		//下を押していたら減速.
