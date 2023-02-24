@@ -191,6 +191,7 @@
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneHedder.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SystemVariable.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

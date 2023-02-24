@@ -2,6 +2,8 @@
 #include "DxLib.h"
 #include "Math.h"
 #include <vector>
+#include "SystemVariable.h"
+
 
 // 線分当たり判定.
 struct LineSegment
@@ -53,3 +55,4 @@ bool CollisionPair(const int modelHandle, const LineSegment& line, MV1_COLL_RESU
 // 球体とメッシュとの当たり押し戻し量計算.
 VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT_POLY_DIM& collisionInfo);
 
+bool offscreenDicision(VECTOR pos, float radius = 0.0f);// 画面外判定.

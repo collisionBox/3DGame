@@ -3,8 +3,7 @@
 #include "Math.h"
 #include "PlayerCannon.h"
 
-const float Bullet::speed = 800.0f;
-const float Bullet::DamagePoint = 20.0f;
+
 
 Bullet::Bullet(ObjectTag tag) :
 	ObjectBase(ObjectTag::Bullet)
@@ -23,16 +22,15 @@ Bullet::Bullet(ObjectTag tag) :
 		dir = cannon->GetDir();
 		dir = VNorm(dir);
 	}
-
-	pos.x += dir.x * 58;// 砲塔先頭にセットするため.
-	pos.z += dir.z * 58;
+	pos.x += dir.x * barrelHead;// 砲塔先頭にセットするため.
+	pos.z += dir.z * barrelHead;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
-	colSphere.radius = 10.0f;
+	colSphere.radius = colRadius;
 
 	// 変数の初期化.
 	velocity = initVec;
@@ -45,19 +43,18 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	// アセットマネージャーからモデルをロード.
 	modelHandle = AssetManager::GetMesh("data/beam.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.08f));// サイズの変更.
-
 	// 位置・方向を初期化.
 	this->dir = dir;
 	this->pos = pos;
-	this->pos.x += this->dir.x * 65;// 砲塔先頭にセットするため.
-	this->pos.z += this->dir.z * 65;
+	this->pos.x += this->dir.x * barrelHead;// 砲塔先頭にセットするため.
+	this->pos.z += this->dir.z * barrelHead;
 	MV1SetPosition(modelHandle, this->pos);
 	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
-	colSphere.radius = 10.0f;
+	colSphere.radius = colRadius;
 	CollisionUpdate();
 	// 変数の初期化.
 	velocity = initVec;
@@ -74,20 +71,22 @@ Bullet::~Bullet()
 void Bullet::Update(float deltaTime)
 {
 	velocity = VScale(VScale(dir, speed), deltaTime);
-	pos = VAdd(pos, velocity);
+	prevPos = VAdd(pos, velocity);
 
-	if (ConvWorldPosToScreenPos(pos).x < 0 || ConvWorldPosToScreenPos(pos).x > 1920 ||
-		ConvWorldPosToScreenPos(pos).y < 0 || ConvWorldPosToScreenPos(pos).y > 1080)
+	if (offscreenDicision(pos))
 	{
 		SetVisible(false);
 	}
+
+	CollisionUpdate(prevPos);
+
+	pos = prevPos;
 	// 位置の更新.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
-	CollisionUpdate();
 }
 
 
@@ -116,7 +115,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 			{
 				// 当たっている場合は押し量を計算.
 				VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
-				pos = VAdd(pos, poshBuckVec);
+				pos = VAdd(prevPos, poshBuckVec);
 
 				VECTOR planeNormal;                    // ポリゴン平面法線
 				for (int i = 0; i < colInfo.HitNum; ++i)
@@ -128,11 +127,14 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 					// 衝突ポリゴンの辺より、ポリゴン面の法線ベクトルを求める
 					planeNormal = VCross(edge1, edge2);
 					planeNormal = VNorm(planeNormal);
+
+					// ちゃんと値が取れていればループから出る.
 					if (planeNormal.x == 1 || planeNormal.z == 1)
 					{
 						break;
 					}
 				}
+				// 反射の公式r = f + 2 ( -dot(f, n) * n.
 				float a = VDot(VScale(velocity, -1.0f), planeNormal);
 				VECTOR b = VScale(planeNormal, 2.0f * a);
 				dir = VAdd(velocity, b);

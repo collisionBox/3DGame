@@ -28,8 +28,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(TRUE);// ウィンドウモードの変更.
 
 	// 画面モードセット.
-	int screenMagni = 120;// 画面比率にかける倍率.
-	SetGraphMode(16 * screenMagni, 9 * screenMagni, 16);
+	
+	SetGraphMode(screenSizeX, screenSizeY, 16);
 	SetBackgroundColor(70,70, 70);
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{

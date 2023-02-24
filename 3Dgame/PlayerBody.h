@@ -15,19 +15,21 @@ public:
 	void Draw() override;// 描画.
 	void OnCollisionEnter(const ObjectBase* other) override;
 
-
+	void Initialize();
 
 private:
 	void Input(float deltaTime);
 	void Rotate();
 
-
+	VECTOR initPos;// 初期ポジション.
+	VECTOR initDir;// 初期ディレクション.
 	VECTOR aimDir;// 目標方向.
 	VECTOR velocity;// 加速ベクトル.
 	VECTOR prevPos; // 予測ポジション.
 	bool rotateNow;// 回転しているかどうか.
-	float deltaWaitTime;
-	float accel;
+	float deltaWaitTime;// 待機時間.
+	float accel;// 加速変数.
+	const float maxHP = 100.0f;
 	// コントローラー変数.
 	int padInput;
 	XINPUT_STATE pad;
@@ -35,18 +37,13 @@ private:
 	class PlayerCannon* cannon;
 	class HPGauge* hpGauge;
 
-	// 静的関数.
-	static const float Accel;
-	static const float Back;
-	static const float MaxSpeed;
-	static const float MinSpeed;
-	static const float DefaultDecel;
-	static const float BreakDecel;
-	static const float GripDecel;
-	static const float GripPower;
-	static const float ColideDecelFac;
-	static const float TurnPerformance;
-	static const float OnShootingDownWaitTime;
-
+	const float Accel = 6.0f;// 通常の加速.
+	const float Back = 5.0f;// 後退速度.
+	const float MaxSpeed = 300.0f;// 最高前進速度.
+	const float MinSpeed = -200.0f;// 最高後退速度.
+	const float DefaultDecel = 0.97f;// なにもしない時の減速.
+	const float GripDecel = -5.0f;// グリップの減速.
+	const float TurnPerformance = 5.0f;// 旋回性能.
+	const float OnShootingDownWaitTime = 5.0f;// 被撃墜時待機時間.
 };
 

@@ -18,10 +18,13 @@ public:
 
 private:
     bool reflectionFlag;// 一度反射しているかどうか.
-    static const float speed;// 弾速.
     VECTOR velocity;// 弾速ベクトル.
+    VECTOR prevPos;// 予測ポジション.
     ObjectTag myTag;
-    static const float DamagePoint;
+    const float colRadius = 10.0f;// 当たり判定半径.
+    const float barrelHead = 65.0f;// 砲身先端.
+    const float speed = 800.0f;// 弾速.
+    const float DamagePoint = 20.0f;// ダメージ量.
 
 };
 

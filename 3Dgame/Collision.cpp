@@ -259,8 +259,16 @@ VECTOR PlaneNormal(const MV1_COLL_RESULT_POLY_DIM& collisionInfo)
 		planeNormal = VCross(edge1, edge2);
 		planeNormal = VNorm(planeNormal);
 	}
-
 	return VECTOR();
 }
 
 
+bool offscreenDicision(VECTOR pos, float radius)
+{
+	if (ConvWorldPosToScreenPos(pos).x - radius < 0 || ConvWorldPosToScreenPos(pos).x + radius > screenSizeX ||
+		ConvWorldPosToScreenPos(pos).y - radius < 0 || ConvWorldPosToScreenPos(pos).y + radius > screenSizeY)
+	{
+		return true;
+	}
+	return false;
+}

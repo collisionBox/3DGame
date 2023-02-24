@@ -1,16 +1,5 @@
 #include "PlayerBody.h"
-// 静的定数.
-const float PlayerBody::Accel = 6.0f;// 通常の加速.
-const float PlayerBody::Back = 5.0f;// 後退速度.
-const float PlayerBody::MaxSpeed = 300.0f;// 最高前進速度.
-const float PlayerBody::MinSpeed = -200.0f;// 最高後退速度.
-const float PlayerBody::DefaultDecel = 0.97f;// なにもしない時の減速.
-const float PlayerBody::BreakDecel = 0.5f;// ブレーキ時の減速.
-const float PlayerBody::GripDecel = -5.0f;// グリップの減速.
-const float PlayerBody::GripPower = 2.0f;// グリップ力.
-const float PlayerBody::ColideDecelFac = 4.0f;// 障害物にぶつかったときの減速率.
-const float PlayerBody::TurnPerformance = 5.0f;// 旋回性能.
-const float PlayerBody::OnShootingDownWaitTime = 5.0f;// 被撃墜時待機時間.
+
 
 PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
 	ObjectBase(myTag)
@@ -27,10 +16,11 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	MV1SetScale(modelHandle, moveModelScale);
 
 	// 位置・方向を初期化.
-	pos = initPos;// (地面にうまるため13上げる.)今回は無視
+	pos = initPos;
 	prevPos = pos;
 	dir = initDir;
 	aimDir = dir;
+	HP = maxHP;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
@@ -40,17 +30,25 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	colSphere.worldCenter = pos;
 	colSphere.radius = 32.0f;
 
-	// 変数の初期化.
-	velocity = initVec;
-	padInput = inputState;
-	HP = 100;
-	deltaWaitTime = 0;
-
 	// 砲を生成.
 	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
 	// HPゲージを生成.
 	hpGauge = new HPGauge(HP);
 
+	// 変数の初期化.
+	padInput = inputState;
+}
+
+void PlayerBody::Initialize()
+{
+	pos = initPos;
+	dir = initDir;
+	velocity = initVec;
+	HP = maxHP;
+	deltaWaitTime = 0.0f;
+	cannon->Initialze(pos, dir);
+	MV1SetPosition(modelHandle, pos);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 }
 
 PlayerBody::~PlayerBody()
@@ -75,14 +73,6 @@ void PlayerBody::Update(float deltaTime)
 		}
 	}
 
-	if (prevPos.x + colSphere.radius > windowSizeXMax ||
-		prevPos.x - colSphere.radius < windowSizeXMin ||
-		prevPos.z + colSphere.radius > windowSizeZMax ||
-		prevPos.z - colSphere.radius < windowSizeZMin)//-885,13,159
-	{
-		velocity = initVec;
-		prevPos = pos;
-	}
 	// 方向ベクトルに加速力を加えて加速ベクトルとする.
 	velocity = VScale(dir, accel);
 
@@ -92,11 +82,18 @@ void PlayerBody::Update(float deltaTime)
 	// 予測ポジション更新.
 	prevPos = VAdd(pos, VScale(velocity, deltaTime));
 
+	// 画面外判定.
+	if (offscreenDicision(prevPos, colSphere.radius))
+	{
+		velocity = initVec;
+		prevPos = pos;
+	}
+	CollisionUpdate(prevPos);
+
 	// ポジション更新.
 	pos = prevPos;
 	cannon->Updateeeee(pos, deltaTime);
 	hpGauge->Update(pos, HP, deltaTime);
-	CollisionUpdate();
 
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
@@ -151,6 +148,8 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 		}
 	}
 }
+
+
 
 void PlayerBody::Input(float deltaTime)
 {

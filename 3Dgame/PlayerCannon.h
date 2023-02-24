@@ -12,6 +12,7 @@ public:
 	~PlayerCannon();
 
 
+
 	void Update(float deltaTime);// XV.
 	void Updateeeee(VECTOR bodyPos, float deltaTime);
 	void Draw();// •`‰æ.
@@ -19,14 +20,18 @@ public:
 
 	VECTOR GetPos() const { return pos; }
 	VECTOR GetDir() const { return dir; }
+
+	void Initialze(VECTOR initPos, VECTOR initDir);
 private:
 	void Input(float deltaTime);
 	void Rotate();
+	
 	VECTOR aimDir;
 	bool rotateNow;
 	int padInput;
 	XINPUT_STATE pad;
-	static const float TurnPerformance;
+	const float TurnPerformance = 3.50f;// ù‰ñ«”\.
+	const float adjustPos = 0.5f;
 	class BulletManager* bulletManager;
 };
 

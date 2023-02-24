@@ -46,8 +46,8 @@ protected:
 	void SetHP(const float set) { HP = set; }// 装甲値のセット.
 	void OnDamage(const float set) { HP -= set; };// ダメージを受けたとき.
 
-
 	void DrawCollider();
+	void CollisionUpdate(VECTOR pos);
 	void CollisionUpdate();
 	ObjectTag tag;// 登録名(登録票).
 	VECTOR pos;// 位置ベクトル.

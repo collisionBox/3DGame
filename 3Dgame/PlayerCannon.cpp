@@ -1,9 +1,7 @@
 #include "PlayerCannon.h"
 
-const float PlayerCannon::TurnPerformance = 3.50f;
 
-#if 0
-#else
+
 PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag, const char* failName) :
 	ObjectBase(ObjectTag::Cannon)
 {
@@ -12,12 +10,10 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 	string str = "playerCannon.mv1";
 	modelHandle = AssetManager::GetMesh(failName + str);
 	MV1SetScale(modelHandle, moveModelScale);
-
-	
 	
 	// à íuÅEï˚å¸Çèâä˙âª.
 	pos = initPos;
-	pos.y = 0.5f;
+	pos.y = adjustPos;
 	dir = initDir;
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
@@ -30,7 +26,15 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 	padInput = inputState;
 }
 
-#endif
+void PlayerCannon::Initialze(VECTOR initPos, VECTOR initDir)
+{
+	pos = initPos;
+	pos.y = adjustPos;
+	dir = initDir;
+	MV1SetPosition(modelHandle, pos);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+}
+
 PlayerCannon::~PlayerCannon()
 {
 	AssetManager::DeleteMesh(modelHandle);
@@ -113,6 +117,8 @@ void PlayerCannon::Draw()
 	MV1DrawModel(modelHandle);
 	
 }
+
+
 
 void PlayerCannon::Input(float deltaTime)
 {
