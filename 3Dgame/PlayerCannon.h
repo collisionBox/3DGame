@@ -21,15 +21,14 @@ public:
 	VECTOR GetPos() const { return pos; }
 	VECTOR GetDir() const { return dir; }
 
-	void Initialze(VECTOR initPos, VECTOR initDir);
+	void Initialize(VECTOR initPos, VECTOR initDir);
+	void Input(float deltaTime, XINPUT_STATE pad);
 private:
-	void Input(float deltaTime);
 	void Rotate();
 	
 	VECTOR aimDir;
 	bool rotateNow;
 	int padInput;
-	XINPUT_STATE pad;
 	const float TurnPerformance = 3.50f;// ê˘âÒê´î\.
 	const float adjustPos = 0.5f;
 	class BulletManager* bulletManager;

@@ -17,8 +17,8 @@ public:
 
 	void Initialize();
 
-private:
 	void Input(float deltaTime);
+private:
 	void Rotate();
 
 	VECTOR initPos;// 初期ポジション.
@@ -28,7 +28,7 @@ private:
 	VECTOR prevPos; // 予測ポジション.
 	bool rotateNow;// 回転しているかどうか.
 	float deltaWaitTime;// 待機時間.
-	float accel;// 加速変数.
+	float accel;
 	const float maxHP = 100.0f;
 	// コントローラー変数.
 	int padInput;

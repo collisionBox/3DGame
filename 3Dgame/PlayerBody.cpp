@@ -2,10 +2,15 @@
 
 
 PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
-	ObjectBase(myTag)
+	ObjectBase(ObjectTag::Player)
 	, rotateNow(false)
 	, accel()
 {
+	// 砲を生成.
+	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
+	// HPゲージを生成.
+	hpGauge = new HPGauge(HP);
+
 	// アセットマネージャーからモデルをロード.
 	string str = "playerBody.mv1";
 	modelHandle = AssetManager::GetMesh(failName + str);
@@ -16,24 +21,15 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	MV1SetScale(modelHandle, moveModelScale);
 
 	// 位置・方向を初期化.
-	pos = initPos;
-	prevPos = pos;
-	dir = initDir;
-	aimDir = dir;
-	HP = maxHP;
-	MV1SetPosition(modelHandle, pos);
-	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-
+	this->initPos = initPos;
+	this->initDir = initDir;
+	Initialize();
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
 	colSphere.radius = 32.0f;
 
-	// 砲を生成.
-	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
-	// HPゲージを生成.
-	hpGauge = new HPGauge(HP);
 
 	// 変数の初期化.
 	padInput = inputState;
@@ -41,12 +37,20 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 
 void PlayerBody::Initialize()
 {
+	// 値の初期化.
 	pos = initPos;
+	prevPos = pos;
 	dir = initDir;
+	aimDir = dir;
 	velocity = initVec;
 	HP = maxHP;
 	deltaWaitTime = 0.0f;
-	cannon->Initialze(pos, dir);
+
+	// オブジェクトの初期化.
+	cannon->Initialize(pos, dir);
+	hpGauge->Initialize(HP);
+
+	// 変更の反映.
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 }
@@ -156,7 +160,7 @@ void PlayerBody::Input(float deltaTime)
 	// キー入力取得.
 	int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	GetJoypadXInputState(padInput, &pad);
-
+	cannon->Input(deltaTime, pad);
 	// 加速処理.
 	if (accel <= MaxSpeed)
 	{

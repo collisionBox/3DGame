@@ -3,12 +3,17 @@
 BulletManager::BulletManager(ObjectTag tag, int inputState)
 {
 	shotTime = 0.0f;
+	Initialize();
+	padInput = inputState;
+	userTag = tag;
+}
+
+void BulletManager::Initialize()
+{
 	for (int i = 0; i < bulletNum; i++)
 	{
 		bullet[i] = nullptr;
 	}
-	padInput = inputState;
-	userTag = tag;
 }
 
 BulletManager::~BulletManager()
@@ -51,3 +56,5 @@ void BulletManager::Input(VECTOR pos, VECTOR dir)
 	
 	
 }
+
+

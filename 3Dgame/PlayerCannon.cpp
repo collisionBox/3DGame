@@ -5,6 +5,7 @@
 PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag, const char* failName) :
 	ObjectBase(ObjectTag::Cannon)
 {
+	bulletManager = new BulletManager(userTag, inputState);
 
 	// アセットマネージャーからモデルをロード.
 	string str = "playerCannon.mv1";
@@ -12,27 +13,27 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 	MV1SetScale(modelHandle, moveModelScale);
 	
 	// 位置・方向を初期化.
-	pos = initPos;
-	pos.y = adjustPos;
-	dir = initDir;
-	MV1SetPosition(modelHandle, pos);
-	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+	Initialize(initPos, initDir);
 	
-	bulletManager = new BulletManager(userTag, inputState);
 
-	// 変数の初期化.
-	aimDir = initVec;
-	rotateNow = false;
 	padInput = inputState;
 }
 
-void PlayerCannon::Initialze(VECTOR initPos, VECTOR initDir)
+void PlayerCannon::Initialize(VECTOR initPos, VECTOR initDir)
 {
+	// 値の初期化.
 	pos = initPos;
 	pos.y = adjustPos;
 	dir = initDir;
+	aimDir = initVec;
+	rotateNow = false;
+
+	// 変更の反映.
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+	// オブジェクトの初期化.
+	bulletManager->Initialize();
 }
 
 PlayerCannon::~PlayerCannon()
@@ -98,7 +99,6 @@ void PlayerCannon::Update(float deltaTime)
 #endif
 void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 {
-	Input(deltaTime);
 	Rotate();
 	dir = VNorm(dir);
 	pos = bodyPos;
@@ -120,7 +120,7 @@ void PlayerCannon::Draw()
 
 
 
-void PlayerCannon::Input(float deltaTime)
+void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 {
 	// キーボード入力.
 	if (CheckHitKey(KEY_INPUT_A))// 右.

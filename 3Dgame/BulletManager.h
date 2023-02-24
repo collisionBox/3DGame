@@ -8,6 +8,7 @@ public:
 	~BulletManager();
 	void Update(VECTOR pos, VECTOR dir, float deltaTime);
 	void Input(VECTOR pos, VECTOR dir);
+	void Initialize();
 private:
 	Bullet* bullet[5];
 	const int bulletNum = 5;

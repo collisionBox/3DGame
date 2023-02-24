@@ -4,7 +4,7 @@ class HPGauge
 {
 public:
 	HPGauge(float maxHP);
-	static void Initialize(float maxHP);
+	void Initialize(float maxHP);
 	void Update(VECTOR& pos, float& HP, float deltaTime);
 	void Draw();
 private:

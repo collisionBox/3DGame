@@ -7,7 +7,7 @@ HPGauge::HPGauge(float maxHP)
 
 void HPGauge::Initialize(float maxHP)
 {
-	maxHP = maxHP;
+	this->maxHP = maxHP;
 }
 
 void HPGauge::Update(VECTOR& pos, float& HP, float deltaTime)
