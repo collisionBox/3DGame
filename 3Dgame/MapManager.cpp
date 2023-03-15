@@ -1,25 +1,47 @@
 #include "MapManager.h"
 
-MapManager::MapManager()
+MapManager::MapManager(int mapNum)
 {
-	MapModelBlock* block = new MapModelBlock(VGet(0, 0, 0));
-	ObjectManager::Entry(block);
 	const float objLen = 100;//オブジェクトの距離
+
 	vector<ObjectBase*> obj;
+	//struct MAPOBJECT
+	//{
+	//	int objectNum;
+	//	ObjectBase* mapObj;
+	//};
+	
 	for (int i = 0; i < mapObjectNumX; i++)
 	{
 		for (int j = 0; j < mapObjectNumZ; j++)
 		{
-			float x = windowSizeXMin + objLen * i;
-			float z = windowSizeZMax - objLen * j;
-			if (map1[j][i] == 1)
+			float x = WindowSizeXMin + objLen * i;
+			float z = WindowSizeZMax - objLen * j;
+			// マップオブジェクトのナンバリング.
+			//MAPOBJECT mapObj[] =
+			//{
+			//	{1, new MapModelBlock(VGet(x, 0, z)) },
+			//	{2, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
+			//	{3, new MapModelMoveBlockVertical(VGet(x, 0.0f, z)) }
+			//};
+			// 以下未確認
+			for (int k = 0; k < sizeof MapChip / sizeof MapChip[0]; k++)
 			{
-				obj.push_back(new MapModelBlock(VGet(x, 0, z)));
+				if (MapChip[k].mapNum == mapNum)
+				{
+					//for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
+					//{
+					//	if (MapChip[k].mapChip[j][i] == mapObj[l].objectNum)
+					//	{
+					//		obj.push_back(mapObj[l].mapObj);
+					//		break;
+					//	}
+
+					//}
+				}
 			}
-			else if (map1[j][i] == 2)
-			{
-				obj.push_back(new MapModelCylinder(VGet(x+50, 0, z-50)));
-			}
+			
+			
 		}
 	}
 

@@ -10,7 +10,7 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 	// アセットマネージャーからモデルをロード.
 	string str = "playerCannon.mv1";
 	modelHandle = AssetManager::GetMesh(failName + str);
-	MV1SetScale(modelHandle, moveModelScale);
+	MV1SetScale(modelHandle, MoveModelScale);
 	
 	// 位置・方向を初期化.
 	Initialize(initPos, initDir);
@@ -25,7 +25,7 @@ void PlayerCannon::Initialize(VECTOR initPos, VECTOR initDir)
 	pos = initPos;
 	pos.y = adjustPos;
 	dir = initDir;
-	aimDir = initVec;
+	aimDir = InitVec;
 	rotateNow = false;
 
 	// 変更の反映.
@@ -125,7 +125,6 @@ void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 	// キーボード入力.
 	if (CheckHitKey(KEY_INPUT_A))// 右.
 	{
-
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
@@ -135,8 +134,6 @@ void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 	}
 
-	// ジョイパッド入力.
-	GetJoypadXInputState(padInput, &pad);
 	VECTOR padVec = VGet(pad.ThumbRX, 0.0f, pad.ThumbRY);
 	
 	if (VectorSize(padVec) != 0.0f)
@@ -153,6 +150,7 @@ void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 		}
 	}
 	
+	bulletManager->Input(pos, dir, pad);
 
 }
 
@@ -160,7 +158,6 @@ void PlayerCannon::Rotate()
 {
 	if (rotateNow)
 	{
-
 		if (IsNearAngle(aimDir, dir))
 		{
 			dir = aimDir;

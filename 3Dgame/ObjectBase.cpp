@@ -4,6 +4,7 @@
 
 ObjectBase::ObjectBase()
 	: pos()
+	,prevPos()
 	, dir()
 	, modelHandle(-1)
 	, visible(true)
@@ -14,6 +15,7 @@ ObjectBase::ObjectBase()
 ObjectBase::ObjectBase(ObjectTag tag)
 	: tag(tag)
 	, pos()
+	, prevPos()
 	, dir()
 	, modelHandle(-1)
 	, visible(true)
@@ -25,6 +27,7 @@ ObjectBase::ObjectBase(ObjectTag tag)
 ObjectBase::ObjectBase(ObjectTag tag, VECTOR pos)
 	: tag(tag)
 	, pos()
+	, prevPos()
 	, dir()
 	, modelHandle(-1)
 	, alive(true)
@@ -44,9 +47,6 @@ ObjectBase::~ObjectBase()
 }
 
 
-void ObjectBase::Draw()
-{
-}
 
 //--------------------------------------------------------------------
 // @brief コライダーの描画.

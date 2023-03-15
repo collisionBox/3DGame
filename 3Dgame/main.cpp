@@ -7,11 +7,8 @@
 
 #include "Director.h"
 
-#include "PlayerBody.h"
-#include "EnemyBody.h"
-
 #include "SceneHedder.h"
-#include "MapManager.h"
+
 
 #include "UI.h"
 #include "Camera.h"
@@ -29,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// 画面モードセット.
 	
-	SetGraphMode(screenSizeX, screenSizeY, 16);
+	SetGraphMode(ScreenSizeX, ScreenSizeY, 16);
 	SetBackgroundColor(70,70, 70);
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -48,8 +45,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// マネージャー生成.
 	AssetManager::Initalize();
 	ObjectManager::Initialize();
+	EffectManager::Initialize();
 
-	SCENEINSTANCE.SetScene(new PlayScene);
+	SCENEINSTANCE.SetScene(new PlayScene(1));
 	
 	// UI生成.
 	UI* ui = new UI();
@@ -89,6 +87,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// アセットの削除.
 	AssetManager::DeleteAllAsset();
 	AssetManager::Finalize();
+
+	EffectManager::ReleseAllEffect();
+	EffectManager::Finalize();
 
 	DxLib_End();
 

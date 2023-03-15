@@ -18,7 +18,7 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir, const char* failName):
 	// アセットマネージャーからモデルをロード.
 	string str = "enemyBody.mv1";
 	modelHandle = AssetManager::GetMesh(failName + str);
-	MV1SetScale(modelHandle, moveModelScale);
+	MV1SetScale(modelHandle, MoveModelScale);
 
 	cannon = new EnemyCannon(initPos, initDir, failName);
 
@@ -37,7 +37,7 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir, const char* failName):
 	colSphere.radius = 32.0f;
 
 	// 変数の初期化.
-	velocity = initVec;
+	velocity = InitVec;
 	rotateNow = false;
 	accel = 0;
 	time = 2;

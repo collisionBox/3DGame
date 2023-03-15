@@ -146,6 +146,8 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Director.cpp" />
+    <ClCompile Include="EffectBase.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EnemyBody.cpp" />
     <ClCompile Include="EnemyBulletManager.cpp" />
     <ClCompile Include="EnemyCannon.cpp" />
@@ -154,13 +156,16 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapModelBlock.cpp" />
     <ClCompile Include="MapModelCylinder.cpp" />
+    <ClCompile Include="MapModelMoveBlockVertical.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PlayerBody.cpp" />
     <ClCompile Include="PlayerCannon.cpp" />
     <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="RecoveryItem.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SparkEffect.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +177,8 @@
     <ClInclude Include="CollisionType.h" />
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Director.h" />
+    <ClInclude Include="EffectBase.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="EnemyBody.h" />
     <ClInclude Include="EnemyBulletManager.h" />
     <ClInclude Include="EnemyCannon.h" />
@@ -181,6 +188,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapModelBlock.h" />
     <ClInclude Include="MapModelCylinder.h" />
+    <ClInclude Include="MapModelMoveBlockVertical.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectManager.h" />
@@ -188,9 +196,11 @@
     <ClInclude Include="PlayerBody.h" />
     <ClInclude Include="PlayerCannon.h" />
     <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="RecoveryItem.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneHedder.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SparkEffect.h" />
     <ClInclude Include="SystemVariable.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>

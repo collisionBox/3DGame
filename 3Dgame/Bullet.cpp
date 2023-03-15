@@ -33,7 +33,7 @@ Bullet::Bullet(ObjectTag tag) :
 	colSphere.radius = colRadius;
 
 	// 変数の初期化.
-	velocity = initVec;
+	velocity = InitVec;
 	reflectionFlag = false;
 }
 
@@ -57,7 +57,7 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	colSphere.radius = colRadius;
 	CollisionUpdate();
 	// 変数の初期化.
-	velocity = initVec;
+	velocity = InitVec;
 	reflectionFlag = false;
 	myTag = userTag;
 }
@@ -115,7 +115,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 			{
 				// 当たっている場合は押し量を計算.
 				VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
-				pos = VAdd(prevPos, poshBuckVec);
+				prevPos = VAdd(pos, poshBuckVec);
 
 				VECTOR planeNormal;                    // ポリゴン平面法線
 				for (int i = 0; i < colInfo.HitNum; ++i)
@@ -142,7 +142,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 
 				// コリジョン情報の解放.
 				MV1CollResultPolyDimTerminate(colInfo);
-				CollisionUpdate();
+				CollisionUpdate(prevPos);
 				reflectionFlag = true;
 			}
 		}
@@ -153,8 +153,19 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 		if (CollisionPair(this->colSphere, colSphere))
 		{
 			SetAlive(false);
+			
 		}
 	}
+	if (tag == ObjectTag::Bullet)
+	{
+		Sphere colSphere = other->GetCollisionSphere();
+		if (CollisionPair(this->colSphere, colSphere))
+		{
+			SetAlive(false);
+		}
+	}
+	
+
 
 
 }

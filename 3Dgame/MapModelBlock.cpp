@@ -24,4 +24,5 @@ void MapModelBlock::Update(float deltaTime)
 void MapModelBlock::Draw()
 {
 	MV1DrawModel(modelHandle);
+	DrawCollider();
 }

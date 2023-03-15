@@ -1,13 +1,14 @@
 #pragma once
 #include "ObjectBase.h"
 #include "Bullet.h"
-class BulletManager 
+#include "SparkEffect.h"
+class BulletManager
 {
 public:
 	BulletManager(ObjectTag tag, int inputState);
 	~BulletManager();
 	void Update(VECTOR pos, VECTOR dir, float deltaTime);
-	void Input(VECTOR pos, VECTOR dir);
+	void Input(VECTOR pos, VECTOR dir, XINPUT_STATE pad);
 	void Initialize();
 private:
 	Bullet* bullet[5];
@@ -16,7 +17,8 @@ private:
 	float shotTime;
 	
 	int padInput;
-	XINPUT_STATE pad;
 	ObjectTag userTag;
+	class SparkEffect* sparkEffect;
+
 };
 

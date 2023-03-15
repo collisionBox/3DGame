@@ -5,7 +5,7 @@ EnemyCannon::EnemyCannon(VECTOR bodyPos, VECTOR bodyDir, const char* failName)
 	// アセットマネージャーからモデルをロード.
 	string str = "enemyCannon.mv1";
 	modelHandle = AssetManager::GetMesh(failName + str);
-	MV1SetScale(modelHandle, moveModelScale);
+	MV1SetScale(modelHandle, MoveModelScale);
 
 	bulletManager = new EnemyBulletManager(ObjectTag::Enemy);
 

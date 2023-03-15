@@ -6,6 +6,8 @@ class PlayerBody :
 	public ObjectBase
 {
 public:
+	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, PlayerTag myTag, const char* failName);
+
 	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName);
 	~PlayerBody();
 
@@ -18,6 +20,9 @@ public:
 	void Initialize();
 
 	void Input(float deltaTime);
+	void AddWinNum() { winNum += 1; }
+	int GetWinNum() const { return winNum; }
+	ObjectTag GetNameTag() const { return nameTag; }
 private:
 	void Rotate();
 
@@ -25,11 +30,11 @@ private:
 	VECTOR initDir;// 初期ディレクション.
 	VECTOR aimDir;// 目標方向.
 	VECTOR velocity;// 加速ベクトル.
-	VECTOR prevPos; // 予測ポジション.
 	bool rotateNow;// 回転しているかどうか.
-	float deltaWaitTime;// 待機時間.
-	float accel;
+	float accel;// 加速力.
+	int winNum;// 勝利数.
 	const float maxHP = 100.0f;
+	ObjectTag nameTag;
 	// コントローラー変数.
 	int padInput;
 	XINPUT_STATE pad;
@@ -44,6 +49,6 @@ private:
 	const float DefaultDecel = 0.97f;// なにもしない時の減速.
 	const float GripDecel = -5.0f;// グリップの減速.
 	const float TurnPerformance = 5.0f;// 旋回性能.
-	const float OnShootingDownWaitTime = 5.0f;// 被撃墜時待機時間.
+	const float DamagePoint = 20.0f;
 };
 

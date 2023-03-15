@@ -23,7 +23,6 @@ BulletManager::~BulletManager()
 
 void BulletManager::Update(VECTOR pos, VECTOR dir, float deltaTime)
 {
-	Input(pos, dir);
 	shotTime -= deltaTime;
 	for (int i = 0; i < bulletNum; i++)
 	{
@@ -35,10 +34,8 @@ void BulletManager::Update(VECTOR pos, VECTOR dir, float deltaTime)
 	
 }
 
-void BulletManager::Input(VECTOR pos, VECTOR dir)
-{
-	GetJoypadXInputState(padInput, &pad);
-	
+void BulletManager::Input(VECTOR pos, VECTOR dir, XINPUT_STATE pad)
+{	
 		if (shotTime < 0 && (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[9]))
 		{
 			shotTime = shotIntervalTime;
@@ -48,6 +45,7 @@ void BulletManager::Input(VECTOR pos, VECTOR dir)
 				{
 					bullet[i] = new Bullet(pos, dir, userTag);
 					ObjectManager::Entry(bullet[i]);
+					//sparkEffect = new SparkEffect(pos);
 					break;
 				}
 			}

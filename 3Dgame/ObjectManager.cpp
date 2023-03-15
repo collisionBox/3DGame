@@ -174,25 +174,46 @@ void ObjectManager::Draw()
 void ObjectManager::Collition()
 {
 	// ÉvÉåÉCÉÑÅ[.
-	for (int playerNum = 0; playerNum < Instance->objects[ObjectTag::Player].size(); ++playerNum)
+	unordered_map<int, ObjectTag> player;
+	player[0] = ObjectTag::Player1;
+	player[1] = ObjectTag::Player2;
+	for (int i = 0; i < PlayerNum; i++)
 	{
-		// VSíe.
-		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
+		for (int playerNum = 0; playerNum < Instance->objects[player[i]].size(); ++playerNum)
 		{
-			Instance->objects[ObjectTag::Player][playerNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::Bullet][bulletNum]);
+			// VSíe.
+			for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
+			{
+				Instance->objects[player[i]][playerNum]->
+					OnCollisionEnter(Instance->objects[ObjectTag::Bullet][bulletNum]);
 
-			Instance->objects[ObjectTag::Bullet][bulletNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::Player][playerNum]);
-		}
+				Instance->objects[ObjectTag::Bullet][bulletNum]->
+					OnCollisionEnter(Instance->objects[player[i]][playerNum]);
+			}
 
-		// VSîwåi.
-		for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
-		{
-			Instance->objects[ObjectTag::Player][playerNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
+			// VSîwåi.
+			for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
+			{
+				Instance->objects[player[i]][playerNum]->
+					OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
+			}
+			for (int j = 0; j <PlayerNum; j++)
+			{
+				if (i != j)
+				{
+					for (int playerNum2 = 0; playerNum2 < Instance->objects[player[j]].size(); ++playerNum2)
+					{
+						Instance->objects[player[i]][playerNum]->
+							OnCollisionEnter(Instance->objects[player[j]][playerNum2]);
+						Instance->objects[player[j]][playerNum]->
+							OnCollisionEnter(Instance->objects[player[i]][playerNum]);
+					}
+					break;
+				}
+			}
 		}
 	}
+	
 
 	// ÉGÉlÉ~Å[.
 	for (int enemyNum = 0; enemyNum < Instance->objects[ObjectTag::Enemy].size(); ++enemyNum)
@@ -223,6 +244,20 @@ void ObjectManager::Collition()
 		{
 			Instance->objects[ObjectTag::Bullet][bulletNum]->
 				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
+		}
+	}
+
+	// íe.
+	for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
+	{
+		// VSíe.
+		for (int bulletNumB = 0; bulletNumB < Instance->objects[ObjectTag::Bullet].size(); ++bulletNumB)
+		{
+			Instance->objects[ObjectTag::Bullet][bulletNum]->
+				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bulletNumB]);
+
+			Instance->objects[ObjectTag::Bullet][bulletNumB]->
+				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bulletNum]);
 		}
 	}
 	

@@ -1,13 +1,13 @@
 #include "PlayerBody.h"
 
 
-PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
+PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, PlayerTag myTag, const char* failName) :
 	ObjectBase(ObjectTag::Player)
 	, rotateNow(false)
 	, accel()
 {
 	// 砲を生成.
-	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
+	cannon = new PlayerCannon(initPos, initDir, inputState , ObjectTag::Player, failName);
 	// HPゲージを生成.
 	hpGauge = new HPGauge(HP);
 
@@ -18,7 +18,7 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	{
 		printfDx("playerBodyを読み込めません");
 	}
-	MV1SetScale(modelHandle, moveModelScale);
+	MV1SetScale(modelHandle, MoveModelScale);
 
 	// 位置・方向を初期化.
 	this->initPos = initPos;
@@ -33,6 +33,44 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 
 	// 変数の初期化.
 	padInput = inputState;
+	//nameTag = myTag;
+	winNum = 0;
+}
+
+PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
+	ObjectBase(myTag)
+	, rotateNow(false)
+	, accel()
+{
+	// 砲を生成.
+	cannon = new PlayerCannon(initPos, initDir, inputState, ObjectTag::Player, failName);
+	// HPゲージを生成.
+	hpGauge = new HPGauge(HP);
+
+	// アセットマネージャーからモデルをロード.
+	string str = "playerBody.mv1";
+	modelHandle = AssetManager::GetMesh(failName + str);
+	if (modelHandle == -1)
+	{
+		printfDx("playerBodyを読み込めません");
+	}
+	MV1SetScale(modelHandle, MoveModelScale);
+
+	// 位置・方向を初期化.
+	this->initPos = initPos;
+	this->initDir = initDir;
+	Initialize();
+
+	// 当たり判定球セット.
+	colType = CollisionType::Sphere;
+	colSphere.worldCenter = pos;
+	colSphere.radius = 32.0f;
+
+
+	// 変数の初期化.
+	padInput = inputState;
+	winNum = 0;
+	nameTag = myTag;
 }
 
 void PlayerBody::Initialize()
@@ -42,9 +80,8 @@ void PlayerBody::Initialize()
 	prevPos = pos;
 	dir = initDir;
 	aimDir = dir;
-	velocity = initVec;
+	velocity = InitVec;
 	HP = maxHP;
-	deltaWaitTime = 0.0f;
 
 	// オブジェクトの初期化.
 	cannon->Initialize(pos, dir);
@@ -66,16 +103,6 @@ void PlayerBody::Update(float deltaTime)
 	{
 		Input(deltaTime);
 	}
-	//else
-	{
-		deltaWaitTime += deltaTime;
-		// 爆発エフェクトをいれる.
-
-		if (deltaWaitTime > OnShootingDownWaitTime)// エフェクト再生が終わったらにいつか変更.
-		{
-			// OVERへシーン遷移.
-		}
-	}
 
 	// 方向ベクトルに加速力を加えて加速ベクトルとする.
 	velocity = VScale(dir, accel);
@@ -89,7 +116,7 @@ void PlayerBody::Update(float deltaTime)
 	// 画面外判定.
 	if (offscreenDicision(prevPos, colSphere.radius))
 	{
-		velocity = initVec;
+		velocity = InitVec;
 		prevPos = pos;
 	}
 	CollisionUpdate(prevPos);
@@ -137,20 +164,29 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 				accel = 0;
 			}
 
-			velocity = initVec;
+			velocity = InitVec;
 			CollisionUpdate();
 		}
 
-		// 背景と足元線分当たり判定.
-		MV1_COLL_RESULT_POLY colInfoLine;
-		if (CollisionPair(colLine, colModel, colInfoLine))
+	
+	}
+	if (tag == ObjectTag::Bullet)
+	{
+		Sphere colSphere = other->GetCollisionSphere();
+		if (CollisionPair(this->colSphere, colSphere))
 		{
-			// 当たっている場合は足元を衝突店に合わせる.
-			pos = colInfoLine.HitPosition;
-
-			CollisionUpdate();
+			HP -= DamagePoint;
 		}
 	}
+	if (tag != nameTag && (tag == ObjectTag::Player1 || tag == ObjectTag::Player2))
+	{
+		Sphere colSphere = other->GetCollisionSphere();
+		if (CollisionPair(this->colSphere, colSphere))
+		{
+			pos = prevPos;
+		}
+	}
+	
 }
 
 
