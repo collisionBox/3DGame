@@ -8,8 +8,6 @@ class MapManager
 public:
 	MapManager(int mapNum);
 private:
-	void PlaceObject() {}
-
 
 
 

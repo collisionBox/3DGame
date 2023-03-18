@@ -17,7 +17,8 @@ MapManager::MapManager(int mapNum)
 	MapChip MapData[] =
 	{
 		{1,
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		{
+		1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
 		0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
@@ -26,7 +27,7 @@ MapManager::MapManager(int mapNum)
 		0,0,0,0,0,1,0,0,0,0,3,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,}}
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}}
 	};
 
 
@@ -57,38 +58,10 @@ MapManager::MapManager(int mapNum)
 						{
 							obj.push_back(mapObj[l].mapObj);
 						}
-
 					}
-
 				}
 			}
-
-		}
-	}
-	
-
-
-	for (int i = 0; i < mapObjectNumX; i++)
-	{
-		for (int j = 0; j < mapObjectNumZ; j++)
-		{
-			float x = WindowSizeXMin + objLen * i;
-			float z = WindowSizeZMax - objLen * j;
-			MAPOBJECT mapObj[] =
-			{
-				{1, new MapModelBlock(VGet(x, 0, z)) },
-				{2, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
-				{3, new MapModelMoveBlockVertical(VGet(x, 0.0f, z)) }
-			};
-			for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
-			{
-				
-				if (map2[j][i] == mapObj[l].objectNum)
-				{
-					//obj.push_back(mapObj[l].mapObj);
-				}
-			}
-
+			break;
 		}
 	}
 
