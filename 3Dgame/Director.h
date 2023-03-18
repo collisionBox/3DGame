@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneManager.h"
+#include "Map.h"
 #include "ObjectBase.h"
 #include "PlayerBody.h"
 class Director
