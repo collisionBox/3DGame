@@ -2,11 +2,9 @@
 // @brief  メイン処理.
 //-----------------------------------------------------------------------------
 #pragma warning(disable:4996)
-#include "foundation.h"
 #include <vector>
-
 #include "Director.h"
-
+#include "EffekseerForDXLib.h"
 #include "SceneHedder.h"
 
 
@@ -32,6 +30,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+	// Effekseerを初期化する。
+// 引数には画面に表示する最大パーティクル数を設定する。
+	if (Effekseer_Init(8000) == -1)
+	{
+		DxLib_End();
+		return -1;
+	}
+
+	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
+	// Effekseerを使用する場合は必ず設定する。
+	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
+
+	// DXライブラリのデバイスロストした時のコールバックを設定する。
+	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
+	// ただし、DirectX11を使用する場合は実行する必要はない。
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	// Ｚバッファを有効にする
 	SetUseZBuffer3D(TRUE);
@@ -61,7 +75,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//フレーム時間計測.
 		nowTime = GetNowHiPerformanceCount();
 		float deltaTime = (nowTime - prevTime) / 1000000.0f;
-
+		// DXライブラリのカメラとEffekseerのカメラを同期する。
+		Effekseer_Sync3DSetting();
 
 
 		//画面の初期化.
@@ -90,6 +105,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	EffectManager::ReleseAllEffect();
 	EffectManager::Finalize();
+
+	// Effekseerを終了する。
+	Effkseer_End();
 
 	DxLib_End();
 

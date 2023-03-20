@@ -110,13 +110,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;D:\Desktops\DxLibFile</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;D:\Desktops\DxLibFile</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -148,12 +148,8 @@
     <ClCompile Include="Director.cpp" />
     <ClCompile Include="EffectBase.cpp" />
     <ClCompile Include="EffectManager.cpp" />
-    <ClCompile Include="EnemyBody.cpp" />
-    <ClCompile Include="EnemyBulletManager.cpp" />
-    <ClCompile Include="EnemyCannon.cpp" />
     <ClCompile Include="HPGauge.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MapChipDataBase.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapModelBlock.cpp" />
     <ClCompile Include="MapModelCylinder.cpp" />
@@ -180,13 +176,8 @@
     <ClInclude Include="Director.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="EffectManager.h" />
-    <ClInclude Include="EnemyBody.h" />
-    <ClInclude Include="EnemyBulletManager.h" />
-    <ClInclude Include="EnemyCannon.h" />
     <ClInclude Include="foundation.h" />
     <ClInclude Include="HPGauge.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MapChipDataBase.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapModelBlock.h" />
     <ClInclude Include="MapModelCylinder.h" />

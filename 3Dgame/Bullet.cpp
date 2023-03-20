@@ -1,7 +1,4 @@
 #include "Bullet.h"
-#include "AssetManager.h"
-#include "Math.h"
-#include "PlayerCannon.h"
 
 
 
@@ -60,6 +57,10 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	velocity = InitVec;
 	reflectionFlag = false;
 	myTag = userTag;
+
+	SparkEffect* sparkEffect = new SparkEffect(pos);
+	EffectManager::Entry(sparkEffect);
+
 }
 
 Bullet::~Bullet()
@@ -147,16 +148,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 			}
 		}
 	}
-	if (tag == ObjectTag::Player)
-	{
-		Sphere colSphere = other->GetCollisionSphere();
-		if (CollisionPair(this->colSphere, colSphere))
-		{
-			SetAlive(false);
-			
-		}
-	}
-	if (tag == ObjectTag::Bullet)
+	if (tag == ObjectTag::Player1 || tag == ObjectTag::Player2)
 	{
 		Sphere colSphere = other->GetCollisionSphere();
 		if (CollisionPair(this->colSphere, colSphere))

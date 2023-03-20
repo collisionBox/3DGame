@@ -9,7 +9,7 @@ class SparkEffect :
 {
 public:
 	SparkEffect(VECTOR initPos);
-	void Update();
+	void Update(float deltaTime);
 	void Draw();
 	bool GetValid();// —LŒø‚©‚Ç‚¤‚©‚ðŽæ“¾.
 private:

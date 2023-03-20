@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\Bullet">
       <UniqueIdentifier>{f537a72d-6e66-432e-b8a2-5a32faf3a772}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{1aef658a-a321-4dd8-9f2e-f92e8a597238}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{365cbacc-8fb7-41d3-a1b0-f2dea4b51a89}</UniqueIdentifier>
     </Filter>
@@ -77,15 +74,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBody.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBulletManager.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCannon.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="BulletManager.cpp">
       <Filter>ソース ファイル\Player</Filter>
@@ -132,9 +120,6 @@
     <ClCompile Include="SparkEffect.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="MapChipDataBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -170,15 +155,6 @@
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBody.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBulletManager.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCannon.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="BulletManager.h">
       <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
@@ -209,9 +185,6 @@
     <ClInclude Include="PlayScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>ソース ファイル\Map</Filter>
-    </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
@@ -238,9 +211,6 @@
     </ClInclude>
     <ClInclude Include="SparkEffect.h">
       <Filter>ソース ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="MapChipDataBase.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

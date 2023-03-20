@@ -45,7 +45,6 @@ void BulletManager::Input(VECTOR pos, VECTOR dir, XINPUT_STATE pad)
 				{
 					bullet[i] = new Bullet(pos, dir, userTag);
 					ObjectManager::Entry(bullet[i]);
-					//sparkEffect = new SparkEffect(pos);
 					break;
 				}
 			}

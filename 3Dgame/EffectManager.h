@@ -2,7 +2,7 @@
 #include "SystemVariable.h"
 #include "EffectBase.h"
 
-class EffectManager final
+class EffectManager
 {
 public:
 

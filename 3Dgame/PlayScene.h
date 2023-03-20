@@ -4,7 +4,6 @@
 
 #include "camera.h"
 #include "PlayerBody.h"
-#include "EnemyBody.h"
 #include "MapManager.h"
 
 class PlayScene :

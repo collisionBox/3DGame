@@ -154,7 +154,7 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 		{
 			// “–‚½‚Á‚Ä‚¢‚éê‡‚Í‰Ÿ‚µ—Ê‚ðŒvŽZ.
 			VECTOR poshBuckVec = CalcSpherePushBackVecFromMesh(colSphere, colInfo);
-			pos = VAdd(prevPos, poshBuckVec);
+			pos = VAdd(pos, poshBuckVec);
 
 			// ƒRƒŠƒWƒ‡ƒ“î•ñ‚Ì‰ð•ú.
 			MV1CollResultPolyDimTerminate(colInfo);
@@ -167,25 +167,16 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 			velocity = InitVec;
 			CollisionUpdate();
 		}
-
-	
 	}
 	if (tag == ObjectTag::Bullet)
 	{
 		Sphere colSphere = other->GetCollisionSphere();
 		if (CollisionPair(this->colSphere, colSphere))
 		{
-			HP -= DamagePoint;
+    			HP -= DamagePoint;
 		}
 	}
-	if (tag != nameTag && (tag == ObjectTag::Player1 || tag == ObjectTag::Player2))
-	{
-		Sphere colSphere = other->GetCollisionSphere();
-		if (CollisionPair(this->colSphere, colSphere))
-		{
-			pos = prevPos;
-		}
-	}
+	
 	
 }
 

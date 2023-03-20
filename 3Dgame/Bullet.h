@@ -1,8 +1,7 @@
 #pragma once
-#include "DxLib.h"
-#include "ObjectBase.h"
-#include "ObjectManager.h"
-#include "ObjectTag.h"
+#include "foundation.h"
+#include "SparkEffect.h"
+
 class Bullet :
     public ObjectBase
 {
