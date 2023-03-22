@@ -1,12 +1,9 @@
 #pragma once
-#include "foundation.h"
-#include "Camera.h"
-#include "BulletManager.h"
+#include "ObjectBase.h"
 
 class PlayerCannon : public ObjectBase
 {
 public:
-	//static PlayerCannon& Instance() { static PlayerCannon instance; return instance; }
 	
 	PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag, const char* failName);
 	~PlayerCannon();
@@ -31,7 +28,10 @@ private:
 	int padInput;
 	const float TurnPerformance = 3.50f;// ù‰ñ«”\.
 	const float adjustPos = 0.5f;
-	class BulletManager* bulletManager;
+	const float shotIntervalTime = 1.0f;
+	float shotTime;
+
+	ObjectTag userTag;
 };
 
 

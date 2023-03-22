@@ -1,6 +1,5 @@
 #pragma once
-#include "foundation.h"
-
+#include "ObjectBase.h"
 class RecoveryItem :
     public ObjectBase
 {

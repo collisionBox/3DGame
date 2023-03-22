@@ -75,9 +75,6 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBody.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -117,7 +114,7 @@
     <ClCompile Include="EffectManager.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="SparkEffect.cpp">
+    <ClCompile Include="MazzleFlashEffect.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,9 +152,6 @@
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBody.h">
       <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
@@ -172,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="HPGauge.h">
       <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="foundation.h">
-      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="SceneHedder.h">
       <Filter>ソース ファイル\Scene</Filter>
@@ -197,7 +188,7 @@
     <ClInclude Include="MapModelMoveBlockVertical.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="SystemVariable.h">
+    <ClInclude Include="SystemConstant.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
@@ -209,7 +200,10 @@
     <ClInclude Include="EffectManager.h">
       <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="SparkEffect.h">
+    <ClInclude Include="MazzleFlashEffect.h">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectTag.h">
       <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>

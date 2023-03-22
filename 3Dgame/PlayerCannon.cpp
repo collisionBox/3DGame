@@ -1,12 +1,15 @@
 #include "PlayerCannon.h"
+#include "AssetManager.h"
+#include "ObjectManager.h"
+#include "EffectManager.h"
+#include "SystemConstant.h"
+#include "Bullet.h"
+#include "MazzleFlashEffect.h"
 
-
-
+using namespace std;
 PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag, const char* failName) :
-	ObjectBase(ObjectTag::Cannon)
+	ObjectBase(userTag)
 {
-	bulletManager = new BulletManager(userTag, inputState);
-
 	// アセットマネージャーからモデルをロード.
 	string str = "playerCannon.mv1";
 	modelHandle = AssetManager::GetMesh(failName + str);
@@ -14,7 +17,7 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 	
 	// 位置・方向を初期化.
 	Initialize(initPos, initDir);
-	
+	this->userTag = userTag;
 
 	padInput = inputState;
 }
@@ -32,8 +35,6 @@ void PlayerCannon::Initialize(VECTOR initPos, VECTOR initDir)
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
-	// オブジェクトの初期化.
-	bulletManager->Initialize();
 }
 
 PlayerCannon::~PlayerCannon()
@@ -108,7 +109,6 @@ void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
-	bulletManager->Update(pos, dir, deltaTime);
 
 
 }
@@ -149,8 +149,16 @@ void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 			aimDir = padVec;
 		}
 	}
-	
-	bulletManager->Input(pos, dir, pad);
+	shotTime -= deltaTime;
+	if (shotTime < 0 && (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[9]))
+	{
+		//shotTime = shotIntervalTime;
+		ObjectBase* bullet = new Bullet(pos, dir, userTag);
+		ObjectManager::Entry(bullet);
+		EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir);
+		EffectManager::Entry(mazzleFlash);
+	}
+
 
 }
 

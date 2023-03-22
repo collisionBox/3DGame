@@ -6,7 +6,9 @@
 #include "Director.h"
 #include "EffekseerForDXLib.h"
 #include "SceneHedder.h"
-
+#include "ObjectManager.h"
+#include "AssetManager.h"
+#include "EffectManager.h"
 
 #include "UI.h"
 #include "Camera.h"
@@ -20,24 +22,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	// ＤＸライブラリ初期化処理
 	SetUseDirect3DVersion(DX_DIRECT3D_11);// 使用するDirectXバージョンを指定.
-	ChangeWindowMode(TRUE);// ウィンドウモードの変更.
 
 	// 画面モードセット.
-	
+	ChangeWindowMode(TRUE);// ウィンドウモードの変更.
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 16);
 	SetBackgroundColor(70,70, 70);
+
+	SetDrawScreen(DX_SCREEN_BACK);// 描画先を裏画面に変更する。
+
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
 	// Effekseerを初期化する。
-// 引数には画面に表示する最大パーティクル数を設定する。
+	// 引数には画面に表示する最大パーティクル数を設定する。
 	if (Effekseer_Init(8000) == -1)
 	{
 		DxLib_End();
 		return -1;
 	}
-
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
@@ -62,7 +65,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	EffectManager::Initialize();
 
 	SCENEINSTANCE.SetScene(new PlayScene(1));
-	
+
+
+
 	// UI生成.
 	UI* ui = new UI();
 	
@@ -72,22 +77,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
+		// DXライブラリのカメラとEffekseerのカメラを同期する.
+		Effekseer_Sync3DSetting();
 		//フレーム時間計測.
 		nowTime = GetNowHiPerformanceCount();
 		float deltaTime = (nowTime - prevTime) / 1000000.0f;
-		// DXライブラリのカメラとEffekseerのカメラを同期する。
-		Effekseer_Sync3DSetting();
-
+	
+		SCENEINSTANCE.Update(deltaTime);
 
 		//画面の初期化.
 		ClearDrawScreen();
-		SCENEINSTANCE.Update(deltaTime);
+
 		SCENEINSTANCE.Draw();
-	
 		DrawGrid(3000, 100);
-
-		
-
 		ui->Draw(deltaTime);
 		//裏画面の内容を表画面に反映させる.
 		ScreenFlip();

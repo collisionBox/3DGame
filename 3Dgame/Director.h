@@ -1,7 +1,6 @@
 #pragma once
-#include "SceneManager.h"
 #include "ObjectBase.h"
-#include "PlayerBody.h"
+#include "SceneBase.h"
 class Director
 {
 public:

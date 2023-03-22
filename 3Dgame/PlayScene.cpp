@@ -1,10 +1,11 @@
 #include "PlayScene.h"
+#include "Director.h"
+#include "ObjectManager.h"
+#include "EffectManager.h"
 
 PlayScene::PlayScene(int mapNum)
 {
 	// カメラ生成.
-	/*MainCamera* mainCam = new MainCamera(40, -90);
-	ObjectManager::Entry(mainCam);*/
 	MainCamera* mainCam = new MainCamera;
 
 	// プレイヤー生成.
@@ -16,8 +17,6 @@ PlayScene::PlayScene(int mapNum)
 	player[1] = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player2, "data/player2/");
 	ObjectManager::Entry(player[1]);
 
-	/*EnemyBody* enemy = new EnemyBody(VGet(742.0f, 0.0f, 355.0f), VGet(0.0f, 0.0f, -1.0f), "data/enemy/");a
-	ObjectManager::Entry(enemy);*/
 
 	MapManager* map = new MapManager(mapNum);
 	battleNum = 0;
@@ -30,10 +29,11 @@ PlayScene::~PlayScene()
 
 SceneBase* PlayScene::Update(float deltaTime)
 {
-	EffectManager::Update(deltaTime);
 	// 全オブジェクトの更新.
 	ObjectManager::Update(deltaTime);
 	ObjectManager::Collition();
+
+	EffectManager::Update(deltaTime);
 
 	if (CheckHitKey(KEY_INPUT_TAB))
 	{

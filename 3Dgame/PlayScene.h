@@ -1,5 +1,4 @@
 #pragma once
-#include "foundation.h"
 #include "SceneBase.h"
 
 #include "camera.h"

@@ -1,7 +1,13 @@
 #pragma once
-#include "SystemVariable.h"
+#include <unordered_map>
+#include <vector>
 #include "EffectBase.h"
+#include "EffectTag.h"
 
+using namespace std;
+/// <summary>
+/// 演出用マネージャー.
+/// </summary>
 class EffectManager
 {
 public:
@@ -19,7 +25,7 @@ private:
 	EffectManager();
 	~EffectManager();
 	vector<EffectBase*>pendingEffect;
-	vector<EffectBase*>effects;
+	unordered_map<EffectTag, vector<EffectBase*>> effects;
 	static EffectManager* Instance;
 };
 

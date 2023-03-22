@@ -1,13 +1,9 @@
 #pragma once
 #include "DxLib.h"
-#include <vector>
-#include <unordered_map>
-#include <string>
 
 ///--------------------------------------------------------------
 /// システム定数ヘッダー. 
 ///--------------------------------------------------------------
-using namespace std;
 const VECTOR MoveModelScale = VGet(0.135f, 0.135f, 0.135f);
 const VECTOR InitVec = VGet(0.0f, 0.0f, 0.0f);// ベクトル初期化変数.
 const int PlayerNum = 2;

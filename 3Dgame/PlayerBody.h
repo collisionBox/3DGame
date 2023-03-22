@@ -1,12 +1,13 @@
 #pragma once
-#include "foundation.h"
+#include "ObjectBase.h"
+
 #include "PlayerCannon.h"
 #include "HPGauge.h"
+
 class PlayerBody :
 	public ObjectBase
 {
 public:
-	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, PlayerTag myTag, const char* failName);
 
 	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName);
 	~PlayerBody();

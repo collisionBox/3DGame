@@ -1,38 +1,9 @@
 #include "Bullet.h"
+#include "ObjectManager.h"	
+#include "AssetManager.h"
 
 
 
-Bullet::Bullet(ObjectTag tag) :
-	ObjectBase(ObjectTag::Bullet)
-{
-	// アセットマネージャーからモデルをロード.
-	modelHandle = AssetManager::GetMesh("data/beam.mv1");
-	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.08f));// サイズの変更.
-
-	ObjectBase* cannon = ObjectManager::GetFirstObject(tag);
-	if (cannon)
-	{
-		// 位置・方向を初期化.
-		//pos = VAdd(cannon->GetPos(), VGet(0.0f, 15.0f, 0.0f));// 砲身に合わせるため.
-		pos = cannon->GetPos();
-		// 変数の初期化.
-		dir = cannon->GetDir();
-		dir = VNorm(dir);
-	}
-	pos.x += dir.x * barrelHead;// 砲塔先頭にセットするため.
-	pos.z += dir.z * barrelHead;
-	MV1SetPosition(modelHandle, pos);
-	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-
-	// 当たり判定球セット.
-	colType = CollisionType::Sphere;
-	colSphere.worldCenter = pos;
-	colSphere.radius = colRadius;
-
-	// 変数の初期化.
-	velocity = InitVec;
-	reflectionFlag = false;
-}
 
 Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	ObjectBase(ObjectTag::Bullet)
@@ -41,10 +12,10 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	modelHandle = AssetManager::GetMesh("data/beam.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.08f));// サイズの変更.
 	// 位置・方向を初期化.
-	this->dir = dir;
 	this->pos = pos;
-	this->pos.x += this->dir.x * barrelHead;// 砲塔先頭にセットするため.
-	this->pos.z += this->dir.z * barrelHead;
+	this->dir = dir;
+	this->pos = VAdd(this->pos ,VScale(this->dir, barrelHead));// 砲塔先頭にセットするため.
+
 	MV1SetPosition(modelHandle, this->pos);
 	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
@@ -58,8 +29,6 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	reflectionFlag = false;
 	myTag = userTag;
 
-	SparkEffect* sparkEffect = new SparkEffect(pos);
-	EffectManager::Entry(sparkEffect);
 
 }
 

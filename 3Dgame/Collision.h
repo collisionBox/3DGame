@@ -2,7 +2,6 @@
 #include "DxLib.h"
 #include "Math.h"
 #include <vector>
-#include "SystemVariable.h"
 
 
 // ü•ª“–‚½‚è”»’è.

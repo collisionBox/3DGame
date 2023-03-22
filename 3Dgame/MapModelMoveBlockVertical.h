@@ -1,5 +1,5 @@
 #pragma once
-#include "foundation.h"
+#include "ObjectBase.h"
 class MapModelMoveBlockVertical :
     public ObjectBase
 {

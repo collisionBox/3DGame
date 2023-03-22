@@ -1,8 +1,9 @@
 #pragma once
-#include "foundation.h"
+#include <string>
+#include "ObjectBase.h"
+#include "PlayerBody.h"
 
-
-
+using namespace std;
 class UI 
 {
 public:

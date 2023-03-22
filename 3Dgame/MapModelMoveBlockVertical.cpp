@@ -1,4 +1,5 @@
 #include "MapModelMoveBlockVertical.h"
+#include "AssetManager.h"
 
 MapModelMoveBlockVertical::MapModelMoveBlockVertical(VECTOR initPos) :
 	ObjectBase(ObjectTag::BackGround)

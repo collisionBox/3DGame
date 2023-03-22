@@ -1,6 +1,6 @@
 #pragma once
-#include "foundation.h"
-#include "SparkEffect.h"
+#include "ObjectBase.h"
+
 
 class Bullet :
     public ObjectBase
@@ -20,7 +20,7 @@ private:
     VECTOR velocity;// ’e‘¬ƒxƒNƒgƒ‹.
     ObjectTag myTag;
     const float colRadius = 10.0f;// “–‚½‚è”»’è”¼Œa.
-    const float barrelHead = 65.0f;// –Cgæ’[.
+    const float barrelHead = 85.0f;// –Cgæ’[.
     const float speed = 800.0f;// ’e‘¬.
 
 };

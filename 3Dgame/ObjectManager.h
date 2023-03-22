@@ -1,9 +1,10 @@
 #pragma once
+#include <unordered_map>
 
 #include "ObjectBase.h"
 #include "ObjectTag.h"
 #include "Math.h"
-#include "SystemVariable.h"
+#include "SystemConstant.h"
 
 class ObjectManager final
 {

@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "PlayerCannon.h"
+#include "SystemConstant.h"
 
 UI::UI()
 {
@@ -44,7 +44,7 @@ void UI::Debug()
 	/*DrawFormatString(0, 0, White,
 		"pos:\n%f\n%f\n%f\n\ndir:\n%f\n%f\n%f\n\nvel:\n%f\n%f\n%f\n\nsize:%f\ndot:%f"
 		);*/
-	PlayerCannon* cannon = dynamic_cast<PlayerCannon*>(ObjectManager::GetFirstObject(ObjectTag::Cannon));
+	//PlayerCannon* cannon = dynamic_cast<PlayerCannon*>(ObjectManager::GetFirstObject(ObjectTag::Cannon));
 	/*DrawFormatString(0, 0, White, "0:%f\n1:%f\n2:%f", cannon->monitorNum[0], cannon->monitorNum[1],
 		cannon->monitorNum[2]);*/
 	//DrawFormatString(0, 0, White, "%d", GetJoypadInputState(DX_INPUT_PAD2));

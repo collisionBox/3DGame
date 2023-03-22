@@ -1,4 +1,11 @@
 #include "MapManager.h"
+#include <vector>
+#include "ObjectManager.h"
+#include "MapModelBlock.h"
+#include "MapModelCylinder.h"
+#include "MapModelMoveBlockVertical.h"
+
+using namespace std;
 
 MapManager::MapManager(int mapNum)
 {

@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
@@ -155,6 +154,7 @@
     <ClCompile Include="MapModelCylinder.cpp" />
     <ClCompile Include="MapModelMoveBlockVertical.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="MazzleFlashEffect.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PlayerBody.cpp" />
@@ -162,13 +162,11 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="RecoveryItem.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SparkEffect.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionType.h" />
@@ -176,13 +174,14 @@
     <ClInclude Include="Director.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="EffectManager.h" />
-    <ClInclude Include="foundation.h" />
+    <ClInclude Include="EffectTag.h" />
     <ClInclude Include="HPGauge.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapModelBlock.h" />
     <ClInclude Include="MapModelCylinder.h" />
     <ClInclude Include="MapModelMoveBlockVertical.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MazzleFlashEffect.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectTag.h" />
@@ -193,8 +192,7 @@
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneHedder.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SparkEffect.h" />
-    <ClInclude Include="SystemVariable.h" />
+    <ClInclude Include="SystemConstant.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
