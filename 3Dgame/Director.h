@@ -1,6 +1,6 @@
 #pragma once
-#include "SceneManager.h"
 #include "ObjectBase.h"
+#include "SceneBase.h"
 class Director
 {
 public:
@@ -9,9 +9,12 @@ public:
 		static Director instance;
 		return instance;
 	}
+	void Initialize();
 	void OrderChangeScene(SceneBase* nextScene);
-	void CheckWinner();
+	void CheckHP(const ObjectBase* player[], float deltaTime);
 private:
+	const float OnShootingDownWaitTime = 5.0f;// ”íŒ‚’ÄŽž‘Ò‹@ŽžŠÔ.
+	float deltaWaitTime;// ‘Ò‹@ŽžŠÔ.
 
 
 

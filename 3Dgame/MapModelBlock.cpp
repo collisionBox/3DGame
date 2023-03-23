@@ -1,4 +1,5 @@
 #include "MapModelBlock.h"
+#include "AssetManager.h"
 
 MapModelBlock::MapModelBlock(VECTOR initPos) :
 	ObjectBase(ObjectTag::BackGround)
@@ -24,4 +25,5 @@ void MapModelBlock::Update(float deltaTime)
 void MapModelBlock::Draw()
 {
 	MV1DrawModel(modelHandle);
+	DrawCollider();
 }

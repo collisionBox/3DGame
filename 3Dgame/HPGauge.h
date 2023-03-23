@@ -1,5 +1,6 @@
 #pragma once
-#include "foundation.h"
+#include "DxLib.h"
+
 class HPGauge
 {
 public:

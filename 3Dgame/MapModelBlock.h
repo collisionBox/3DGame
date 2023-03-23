@@ -1,5 +1,6 @@
 #pragma once
-#include "foundation.h"
+#include "ObjectBase.h"
+
 class MapModelBlock :
 	public ObjectBase
 {
@@ -11,6 +12,7 @@ public:
 	void Draw();
 
 private:
+
 
 };
 

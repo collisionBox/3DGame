@@ -71,6 +71,7 @@ void ObjectManager::Relese(ObjectBase* releseObj)
 		delete Instance->objects[tag].back();
 	}
 }
+
 //-------------------------------------------------------------------------------
 // @brief ëSÉIÉuÉWÉFÉNÉgçÌèú.
 //-------------------------------------------------------------------------------
@@ -127,7 +128,6 @@ void ObjectManager::Update(float deltaTime)
 	std::vector<ObjectBase*> deadObject;
 	for (auto& tag : ObjectTagAll)
 	{
-
 		//deadObjectÇ…à⁄ìÆ
 		for (auto obj : Instance->objects[tag])
 		{
@@ -172,59 +172,27 @@ void ObjectManager::Draw()
 //-------------------------------------------------------------------------------
 void ObjectManager::Collition()
 {
-	// ÉvÉåÉCÉÑÅ[.
-	for (int playerNum = 0; playerNum < Instance->objects[ObjectTag::Player].size(); ++playerNum)
+
+	for (auto& tagA : ObjectTagAll)
 	{
-		// VSíe.
-		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
+		for (auto& tagB : ObjectTagAll)
 		{
-			Instance->objects[ObjectTag::Player][playerNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::Bullet][bulletNum]);
-
-			Instance->objects[ObjectTag::Bullet][bulletNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::Player][playerNum]);
-		}
-
-		// VSîwåi.
-		for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
-		{
-			Instance->objects[ObjectTag::Player][playerNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
+			if (tagA != tagB)
+			{
+				for (int i = 0; i < Instance->objects[tagA].size(); ++i)
+				{
+					for (int j = 0; j < Instance->objects[tagB].size(); ++j)
+					{
+						Instance->objects[tagA][i]->
+							OnCollisionEnter(Instance->objects[tagB][j]);
+						Instance->objects[tagB][j]->
+							OnCollisionEnter(Instance->objects[tagA][i]);
+					}
+				}
+			}
 		}
 	}
 
-	// ÉGÉlÉ~Å[.
-	for (int enemyNum = 0; enemyNum < Instance->objects[ObjectTag::Enemy].size(); ++enemyNum)
-	{
-		//VSíe.
-		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
-		{
-			Instance->objects[ObjectTag::Enemy][enemyNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::Bullet][bulletNum]);
-
-			Instance->objects[ObjectTag::Bullet][bulletNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::Enemy][enemyNum]);
-		}
-
-		// VSîwåi.
-		for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
-		{
-			Instance->objects[ObjectTag::Enemy][enemyNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
-		}
-	}
-
-	// îwåi.
-	for (int bgNum = 0; bgNum < Instance->objects[ObjectTag::BackGround].size(); bgNum++)
-	{
-		// VSíe.
-		for (int bulletNum = 0; bulletNum < Instance->objects[ObjectTag::Bullet].size(); ++bulletNum)
-		{
-			Instance->objects[ObjectTag::Bullet][bulletNum]->
-				OnCollisionEnter(Instance->objects[ObjectTag::BackGround][bgNum]);
-		}
-	}
-	
 }
 
 //-------------------------------------------------------------------------------

@@ -1,23 +1,18 @@
 #pragma once
-#include "DxLib.h"
+#include <string>
 #include "ObjectBase.h"
-#include "ObjectManager.h"
-#include "ObjectTag.h"
+#include "PlayerBody.h"
 
-const int white = GetColor(255, 255, 255);
-const int black = GetColor(0, 0, 0);
-const int red = GetColor(255, 0, 0);
-const int green = GetColor(0, 255, 0);
-const int blue = GetColor(0, 0, 255);
-
-class UI final
+using namespace std;
+class UI 
 {
 public:
 	UI();
 	~UI();
 	void Draw(float deltaTime);
-	
+	void Winner(const PlayerBody* player);
 private:
 	void Debug();
+	void DrawStringInTheCenter(string str);
 	
 };

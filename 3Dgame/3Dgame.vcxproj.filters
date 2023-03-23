@@ -25,26 +25,23 @@
     <Filter Include="ソース ファイル\Object">
       <UniqueIdentifier>{a01dd702-3e44-4e15-bd74-d645defcc2e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Manager">
-      <UniqueIdentifier>{eea01fde-8e53-4200-89d5-3bf90abec730}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Collision">
       <UniqueIdentifier>{d01d52cf-492b-4782-8578-fd591bf2b2b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Bullet">
       <UniqueIdentifier>{f537a72d-6e66-432e-b8a2-5a32faf3a772}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{1aef658a-a321-4dd8-9f2e-f92e8a597238}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{365cbacc-8fb7-41d3-a1b0-f2dea4b51a89}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Map">
-      <UniqueIdentifier>{81c26567-020b-4ff0-9faf-455b4e3904c3}</UniqueIdentifier>
+      <UniqueIdentifier>{22d0b52c-e93e-43b0-bb3e-6df958c51363}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI">
-      <UniqueIdentifier>{64a2cca6-5679-4714-b4d8-01b14411b80a}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Asset">
+      <UniqueIdentifier>{eea01fde-8e53-4200-89d5-3bf90abec730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Effect">
+      <UniqueIdentifier>{eca082e9-586f-4917-ac4c-1b01cc33f69c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,10 +58,7 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="AssetManager.cpp">
-      <Filter>ソース ファイル\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>ソース ファイル\Manager</Filter>
+      <Filter>ソース ファイル\Asset</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Collision</Filter>
@@ -81,18 +75,6 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBody.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBulletManager.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCannon.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBody.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -101,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="HPGauge.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="RecoveryItem.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -114,11 +102,20 @@
     <ClCompile Include="MapModelCylinder.cpp">
       <Filter>ソース ファイル\Map</Filter>
     </ClCompile>
-    <ClCompile Include="OverScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
+    <ClCompile Include="MapModelMoveBlockVertical.cpp">
+      <Filter>ソース ファイル\Map</Filter>
     </ClCompile>
-    <ClCompile Include="HPGauge.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBase.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="MazzleFlashEffect.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -135,10 +132,7 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="AssetManager.h">
-      <Filter>ソース ファイル\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>ソース ファイル\Manager</Filter>
+      <Filter>ソース ファイル\Asset</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>ソース ファイル\Collision</Filter>
@@ -158,18 +152,6 @@
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBody.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBulletManager.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCannon.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBody.h">
       <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
@@ -182,20 +164,17 @@
     <ClInclude Include="SceneManager.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="foundation.h">
-      <Filter>ソース ファイル\System</Filter>
+    <ClInclude Include="HPGauge.h">
+      <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="SceneHedder.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="RecoveryItem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>ソース ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="MapModelCylinder.h">
-      <Filter>ソース ファイル\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>ソース ファイル\Map</Filter>
@@ -203,11 +182,29 @@
     <ClInclude Include="MapModelBlock.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="OverScene.h">
-      <Filter>ソース ファイル\Scene</Filter>
+    <ClInclude Include="MapModelCylinder.h">
+      <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="HPGauge.h">
-      <Filter>ソース ファイル\UI</Filter>
+    <ClInclude Include="MapModelMoveBlockVertical.h">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemConstant.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectBase.h">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="MazzleFlashEffect.h">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectTag.h">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

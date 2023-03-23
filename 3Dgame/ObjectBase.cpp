@@ -4,6 +4,7 @@
 
 ObjectBase::ObjectBase()
 	: pos()
+	,prevPos()
 	, dir()
 	, modelHandle(-1)
 	, visible(true)
@@ -14,6 +15,7 @@ ObjectBase::ObjectBase()
 ObjectBase::ObjectBase(ObjectTag tag)
 	: tag(tag)
 	, pos()
+	, prevPos()
 	, dir()
 	, modelHandle(-1)
 	, visible(true)
@@ -25,6 +27,7 @@ ObjectBase::ObjectBase(ObjectTag tag)
 ObjectBase::ObjectBase(ObjectTag tag, VECTOR pos)
 	: tag(tag)
 	, pos()
+	, prevPos()
 	, dir()
 	, modelHandle(-1)
 	, alive(true)
@@ -44,9 +47,6 @@ ObjectBase::~ObjectBase()
 }
 
 
-void ObjectBase::Draw()
-{
-}
 
 //--------------------------------------------------------------------
 // @brief コライダーの描画.
@@ -74,6 +74,20 @@ void ObjectBase::DrawCollider()
 // 呼び出し回数を少なくする工夫が必要。その他の球・線分・カプセルは問題なく、毎フレーム
 // 呼び出しても問題ない。
 //---------------------------------------------------------------------------------
+void ObjectBase::CollisionUpdate(VECTOR pos)
+{
+	colSphere.Move(pos);
+	colLine.Move(pos);
+	colCapsule.Move(pos);
+
+	// 当たり判定情報を再構築.
+	if (colModel != -1)
+	{
+		MV1SetPosition(colModel, pos);
+		MV1SetupCollInfo(colModel);
+	}
+}
+
 void ObjectBase::CollisionUpdate()
 {
 	colSphere.Move(pos);

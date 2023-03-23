@@ -1,11 +1,11 @@
 #pragma once
-#include "DxLib.h"
-#include <vector>
 #include <unordered_map>
 
 #include "ObjectBase.h"
 #include "ObjectTag.h"
 #include "Math.h"
+#include "SystemConstant.h"
+
 class ObjectManager final
 {
 public:

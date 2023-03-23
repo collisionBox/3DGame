@@ -3,12 +3,12 @@
 #include <string>
 #include <unordered_map>
 #include <atlstr.h>
-
+using namespace std;
 class AssetManager final
 {
 public:
 	static void Initalize();// 初期化.
-	static int GetMesh(std::string meshFileName);// メッシュ（モデル）の取得.
+	static int GetMesh(string meshFileName);// メッシュ（モデル）の取得.
 	static void DeleteMesh(int meshID);
 	static void DeleteAllAsset();
 	// メッシュ（モデル）の削除.
@@ -19,7 +19,7 @@ private:
 	~AssetManager();
 	static AssetManager* Instance;
 
-	std::unordered_map<std::string, int> meshMap;// メッシュ原本.
-	std::vector<int> duplicateMesh;// メッシュを複製したもの
+	unordered_map<string, int> meshMap;// メッシュ原本.
+	vector<int> duplicateMesh;// メッシュを複製したもの
 };
 

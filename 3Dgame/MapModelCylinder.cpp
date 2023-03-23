@@ -1,4 +1,5 @@
 #include "MapModelCylinder.h"
+#include "AssetManager.h"
 
 MapModelCylinder::MapModelCylinder(VECTOR initPos):
 	ObjectBase(ObjectTag::BackGround)

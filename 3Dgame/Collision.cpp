@@ -1,4 +1,5 @@
 #include "Collision.h"
+#include "SystemConstant.h"
 
 //-----------------------------------------------------------------------------
 // @brief 線分コンストラクタ
@@ -245,4 +246,30 @@ VECTOR CalcSpherePushBackVecFromMesh(const Sphere& sphere, const MV1_COLL_RESULT
 	return moveCandidate[minindex];
 }
 
+VECTOR PlaneNormal(const MV1_COLL_RESULT_POLY_DIM& collisionInfo)
+{
+	VECTOR planeNormal;                    // ポリゴン平面法線
+	for (int i = 0; i < collisionInfo.HitNum; ++i)
+	{
+		// 衝突ポリゴンの辺 
+		VECTOR edge1, edge2;
+		edge1 = collisionInfo.Dim[i].Position[1] - collisionInfo.Dim[i].Position[0];
+		edge2 = collisionInfo.Dim[i].Position[2] - collisionInfo.Dim[i].Position[0];
 
+		// 衝突ポリゴンの辺より、ポリゴン面の法線ベクトルを求める
+		planeNormal = VCross(edge1, edge2);
+		planeNormal = VNorm(planeNormal);
+	}
+	return VECTOR();
+}
+
+
+bool offscreenDicision(VECTOR pos, float radius)
+{
+	if (ConvWorldPosToScreenPos(pos).x - radius < 0 || ConvWorldPosToScreenPos(pos).x + radius > ScreenSizeX ||
+		ConvWorldPosToScreenPos(pos).y - radius < 0 || ConvWorldPosToScreenPos(pos).y + radius > ScreenSizeY)
+	{
+		return true;
+	}
+	return false;
+}

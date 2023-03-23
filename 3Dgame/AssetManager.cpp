@@ -1,5 +1,6 @@
 #include "AssetManager.h"
-#include <string>
+
+
 
 AssetManager* AssetManager::Instance = nullptr;
 
@@ -22,7 +23,7 @@ void AssetManager::Initalize()
 	}
 }
 
-int AssetManager::GetMesh(std::string meshFileName)
+int AssetManager::GetMesh(string meshFileName)
 {
 	int meshID = 0;
 	// 連想配列から以前登録されていないか調べる.
@@ -49,7 +50,7 @@ int AssetManager::GetMesh(std::string meshFileName)
 void AssetManager::DeleteMesh(int meshID)
 {
 	// Duplicateの中でメッシュを検索し、削除.
-	auto iter = std::find(Instance->duplicateMesh.begin(), Instance->duplicateMesh.end(), meshID);
+	auto iter = find(Instance->duplicateMesh.begin(), Instance->duplicateMesh.end(), meshID);
 	if (iter == Instance->duplicateMesh.end())
 	{
 		// 未発見.
@@ -59,7 +60,7 @@ void AssetManager::DeleteMesh(int meshID)
 	MV1DeleteModel(meshID);
 
 	// 末尾のデータと入れ替えて末尾を削除.
-	std::iter_swap(iter, Instance->duplicateMesh.end() - 1);
+	iter_swap(iter, Instance->duplicateMesh.end() - 1);
 	Instance->duplicateMesh.pop_back();
 }
 

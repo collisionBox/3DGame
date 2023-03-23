@@ -3,6 +3,7 @@
 #include "ObjectTag.h"
 #include "Collision.h"
 #include	 "CollisionType.h"
+
 class ObjectBase
 {
 public:
@@ -25,10 +26,10 @@ public:
 	float GetHP() const { return HP; }// 装甲値の取得.
 
 	virtual void Update(float deltaTime) = 0;  // ゲームオブジェクト更新処理
-	virtual void Draw();// ゲームオブジェクト描画
+	virtual void Draw() {};// ゲームオブジェクト描画
 	ObjectTag GetTag() const { return tag; } // ゲームオブジェクトの種類取得
 
-	virtual void OnCollisionEnter(const ObjectBase* other) {};// このオブジェクトが持っている当たり判定を取得.
+	virtual void OnCollisionEnter(const ObjectBase* other) {};// このオブジェクトが持っている当たり判定を取得 ObjectManager::Collision.
 	virtual void Collition(ObjectBase* other) {};// このオブジェクトとの当たり判定.
 	CollisionType GetCollisionType()const { return colType; }// このオブジェクトが持っている当たり判定種を取得.
 	LineSegment GetCollisionLine() const { return colLine; }// 当たり判定Lineを返却（持っていれば）.
@@ -46,11 +47,12 @@ protected:
 	void SetHP(const float set) { HP = set; }// 装甲値のセット.
 	void OnDamage(const float set) { HP -= set; };// ダメージを受けたとき.
 
-
 	void DrawCollider();
+	void CollisionUpdate(VECTOR pos);
 	void CollisionUpdate();
 	ObjectTag tag;// 登録名(登録票).
 	VECTOR pos;// 位置ベクトル.
+	VECTOR prevPos;// 予測位置ベクトル.
 	VECTOR dir;// 方向ベクトル.
 	int modelHandle;// モデルハンドル.
 	bool visible;// 表示するかどうかのハンドル（何もしなければ表示）.
