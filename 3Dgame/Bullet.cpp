@@ -3,8 +3,6 @@
 #include "AssetManager.h"
 
 
-
-
 Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	ObjectBase(ObjectTag::Bullet)
 {

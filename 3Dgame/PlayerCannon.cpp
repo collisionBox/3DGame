@@ -152,7 +152,7 @@ void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 	shotTime -= deltaTime;
 	if (shotTime < 0 && (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[9]))
 	{
-		//shotTime = shotIntervalTime;
+		shotTime = shotIntervalTime;
 		ObjectBase* bullet = new Bullet(pos, dir, userTag);
 		ObjectManager::Entry(bullet);
 		EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir);
