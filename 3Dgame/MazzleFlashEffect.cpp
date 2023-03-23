@@ -29,6 +29,7 @@ MazzleFlashEffect::~MazzleFlashEffect()
 
 void MazzleFlashEffect::Update(float deltaTime)
 {
+	//
 	if (IsEffekseer3DEffectPlaying(playingEffectHandle) == -1)
 	{
 		valid = false;
