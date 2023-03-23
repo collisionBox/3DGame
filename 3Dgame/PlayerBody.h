@@ -1,11 +1,14 @@
 #pragma once
-#include "foundation.h"
+#include "ObjectBase.h"
+
 #include "PlayerCannon.h"
 #include "HPGauge.h"
+
 class PlayerBody :
 	public ObjectBase
 {
 public:
+
 	PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName);
 	~PlayerBody();
 
@@ -15,19 +18,24 @@ public:
 	void Draw() override;// 描画.
 	void OnCollisionEnter(const ObjectBase* other) override;
 
+	void Initialize();
 
-
-private:
 	void Input(float deltaTime);
+	void AddWinNum() { winNum += 1; }
+	int GetWinNum() const { return winNum; }
+	ObjectTag GetNameTag() const { return nameTag; }
+private:
 	void Rotate();
 
-
+	VECTOR initPos;// 初期ポジション.
+	VECTOR initDir;// 初期ディレクション.
 	VECTOR aimDir;// 目標方向.
 	VECTOR velocity;// 加速ベクトル.
-	VECTOR prevPos; // 予測ポジション.
 	bool rotateNow;// 回転しているかどうか.
-	float deltaWaitTime;
-	float accel;
+	float accel;// 加速力.
+	int winNum;// 勝利数.
+	const float maxHP = 100.0f;
+	ObjectTag nameTag;
 	// コントローラー変数.
 	int padInput;
 	XINPUT_STATE pad;
@@ -35,16 +43,13 @@ private:
 	class PlayerCannon* cannon;
 	class HPGauge* hpGauge;
 
-	// 静的関数.
 	const float Accel = 6.0f;// 通常の加速.
 	const float Back = 5.0f;// 後退速度.
 	const float MaxSpeed = 300.0f;// 最高前進速度.
 	const float MinSpeed = -200.0f;// 最高後退速度.
 	const float DefaultDecel = 0.97f;// なにもしない時の減速.
-	const float BreakDecel = 0.5f;// ブレーキ時の減速.
 	const float GripDecel = -5.0f;// グリップの減速.
 	const float TurnPerformance = 5.0f;// 旋回性能.
-	const float OnShootingDownWaitTime = 5.0f;// 被撃墜時待機時間.
-
+	const float DamagePoint = 20.0f;
 };
 

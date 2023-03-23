@@ -1,36 +1,42 @@
 #include "PlayerCannon.h"
+#include "AssetManager.h"
+#include "ObjectManager.h"
+#include "EffectManager.h"
+#include "SystemConstant.h"
+#include "Bullet.h"
+#include "MazzleFlashEffect.h"
 
-
-
-#if 0
-#else
+using namespace std;
 PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag userTag, const char* failName) :
-	ObjectBase(ObjectTag::Cannon)
+	ObjectBase(userTag)
 {
-
 	// アセットマネージャーからモデルをロード.
 	string str = "playerCannon.mv1";
 	modelHandle = AssetManager::GetMesh(failName + str);
-	MV1SetScale(modelHandle, moveModelScale);
-
-	
+	MV1SetScale(modelHandle, MoveModelScale);
 	
 	// 位置・方向を初期化.
-	pos = initPos;
-	pos.y = 0.5f;
-	dir = initDir;
-	MV1SetPosition(modelHandle, pos);
-	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-	
-	bulletManager = new BulletManager(userTag, inputState);
+	Initialize(initPos, initDir);
+	this->userTag = userTag;
 
-	// 変数の初期化.
-	aimDir = initVec;
-	rotateNow = false;
 	padInput = inputState;
 }
 
-#endif
+void PlayerCannon::Initialize(VECTOR initPos, VECTOR initDir)
+{
+	// 値の初期化.
+	pos = initPos;
+	pos.y = adjustPos;
+	dir = initDir;
+	aimDir = InitVec;
+	rotateNow = false;
+
+	// 変更の反映.
+	MV1SetPosition(modelHandle, pos);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+}
+
 PlayerCannon::~PlayerCannon()
 {
 	AssetManager::DeleteMesh(modelHandle);
@@ -94,7 +100,6 @@ void PlayerCannon::Update(float deltaTime)
 #endif
 void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 {
-	Input(deltaTime);
 	Rotate();
 	dir = VNorm(dir);
 	pos = bodyPos;
@@ -104,7 +109,6 @@ void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
-	bulletManager->Update(pos, dir, deltaTime);
 
 
 }
@@ -114,12 +118,13 @@ void PlayerCannon::Draw()
 	
 }
 
-void PlayerCannon::Input(float deltaTime)
+
+
+void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 {
 	// キーボード入力.
 	if (CheckHitKey(KEY_INPUT_A))// 右.
 	{
-
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
@@ -129,8 +134,6 @@ void PlayerCannon::Input(float deltaTime)
 		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 	}
 
-	// ジョイパッド入力.
-	GetJoypadXInputState(padInput, &pad);
 	VECTOR padVec = VGet(pad.ThumbRX, 0.0f, pad.ThumbRY);
 	
 	if (VectorSize(padVec) != 0.0f)
@@ -146,7 +149,16 @@ void PlayerCannon::Input(float deltaTime)
 			aimDir = padVec;
 		}
 	}
-	
+	shotTime -= deltaTime;
+	if (shotTime < 0 && (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[9]))
+	{
+		shotTime = shotIntervalTime;
+		ObjectBase* bullet = new Bullet(pos, dir, userTag);
+		ObjectManager::Entry(bullet);
+		EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir);
+		EffectManager::Entry(mazzleFlash);
+	}
+
 
 }
 
@@ -154,7 +166,6 @@ void PlayerCannon::Rotate()
 {
 	if (rotateNow)
 	{
-
 		if (IsNearAngle(aimDir, dir))
 		{
 			dir = aimDir;
