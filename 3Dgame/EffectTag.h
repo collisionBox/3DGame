@@ -3,7 +3,7 @@
 enum class EffectTag : unsigned char
 {
 	Graphic,
-	Sound
+	Sound,
 };
 constexpr static EffectTag EffectTagAll[] =
 {

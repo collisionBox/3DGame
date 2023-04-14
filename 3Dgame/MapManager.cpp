@@ -15,12 +15,14 @@ MapManager::MapManager(int mapNum)
 
 	static const int mapObjectNumX = 20;
 	static const int mapObjectNumZ = 10;
+
 	vector<ObjectBase*> obj;
 	struct MapChip
 	{
 		int Num;
 		const int Data[mapObjectNumZ][mapObjectNumX];
 	};
+	// マップデータ.
 	MapChip MapData[] =
 	{
 		{1,
@@ -73,7 +75,7 @@ MapManager::MapManager(int mapNum)
 		}
 	}
 
-
+	// オブジェクトマネージャーに登録.
 	for (auto& i : obj)
 	{
 		ObjectManager::Entry(i);

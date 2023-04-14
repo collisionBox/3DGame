@@ -104,7 +104,7 @@ void PlayerBody::Draw()
 
 	cannon->Draw();
 	hpGauge->Draw();
-	DrawCollider();
+	//DrawCollider();
 }
 
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)
