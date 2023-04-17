@@ -162,7 +162,6 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="RecoveryItem.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
@@ -193,7 +192,6 @@
     <ClInclude Include="SceneHedder.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SystemConstant.h" />
-    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

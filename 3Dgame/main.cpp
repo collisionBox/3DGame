@@ -26,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 画面モードセット.
 	ChangeWindowMode(TRUE);// ウィンドウモードの変更.
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 16);
-	SetBackgroundColor(70,70, 70);
+	SetBackgroundColor(70, 70, 70);
 
 	SetDrawScreen(DX_SCREEN_BACK);// 描画先を裏画面に変更する。
 
@@ -66,10 +66,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SCENEINSTANCE.SetScene(new PlayScene(1));
 
-
-
-	// UI生成.
-	UI* ui = new UI();
 	
 	//時間計測.
 	LONGLONG nowTime = GetNowHiPerformanceCount();
@@ -89,14 +85,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		SCENEINSTANCE.Draw();
-		DrawGrid(3000, 100);
-		ui->Draw(deltaTime);
+		//DrawGrid(3000, 100);
 		//裏画面の内容を表画面に反映させる.
 		ScreenFlip();
 		prevTime = nowTime;
 	}
 
-	delete ui;
 	// オブジェクトの削除.
 	ObjectManager::ReleseAllObj();
 	ObjectManager::Finalize();

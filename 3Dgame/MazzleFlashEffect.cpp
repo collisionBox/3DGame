@@ -1,5 +1,6 @@
 #include "MazzleFlashEffect.h"
 #include "EffectTag.h"
+
 MazzleFlashEffect::MazzleFlashEffect(VECTOR pos, VECTOR dir) :
 	EffectBase(EffectTag::Graphic)
 {
@@ -29,7 +30,7 @@ MazzleFlashEffect::~MazzleFlashEffect()
 
 void MazzleFlashEffect::Update(float deltaTime)
 {
-	//
+	
 	if (IsEffekseer3DEffectPlaying(playingEffectHandle) == -1)
 	{
 		valid = false;

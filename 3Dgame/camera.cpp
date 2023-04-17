@@ -22,16 +22,4 @@ MainCamera::MainCamera()
 
 void MainCamera::Update(float deltaTime)
 {
-	if (CheckHitKey(KEY_INPUT_W))
-	{
-		pos.y -= 10;
-	}
-	if (CheckHitKey(KEY_INPUT_S))
-	{
-		pos.y += 10;
-	}
-	SetCameraPositionAndTarget_UpVecY(pos, aimTargetPos);
-
-	
-
 }

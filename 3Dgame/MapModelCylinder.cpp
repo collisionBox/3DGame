@@ -4,8 +4,9 @@
 MapModelCylinder::MapModelCylinder(VECTOR initPos):
 	ObjectBase(ObjectTag::BackGround)
 {
+	const VECTOR setScale = VGet(0.24f, 0.3f, 0.24f);
 	modelHandle = AssetManager::GetMesh("data/map/cylinder.mv1");
-	MV1SetScale(modelHandle, VGet(0.24f, 0.3f, 0.24f));// サイズを100*100にする.
+	MV1SetScale(modelHandle, setScale);// サイズを100*100にする.
 	colModel = modelHandle;
 	pos = initPos;
 	MV1SetPosition(modelHandle, initPos);
