@@ -27,8 +27,9 @@ private:
 	bool rotateNow;
 	int padInput;
 	const float TurnPerformance = 3.50f;// ù‰ñ«”\.
-	const float adjustPos = 0.5f;
-	const float shotIntervalTime = 1.0f;
+	const float AdjustPos = 0.5f;
+	const float ShotIntervalTime = 1.0f;
+	const float Omega = 10.0f;
 	float shotTime;
 
 	ObjectTag userTag;

@@ -12,6 +12,7 @@ public:
 	void Draw();
 
 private:
+	const VECTOR setScale = VGet(1.0f, 0.2f, 1.0f);
 
 
 };

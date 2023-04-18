@@ -4,20 +4,15 @@
 MazzleFlashEffect::MazzleFlashEffect(VECTOR pos, VECTOR dir) :
 	EffectBase(EffectTag::Graphic)
 {
-	handle = LoadEffekseerEffect("data/effect/explosion/爆発1.efkefc", 2.0f);
+	handle = LoadEffekseerEffect("data/effect/explosion/爆発1.efkefc", Size);
 	this->dir = dir;
 	this->pos = pos;
-	this->pos = VAdd(this->pos, VScale(this->dir, barrelHead));// 砲塔先頭にセットするため.
-	VECTOR a = VGet(1, 0, 0);
-	float dot = (a.x * this->dir.x) + (a.z * this->dir.z);
-	float size[2] = { sqrtf((a.x * a.x) + (a.z * a.z)), sqrtf((this->dir.x * this->dir.x) + (this->dir.z * this->dir.z)) };
+	this->pos = VAdd(this->pos, VScale(this->dir, BarrelHeadLen));// 砲塔先頭にセットする.
+	this->pos.y += BarrelHeadHeight;
 
-	float formedAngle = dot / (size[0], size[1]);
-	float theta = acosf(formedAngle);
 	playingEffectHandle = PlayEffekseer3DEffect(handle);
-	SetSpeedPlayingEffekseer2DEffect(playingEffectHandle, 1000);
-	SetPosPlayingEffekseer3DEffect(playingEffectHandle,this->pos.x, 0, this->pos.z);
-	SetRotationPlayingEffekseer3DEffect(playingEffectHandle, formedAngle, 0, sinf(theta));
+	SetPosPlayingEffekseer3DEffect(playingEffectHandle,this->pos.x, this->pos.y, this->pos.z);
+	SetSpeedPlayingEffekseer3DEffect(playingEffectHandle, PlayEffectSpeed);
 	
 	UpdateEffekseer3D();
 
@@ -41,7 +36,7 @@ void MazzleFlashEffect::Update(float deltaTime)
 
 }
 
-void MazzleFlashEffect::Draw()
+void MazzleFlashEffect::Play()
 {
 	DrawEffekseer3D_Draw(playingEffectHandle);
 }

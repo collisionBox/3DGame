@@ -84,9 +84,6 @@
     <ClCompile Include="HPGauge.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="RecoveryItem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -164,9 +161,6 @@
     <ClInclude Include="SceneHedder.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="RecoveryItem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
@@ -199,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="EffectTag.h">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="MapData.h">
+      <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

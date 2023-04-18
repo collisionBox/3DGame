@@ -26,7 +26,7 @@ void PlayerCannon::Initialize(VECTOR initPos, VECTOR initDir)
 {
 	// ílÇÃèâä˙âª.
 	pos = initPos;
-	pos.y = adjustPos;
+	pos.y = AdjustPos;
 	dir = initDir;
 	aimDir = InitVec;
 	rotateNow = false;
@@ -101,7 +101,7 @@ void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 	shotTime -= deltaTime;
 	if (shotTime < 0 && (CheckHitKey(KEY_INPUT_SPACE) || pad.Buttons[9]))
 	{
-		shotTime = shotIntervalTime;
+		shotTime = ShotIntervalTime;
 		ObjectBase* bullet = new Bullet(pos, dir, userTag);
 		ObjectManager::Entry(bullet);
 		EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir);
@@ -124,7 +124,7 @@ void PlayerCannon::Rotate()
 		{
 			//âÒì]Ç≥ÇπÇÈ.
 			VECTOR interPolateDir;
-			interPolateDir = RotateForAimVecYAxis(dir, aimDir, 10.0f);
+			interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega);
 
 			// âÒì]Ç™ñ⁄ïWäpÇí¥Ç¶ÇƒÇ¢Ç»Ç¢Ç©.
 			VECTOR cross1, cross2;

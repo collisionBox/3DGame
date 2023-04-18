@@ -23,7 +23,7 @@ private:
     int battleNum;
     const int maxBattleNum = 3;// Å‘å‘Îí‰ñ”.
     const int maxWinNum = 2;// Å‘åŸ—˜”.
-    const float OnShootingDownWaitTime = 5.0f;// ”íŒ‚’Ä‘Ò‹@ŠÔ.
+    const float OnShootingDownWaitTime = 10.0f;// ”íŒ‚’Ä‘Ò‹@ŠÔ.
     float deltaWaitTime;// ‘Ò‹@ŠÔ.
 };
 

@@ -19,7 +19,7 @@ public:
 	static void ReleseAllEffect();
 
 	static void Update(float deltaTime);
-	static void Draw();
+	static void Play();
 	static void Finalize();
 private:
 	EffectManager();

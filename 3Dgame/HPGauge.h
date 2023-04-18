@@ -12,10 +12,8 @@ private:
 	VECTOR screenPos;
 	float maxHP;
 	float HPRatio;// HP割合.
-	float width;// HPバーの幅.
-	float halfWidth;
-	float hight;// HPバーの高さ.
-	float halfHight;
+	const float Width = 40.0f;// HPバーの幅.
+	const float Hight = 10.0f;;// HPバーの高さ.
 	float valiableWidth;// HPバーの可変長.
 };
 

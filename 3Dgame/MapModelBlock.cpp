@@ -4,7 +4,6 @@
 MapModelBlock::MapModelBlock(VECTOR initPos) :
 	ObjectBase(ObjectTag::BackGround)
 {
-	const VECTOR setScale = VGet(1.0f, 0.2f, 1.0f);
 
 	modelHandle = AssetManager::GetMesh("data/map/block.mv1");
 	MV1SetScale(modelHandle, setScale);// ÉTÉCÉYÇ100*100Ç…Ç∑ÇÈ.
@@ -21,7 +20,7 @@ MapModelBlock::~MapModelBlock()
 
 void MapModelBlock::Update(float deltaTime)
 {
-	
+	// èàóùÇ»Çµ.
 }
 
 void MapModelBlock::Draw()

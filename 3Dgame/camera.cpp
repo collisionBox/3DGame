@@ -8,18 +8,14 @@ MainCamera::MainCamera()
 	:ObjectBase(ObjectTag::Camera)
 {
 	
-	pos = VGet(0.0f, 870.0f, -0.1f);
-	float fov = 60 * DX_PI_F / 180;
-	SetupCamera_Perspective(fov);
-	//‰œs0.1`3000‚Ü‚Å‚ğƒJƒƒ‰‚Ì•`‰æ”ÍˆÍ‚Æ‚·‚é
-	SetCameraNearFar(0.1f, 3000.0f);
+	SetCameraNearFar(CameraRangeNear, CameraRangeFar);
 	aimTargetPos = VGet(0.0f, 0.0f, 0.0f);
-	SetCameraPositionAndTarget_UpVecY(pos, aimTargetPos);
-	// •Ï”‚Ì‰Šú‰».
+	SetCameraPositionAndTarget_UpVecY(InitPos, aimTargetPos);
 
 }
 
 
 void MainCamera::Update(float deltaTime)
 {
+	// ˆ—‚È‚µ.
 }

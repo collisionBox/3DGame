@@ -1,4 +1,4 @@
-#include "PlayScene.h"
+#include "SceneHedder.h"
 #include "Director.h"
 #include "ObjectManager.h"
 #include "EffectManager.h"
@@ -40,19 +40,6 @@ SceneBase* PlayScene::Update(float deltaTime)
 
 	EffectManager::Update(deltaTime);
 
-	if (CheckHitKey(KEY_INPUT_TAB))
-	{
-		for (int i = 0; i < PlayerNum; i++)
-		{
-			if (player[i]->GetHP() <= 0)
-			{
-				CheckWinner();
-			}
-			deltaWaitTime = 0.0f;
-			
-		}
-
-	}
 	for (int i = 0; i < PlayerNum; i++)
 	{
 		if (player[i]->GetHP() <= 0)
@@ -60,11 +47,13 @@ SceneBase* PlayScene::Update(float deltaTime)
 			CheckWinner();
 			PlayerInit();
 			deltaWaitTime = 0.0f;
+
 		}
 		
 	}
 	if (IsChangeResultScene())
 	{
+		
 		DIRECTORINSTANCE.OrderChangeScene(new PlayScene(1));
 	}
 	return this;
@@ -74,7 +63,7 @@ void PlayScene::Draw()
 {
 	// 全オブジェクトの描画.
 	ObjectManager::Draw();
-	EffectManager::Draw();
+	EffectManager::Play();
 }
 
 void PlayScene::CheckWinner()

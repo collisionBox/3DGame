@@ -18,9 +18,9 @@ private:
     bool reflectionFlag;// 一度反射しているかどうか.
     VECTOR velocity;// 弾速ベクトル.
     ObjectTag myTag;// 使用者のタグ.
-    const float colRadius = 10.0f;// 当たり判定半径.
-    const float barrelHead = 85.0f;// 砲身先端.
-    const float speed = 800.0f;// 弾速.
+    const float ColRadius = 10.0f;// 当たり判定半径.
+    const float BarrelHead = 85.0f;// 砲身先端.
+    const float Speed = 800.0f;// 弾速.
 
 };
 

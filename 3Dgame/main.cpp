@@ -26,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 画面モードセット.
 	ChangeWindowMode(TRUE);// ウィンドウモードの変更.
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 16);
-	SetBackgroundColor(70, 70, 70);
+	SetBackgroundColor(70, 70, 70);// とりあえず灰色に.
 
 	SetDrawScreen(DX_SCREEN_BACK);// 描画先を裏画面に変更する。
 

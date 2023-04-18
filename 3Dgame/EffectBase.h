@@ -8,7 +8,7 @@ public:
 	EffectBase(EffectTag tag);
 
 	virtual void Update(float deltaTime) = 0;
-	virtual void Draw() {};
+	virtual void Play() {};
 
 	bool GetValid() const { return valid; }
 	EffectTag GetTag() const { return tag; }

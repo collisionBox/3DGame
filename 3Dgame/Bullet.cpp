@@ -12,7 +12,7 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	// 位置・方向を初期化.
 	this->pos = pos;
 	this->dir = dir;
-	this->pos = VAdd(this->pos ,VScale(this->dir, barrelHead));// 砲塔先頭にセットするため.
+	this->pos = VAdd(this->pos ,VScale(this->dir, BarrelHead));// 砲塔先頭にセットするため.
 
 	MV1SetPosition(modelHandle, this->pos);
 	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
@@ -20,12 +20,12 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
-	colSphere.radius = colRadius;
+	colSphere.radius = ColRadius;
 	CollisionUpdate();
 	// 変数の初期化.
 	velocity = InitVec;
 	reflectionFlag = false;
-	myTag = userTag;
+ 	myTag = userTag;
 
 
 }
@@ -38,7 +38,7 @@ Bullet::~Bullet()
 
 void Bullet::Update(float deltaTime)
 {
-	velocity = VScale(VScale(dir, speed), deltaTime);
+	velocity = VScale(VScale(dir, Speed), deltaTime);
 	prevPos = VAdd(pos, velocity);
 
 	if (offscreenDicision(pos))

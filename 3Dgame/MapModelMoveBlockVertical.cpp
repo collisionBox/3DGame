@@ -1,15 +1,15 @@
 #include "MapModelMoveBlockVertical.h"
 #include "AssetManager.h"
 
-MapModelMoveBlockVertical::MapModelMoveBlockVertical(VECTOR initPos) :
+MapModelMoveBlockVertical::MapModelMoveBlockVertical(VECTOR initPos, VECTOR moveDir) :
 	ObjectBase(ObjectTag::BackGround)
 {
-	const VECTOR setScale = VGet(1.0f, 0.2f, 1.0f);
 	modelHandle = MV1LoadModel("data/map/block.mv1");
 	MV1SetScale(modelHandle, setScale);// ÉTÉCÉYÇ100*100Ç…Ç∑ÇÈ.
 	colModel = modelHandle;
 	pos = initPos;
-	dir = VGet(1.0f, 0.0f, 0.0f);
+	dir = moveDir;
+	deltaWaitTime = 0.0f;
 	velocity = VScale(dir, moveSpeed);
 	MV1SetPosition(modelHandle, pos);
 	CollisionUpdate();

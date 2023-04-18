@@ -122,7 +122,7 @@ void EffectManager::Update(float deltaTime)
 	}
 }
 
-void EffectManager::Draw()
+void EffectManager::Play()
 {
 	for (auto& tag : EffectTagAll)
 	{
@@ -134,7 +134,7 @@ void EffectManager::Draw()
 				if (Instance->effects[tag][i]->GetValid())
 				{
 					DrawEffekseer3D_Begin();
-					Instance->effects[tag][i]->Draw();
+					Instance->effects[tag][i]->Play();
 					DrawEffekseer3D_End();
 				}
 			}

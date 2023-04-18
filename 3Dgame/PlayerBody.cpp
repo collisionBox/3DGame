@@ -29,7 +29,7 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
-	colSphere.radius = 32.0f;
+	colSphere.radius = ColRadius;
 
 
 	// 変数の初期化.
@@ -46,7 +46,7 @@ void PlayerBody::Initialize()
 	dir = initDir;
 	aimDir = dir;
 	velocity = InitVec;
-	HP = maxHP;
+	HP = MaxHP;
 
 	// オブジェクトの初期化.
 	cannon->Initialize(pos, dir);
@@ -183,7 +183,6 @@ void PlayerBody::Input(float deltaTime)
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
-		//dir = VScale(dir, deltaTime);
 	}
 	else if (CheckHitKey(KEY_INPUT_LEFT))// 左旋回.
 	{
@@ -206,20 +205,12 @@ void PlayerBody::Input(float deltaTime)
 	if (!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{
 		accel *= DefaultDecel;
-		if (abs(VSize(velocity)) <= 8.0f)
+		if (abs(VSize(velocity)) <= Epsilon)
 		{
 			accel = 0;
 		}
 	}
 
-	// グリップ減速.
-	if (key & PAD_INPUT_RIGHT || key & PAD_INPUT_LEFT || pad.ThumbLX != 0)
-	{
-		if (VSize(velocity) >= 20)
-		{
-			velocity = VAdd(velocity, VScale(dir, GripDecel));
-		}
-	}
 	// 正規化.
 	dir = VNorm(dir);
 
@@ -240,7 +231,7 @@ void PlayerBody::Rotate()
 		{
 			//回転させる.
 			VECTOR interPolateDir;
-			interPolateDir = RotateForAimVecYAxis(dir, aimDir, 10.0f);
+			interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega);
 			
 			// 回転が目標角を超えていないか.
 			VECTOR cross1, cross2;

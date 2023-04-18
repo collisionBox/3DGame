@@ -34,7 +34,7 @@ private:
 	bool rotateNow;// 回転しているかどうか.
 	float accel;// 加速力.
 	int winNum;// 勝利数.
-	const float maxHP = 100.0f;
+	const float MaxHP = 100.0f;
 	ObjectTag nameTag;
 	// コントローラー変数.
 	int padInput;
@@ -48,8 +48,11 @@ private:
 	const float MaxSpeed = 300.0f;// 最高前進速度.
 	const float MinSpeed = -200.0f;// 最高後退速度.
 	const float DefaultDecel = 0.97f;// なにもしない時の減速.
-	const float GripDecel = -5.0f;// グリップの減速.
+	//const float GripDecel = -5.0f;// グリップの減速.
 	const float TurnPerformance = 5.0f;// 旋回性能.
 	const float DamagePoint = 20.0f;
+	const float ColRadius = 32.0f;// 当たり判定半径.
+	const float Epsilon = 8.0f;// 誤差.
+	const float Omega = 10.0f;
 };
 

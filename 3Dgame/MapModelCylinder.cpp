@@ -4,7 +4,6 @@
 MapModelCylinder::MapModelCylinder(VECTOR initPos):
 	ObjectBase(ObjectTag::BackGround)
 {
-	const VECTOR setScale = VGet(0.24f, 0.3f, 0.24f);
 	modelHandle = AssetManager::GetMesh("data/map/cylinder.mv1");
 	MV1SetScale(modelHandle, setScale);// ƒTƒCƒY‚ğ100*100‚É‚·‚é.
 	colModel = modelHandle;
@@ -20,6 +19,7 @@ MapModelCylinder::~MapModelCylinder()
 
 void MapModelCylinder::Update(float deltaTime)
 {
+	// ˆ—‚È‚µ.
 }
 
 void MapModelCylinder::Draw()

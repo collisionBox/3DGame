@@ -4,41 +4,16 @@
 #include "MapModelBlock.h"
 #include "MapModelCylinder.h"
 #include "MapModelMoveBlockVertical.h"
+#include "MapData.h"
 
 using namespace std;
 
 MapManager::MapManager(int mapNum)
 {
-	const float objLen = 100.0f;//オブジェクトの距離
 
-	const float adjustCylinder = 50.0f;
-
-	static const int mapObjectNumX = 20;
-	static const int mapObjectNumZ = 10;
 
 	vector<ObjectBase*> obj;
-	struct MapChip
-	{
-		int Num;
-		const int Data[mapObjectNumZ][mapObjectNumX];
-	};
-	// マップデータ.
-	MapChip MapData[] =
-	{
-		{1,
-		{
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
-		0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
-		0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
-	};
-
+	
 
 	struct MAPOBJECT
 	{
@@ -60,7 +35,7 @@ MapManager::MapManager(int mapNum)
 					{
 						{1, new MapModelBlock(VGet(x, 0, z)) },
 						{2, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
-						{3, new MapModelMoveBlockVertical(VGet(x, 0.0f, z)) }
+						{3, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
 					};
 					for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
 					{

@@ -13,6 +13,7 @@ public:
 
 
 private:
+	const VECTOR setScale = VGet(0.24f, 0.3f, 0.24f);
 
 
 };
