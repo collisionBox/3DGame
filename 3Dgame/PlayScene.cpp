@@ -5,16 +5,21 @@
 
 PlayScene::PlayScene(int mapNum)
 {
+	const VECTOR Player1InitPos = VGet(-742.0f, 0.0f, 335.0f);
+	const VECTOR Player1InitDir = VGet(1.0f, 0.0f, -1.0f);
+	const VECTOR Player2InitPos = VGet(742.0f, 0.0f, -355.0f);
+	const VECTOR Player2InitDir = VGet(-1.0f, 0.0f, 1.0f);
+
 	// カメラ生成.
 	MainCamera* mainCam = new MainCamera;
 
 	// プレイヤー生成.
 	int padInput = DX_INPUT_PAD1;
-	player[0] = new PlayerBody(VGet(-742.0f + 600, 0.0f, -30.0f), VGet(1.0f, 0.0f, 0.0f), padInput, ObjectTag::Player1, "data/player1/");
+	player[0] = new PlayerBody(Player1InitPos, Player1InitDir, padInput, ObjectTag::Player1, "data/player1/");
 	ObjectManager::Entry(player[0]);
 
 	int padInput2 = DX_INPUT_PAD2;
-	player[1] = new PlayerBody(VGet(742.0f, 0.0f, -355.0f), VGet(-1.0f, 0.0f, 1.0f), padInput2, ObjectTag::Player2, "data/player2/");
+	player[1] = new PlayerBody(Player2InitPos, Player2InitDir, padInput2, ObjectTag::Player2, "data/player2/");
 	ObjectManager::Entry(player[1]);
 
 

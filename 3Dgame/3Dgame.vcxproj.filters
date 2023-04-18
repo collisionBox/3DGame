@@ -66,9 +66,6 @@
     <ClCompile Include="Director.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClCompile>
@@ -144,9 +141,6 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Director.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">

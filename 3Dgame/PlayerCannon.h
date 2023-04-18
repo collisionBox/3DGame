@@ -10,8 +10,8 @@ public:
 
 
 
-	void Update(float deltaTime);// 更新.
-	void Updateeeee(VECTOR bodyPos, float deltaTime);
+	void Update(float deltaTime);// 更新(不使用).
+	void Updateeeee(VECTOR bodyPos, float deltaTime);// 更新.
 	void Draw();// 描画.
 
 

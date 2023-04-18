@@ -7,7 +7,6 @@ class Bullet :
 {
 public:
     
-    Bullet(ObjectTag tag);
     Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag);
     ~Bullet();
     void Update(float deltaTime);
@@ -18,7 +17,7 @@ public:
 private:
     bool reflectionFlag;// 一度反射しているかどうか.
     VECTOR velocity;// 弾速ベクトル.
-    ObjectTag myTag;
+    ObjectTag myTag;// 使用者のタグ.
     const float colRadius = 10.0f;// 当たり判定半径.
     const float barrelHead = 85.0f;// 砲身先端.
     const float speed = 800.0f;// 弾速.

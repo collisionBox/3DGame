@@ -53,6 +53,7 @@ ObjectBase::~ObjectBase()
 //--------------------------------------------------------------------
 void ObjectBase::DrawCollider()
 {
+
 	// 全コライダー種の描画.
 	DrawLine3D(colLine.worldStart, colLine.worldEnd, GetColor(255, 255, FALSE));
 	DrawSphere3D(colSphere.worldCenter, colSphere.radius, 10, GetColor(0, 255, 255), GetColor(0, 0, 0), FALSE);

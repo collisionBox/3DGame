@@ -9,18 +9,20 @@ using namespace std;
 
 MapManager::MapManager(int mapNum)
 {
-	const float objLen = 100;//オブジェクトの距離
+	const float objLen = 100.0f;//オブジェクトの距離
 
 	const float adjustCylinder = 50.0f;
 
 	static const int mapObjectNumX = 20;
 	static const int mapObjectNumZ = 10;
+
 	vector<ObjectBase*> obj;
 	struct MapChip
 	{
 		int Num;
 		const int Data[mapObjectNumZ][mapObjectNumX];
 	};
+	// マップデータ.
 	MapChip MapData[] =
 	{
 		{1,
@@ -30,10 +32,10 @@ MapManager::MapManager(int mapNum)
 		0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,
-		0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,1,0,0,0,0,3,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
 	};
 
@@ -73,7 +75,7 @@ MapManager::MapManager(int mapNum)
 		}
 	}
 
-
+	// オブジェクトマネージャーに登録.
 	for (auto& i : obj)
 	{
 		ObjectManager::Entry(i);

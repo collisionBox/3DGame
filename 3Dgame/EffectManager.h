@@ -12,7 +12,7 @@ class EffectManager
 {
 public:
 
-	static void Initialize();
+	static void Initialize();// ‰Šú‰».
 
 	static void Entry(EffectBase* newEffect);
 	static void Relese(EffectBase* releseEffevct);
