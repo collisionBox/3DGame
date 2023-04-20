@@ -18,6 +18,10 @@ private:
     bool IsChangeResultScene();
     bool WaitChangeSceneTime(float deltaTime);
     void PlayerInit();
+    const VECTOR Player1InitPos = VGet(-742.0f, 0.0f, 335.0f);
+    const VECTOR Player1InitDir = VGet(1.0f, 0.0f, -1.0f);
+    const VECTOR Player2InitPos = VGet(742.0f, 0.0f, -355.0f);
+    const VECTOR Player2InitDir = VGet(-1.0f, 0.0f, 1.0f);
 
     PlayerBody* player[2];
     int battleNum;
