@@ -8,13 +8,19 @@ class Bullet :
 public:
     
     Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag);
+    Bullet(ObjectTag userTag);
     ~Bullet();
+    void Init();
+    void Generate(VECTOR pos, VECTOR dir);
     void Update(float deltaTime);
     void OnCollisionEnter(const ObjectBase* other) override;
     void Draw();
+    const bool GetPermitUpdate() { return permitUpdate; }
+   // void SetPermitUpdate(bool TrueOrFalse) { permitUpdate = TrueOrFalse; }
 
 
 private:
+    bool permitUpdate;// Updateの許可.
     bool reflectionFlag;// 一度反射しているかどうか.
     VECTOR velocity;// 弾速ベクトル.
     ObjectTag myTag;// 使用者のタグ.

@@ -25,8 +25,23 @@ Bullet::Bullet(VECTOR pos, VECTOR dir, ObjectTag userTag) :
 	// 変数の初期化.
 	velocity = InitVec;
 	reflectionFlag = false;
+	permitUpdate = true;
  	myTag = userTag;
 
+
+}
+
+Bullet::Bullet(ObjectTag userTag) : 
+	ObjectBase(ObjectTag::Bullet)
+{
+	// アセットマネージャーからモデルをロード.
+	modelHandle = AssetManager::GetMesh("data/beam.mv1");
+	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.08f));// サイズの変更.
+	myTag = userTag;
+	// 当たり判定球セット.
+	colType = CollisionType::Sphere;
+	colSphere.radius = ColRadius;
+	Init();
 
 }
 
@@ -36,24 +51,62 @@ Bullet::~Bullet()
 
 }
 
+void Bullet::Init()
+{
+
+	// 位置・方向を初期化.
+	this->pos = InitVec;
+	this->dir = InitVec;
+	velocity = InitVec;
+	reflectionFlag = false;
+	permitUpdate = false;
+	colSphere.worldCenter = pos;
+	visible = false;
+	CollisionUpdate();
+	MV1SetPosition(modelHandle, this->pos);
+	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+
+
+}
+
+void Bullet::Generate(VECTOR pos, VECTOR dir)
+{
+	this->pos = pos;
+	this->dir = dir;
+	this->pos = VAdd(this->pos, VScale(this->dir, BarrelHead));// 砲塔先頭にセットするため.
+	colSphere.worldCenter = pos;
+	permitUpdate = true;
+	visible = true;
+	CollisionUpdate();
+	MV1SetPosition(modelHandle, this->pos);
+	MV1SetRotationZYAxis(modelHandle, this->dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
+
+}
+
 void Bullet::Update(float deltaTime)
 {
-	velocity = VScale(VScale(dir, Speed), deltaTime);
-	prevPos = VAdd(pos, velocity);
-
-	if (offscreenDicision(pos))
+	if (permitUpdate)
 	{
-		SetVisible(false);
+		velocity = VScale(VScale(dir, Speed), deltaTime);
+		prevPos = VAdd(pos, velocity);
+
+		if (offscreenDicision(pos))
+		{
+			SetVisible(false);
+		}
+
+		CollisionUpdate(prevPos);
+
+		pos = prevPos;
+		// 位置の更新.
+		MV1SetPosition(modelHandle, pos);
+		MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
+		VECTOR negativeVec = VTransform(dir, rotYMat);
+		MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
 	}
-
-	CollisionUpdate(prevPos);
-
-	pos = prevPos;
-	// 位置の更新.
-	MV1SetPosition(modelHandle, pos);
-	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
-	VECTOR negativeVec = VTransform(dir, rotYMat);
-	MV1SetRotationZYAxis(modelHandle, negativeVec, VGet(0.0f, 1.0f, 0.0f), 0.0f);
 
 }
 
