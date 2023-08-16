@@ -1,10 +1,11 @@
-#include "SceneHedder.h"
-#include "Director.h"
+#include "PlayScene.h"
 #include "ObjectManager.h"
 #include "EffectManager.h"
+#include "EndScene.h"
 
 PlayScene::PlayScene(int mapNum)
 {
+	ObjectManager::ReleseAllObj();
 
 	// カメラ生成.
 	MainCamera* mainCam = new MainCamera;
@@ -22,6 +23,10 @@ PlayScene::PlayScene(int mapNum)
 	MapManager* map = new MapManager(mapNum);
 	battleNum = 0;
 	deltaWaitTime = 0.0f;
+
+	fontHandle = CreateFontToHandle(NULL, fontSize, fontThick);
+	str = "Redy";
+
 }
 
 PlayScene::~PlayScene()
@@ -30,33 +35,54 @@ PlayScene::~PlayScene()
 
 SceneBase* PlayScene::Update(float deltaTime)
 {
-	// 全オブジェクトの更新.
-	ObjectManager::Update(deltaTime);
-	ObjectManager::Collition();
+	if (deltaWaitTime < WaitingTimeBeforStart)
+	{
+		deltaWaitTime += deltaTime;
+		str = "Redy";
+	}
+	else
+	{
+		if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
+		{
+			str = "Figth!";
+			deltaWaitTime += deltaTime;
+		}
+		// 全オブジェクトの更新.
+		ObjectManager::Update(deltaTime);
+		ObjectManager::Collition();
 
-	EffectManager::Update(deltaTime);
+		EffectManager::Update(deltaTime);
+	}
+	
 
 	for (int i = 0; i < PlayerNum; i++)
 	{
 		if (player[i]->GetHP() <= 0)
 		{
 			CheckWinner();
-			PlayerInit();
-			deltaWaitTime = 0.0f;
-
+			WaitTimer(WaitTime);
+			ObjectManager::ReleseAllObj();
+			return new EndScene(winnerNum + 1);
+			break;
 		}
 		
 	}
-	if (IsChangeResultScene())
+	if (CheckHitKey(KEY_INPUT_F8))
 	{
-		
-		DIRECTORINSTANCE.OrderChangeScene(new PlayScene(1));
+		ObjectManager::ReleseAllObj();
+		return new EndScene(1);
 	}
 	return this;
 }
 
 void PlayScene::Draw()
 {
+	if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
+	{
+		int strWidth = GetDrawStringWidthToHandle(str.c_str(), strlen(str.c_str()), fontHandle);
+		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), White, fontHandle);
+
+	}
 	// 全オブジェクトの描画.
 	ObjectManager::Draw();
 	EffectManager::Play();
@@ -68,8 +94,8 @@ void PlayScene::CheckWinner()
 	{
 		if (player[i]->GetHP() > 0)
 		{
-			player[i]->AddWinNum();
-			battleNum += 1;
+			winnerNum = i;
+			break;
 		}
 	}
 }

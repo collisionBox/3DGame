@@ -5,11 +5,11 @@
 #include <vector>
 #include "Director.h"
 #include "EffekseerForDXLib.h"
-#include "SceneHedder.h"
 #include "ObjectManager.h"
 #include "AssetManager.h"
 #include "EffectManager.h"
-
+#include "SceneManager.h"
+#include "StartScene.h"
 #include "UI.h"
 #include "Camera.h"
 #include "DebugDraw.h"
@@ -64,7 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ObjectManager::Initialize();
 	EffectManager::Initialize();
 
-	SCENEINSTANCE.SetScene(new PlayScene(1));
+	SCENEINSTANCE.SetScene(new StartScene);
 
 	
 	//時間計測.
@@ -77,7 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		Effekseer_Sync3DSetting();
 		//フレーム時間計測.
 		nowTime = GetNowHiPerformanceCount();
-		float deltaTime = (nowTime - prevTime) / 1000000.0f;
+		float deltaTime = (nowTime - prevTime) / 1000000.0f;// マイクロ秒を秒にする.
 	
 		SCENEINSTANCE.Update(deltaTime);
 
