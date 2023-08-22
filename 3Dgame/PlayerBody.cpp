@@ -150,7 +150,6 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 void PlayerBody::Input(float deltaTime)
 {
 	// キー入力取得.
-	int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	GetJoypadXInputState(padInput, &pad);
 	cannon->Input(deltaTime, pad);
 	// 加速処理.
@@ -190,15 +189,19 @@ void PlayerBody::Input(float deltaTime)
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
 
-	if (pad.ThumbLX > 0)// 右旋回.
+	VECTOR padVec = VGet(pad.ThumbLX, 0.0f, pad.ThumbLY);
+	if (VectorSize(padVec) != 0.0f)
 	{
-		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
-	}
-	else if (pad.ThumbLX < 0)// 左旋回.
-	{
-		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
-		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
+		padVec = VNorm(padVec);
+		if (IsNearAngle(padVec, dir))
+		{
+			dir = padVec;
+		}
+		else
+		{
+			rotateNow = true;
+			aimDir = padVec;
+		}
 	}
 
 	// 自然停止.

@@ -29,7 +29,7 @@ private:
 	const float TurnPerformance = 3.50f;// ù‰ñ«”\.
 	const float AdjustPos = 0.5f;
 	const float ShotIntervalTime = 1.0f;
-	const float Omega = 10.0f;
+	const float Omega = 2.5f;
 	float shotTime;
 
 	ObjectTag userTag;
