@@ -2,9 +2,12 @@
 #include "ObjectManager.h"
 #include "EffectManager.h"
 #include "EndScene.h"
+#include "Director.h"
 
 PlayScene::PlayScene(int mapNum)
 {
+	imgHandle = LoadGraph("data/floor.jpg");
+
 	ObjectManager::ReleseAllObj();
 
 	// カメラ生成.
@@ -15,17 +18,19 @@ PlayScene::PlayScene(int mapNum)
 	player[0] = new PlayerBody(Player1InitPos, Player1InitDir, padInput, ObjectTag::Player1, "data/player1/");
 	ObjectManager::Entry(player[0]);
 
-	int padInput2 = DX_INPUT_PAD2;
+	/*int padInput2 = DX_INPUT_PAD2;
 	player[1] = new PlayerBody(Player2InitPos, Player2InitDir, padInput2, ObjectTag::Player2, "data/player2/");
-	ObjectManager::Entry(player[1]);
+	ObjectManager::Entry(player[1]);*/
 
+	enemy = new EnemyBody(Player2InitPos, Player2InitDir);
+	ObjectManager::Entry(enemy);
 
 	MapManager* map = new MapManager(mapNum);
 	battleNum = 0;
 	deltaWaitTime = 0.0f;
 
 	fontHandle = CreateFontToHandle(NULL, fontSize, fontThick);
-	str = "Redy";
+	str = "Ready";
 
 }
 
@@ -35,16 +40,19 @@ PlayScene::~PlayScene()
 
 SceneBase* PlayScene::Update(float deltaTime)
 {
+#if 0
 	if (deltaWaitTime < WaitingTimeBeforStart)
 	{
 		deltaWaitTime += deltaTime;
-		str = "Redy";
+		str = "Ready";
 	}
 	else
+#endif
 	{
+
 		if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
 		{
-			str = "Figth!";
+			str = "Fight!";
 			deltaWaitTime += deltaTime;
 		}
 		// 全オブジェクトの更新.
@@ -77,10 +85,11 @@ SceneBase* PlayScene::Update(float deltaTime)
 
 void PlayScene::Draw()
 {
+	DrawExtendGraph(0, 0, ScreenSizeX, ScreenSizeY, imgHandle, false);
 	if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
 	{
 		int strWidth = GetDrawStringWidthToHandle(str.c_str(), strlen(str.c_str()), fontHandle);
-		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), White, fontHandle);
+		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), Red, fontHandle);
 
 	}
 	// 全オブジェクトの描画.

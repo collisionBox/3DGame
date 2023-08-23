@@ -3,6 +3,7 @@
 
 #include "camera.h"
 #include "PlayerBody.h"
+#include "EnemyBody.h"
 #include "MapManager.h"
 #include <string>
 class PlayScene :
@@ -23,7 +24,9 @@ private:
     const VECTOR Player2InitPos = VGet(742.0f, 0.0f, -355.0f);
     const VECTOR Player2InitDir = VGet(-1.0f, 0.0f, 1.0f);
 
+    int imgHandle;
     PlayerBody* player[2];
+    EnemyBody* enemy;
     int battleNum;
     const int maxBattleNum = 3;// Å‘å‘Îí‰ñ”.
     const int maxWinNum = 2;// Å‘åŸ—˜”.
