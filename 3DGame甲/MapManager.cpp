@@ -40,6 +40,7 @@ MapManager::MapManager(int mapNum)
 					};
 					for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
 					{
+						// プレイヤー及びエネミーのスポーン位置を格納.
 						if (MapData[k].Data[j][i] == PlayerSpawnPos)
 						{
 							auto itr = spawnPos.begin();
@@ -51,6 +52,7 @@ MapManager::MapManager(int mapNum)
 							spawnPos.push_back(VGet(x, 0.0f, z));
 							break;
 						}
+						//　マップオブジェクトを格納.
 						else if (MapData[k].Data[j][i] == mapObj[l].objectNum)
 						{
 							obj.push_back(mapObj[l].mapObj);
