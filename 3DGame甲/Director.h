@@ -16,6 +16,7 @@ public:
 	}
 	void Initialize();
 	void SelectGameMode(GameModeStatus select);
+	const GameModeStatus GetGameMode() { return gameMode; }
 	void OrderChangeScene(SceneBase* nextScene);
 	void CheckHP(const ObjectBase* player[], float deltaTime);
 private:

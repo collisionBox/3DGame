@@ -5,7 +5,7 @@
 
 EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):ObjectBase(ObjectTag::Enemy)
 {
-	modelHandle = AssetManager::GetMesh("date/enemy/enemyBody.mv1");
+	modelHandle = AssetManager::GetMesh("data/enemy/enemyBody.mv1");
 	if (modelHandle == -1)
 	{
 		printfDx("EnemyBodyを読み込めません");
@@ -13,10 +13,9 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):ObjectBase(ObjectTag::Enemy
 	MV1SetScale(modelHandle, MoveModelScale);
 
 	// 位置・方向を初期化.
-	pos = initPos;
-	dir = initDir;
-	HP = 1;
-	//Initialize();
+	this->initPos = initPos;
+	this->initDir = initDir;
+	Initialize();
 
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
@@ -27,6 +26,14 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):ObjectBase(ObjectTag::Enemy
 
 void EnemyBody::Initialize()
 {
+	pos = initPos;
+	dir = initDir;
+	HP = MaxHP;
+
+	// 変更の反映.
+	MV1SetPosition(modelHandle, pos);
+	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
+
 }
 
 void EnemyBody::Update(float deltaTime)
@@ -35,4 +42,6 @@ void EnemyBody::Update(float deltaTime)
 
 void EnemyBody::Draw()
 {
+	MV1DrawModel(modelHandle);
+
 }

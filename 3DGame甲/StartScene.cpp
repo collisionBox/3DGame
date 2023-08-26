@@ -11,13 +11,6 @@ StartScene::StartScene()
 }
 SceneBase* StartScene::Update(float deltaTime)
 {
-	GetJoypadXInputState(DX_INPUT_PAD1, &input);
-	シングルマルチ切り替え作成中
-		ディレクターにて管理
-	if (input.Buttons[XINPUT_BUTTON_DPAD_UP]|| input.Buttons[XINPUT_BUTTON_DPAD_DOWN])
-	{
-
-	}
 	if (input.Buttons[XINPUT_BUTTON_START])
 	{
 		return new PlayScene(1);

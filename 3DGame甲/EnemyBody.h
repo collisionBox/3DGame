@@ -10,6 +10,9 @@ public:
     void Draw();
 private:
     const float ColRadius = 32.0f;// “–‚½‚è”»’è”¼Œa.
+    VECTOR initPos;
+    VECTOR initDir;
+    float MaxHP = 1;
 
 };
 

@@ -10,22 +10,27 @@ PlayScene::PlayScene(int mapNum)
 
 	ObjectManager::ReleseAllObj();
 
+	//　マップマネージャの生成.
+	MapManager* map = new MapManager(mapNum);
+
 	// カメラ生成.
 	MainCamera* mainCam = new MainCamera;
 
 	// プレイヤー生成.
 	int padInput = DX_INPUT_PAD1;
-	player[0] = new PlayerBody(Player1InitPos, Player1InitDir, padInput, ObjectTag::Player1, "data/player1/");
+	player[0] = new PlayerBody(map->GetSpawnPos(0), VGet(1.0f,0.0f,0.0f), padInput, ObjectTag::Player1, "data/player1/");
 	ObjectManager::Entry(player[0]);
 
 	/*int padInput2 = DX_INPUT_PAD2;
 	player[1] = new PlayerBody(Player2InitPos, Player2InitDir, padInput2, ObjectTag::Player2, "data/player2/");
 	ObjectManager::Entry(player[1]);*/
 
-	enemy = new EnemyBody(Player2InitPos, Player2InitDir);
-	ObjectManager::Entry(enemy);
+	for (int i = 1; i < map->GetSizeSpawnPosVector(); i++)
+	{
+		enemy = new EnemyBody(map->GetSpawnPos(i), VGet(1.0f, 0.0f, 0.0f));
+		ObjectManager::Entry(enemy);
+	}
 
-	MapManager* map = new MapManager(mapNum);
 	battleNum = 0;
 	deltaWaitTime = 0.0f;
 
