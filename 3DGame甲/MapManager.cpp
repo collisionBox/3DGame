@@ -36,7 +36,7 @@ MapManager::MapManager(int mapNum)
 					{
 						{Block, new MapModelBlock(VGet(x, 0, z)) },
 						{Cylinder, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
-						{MoveBlock, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
+						{MoveBlockVirtical, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
 					};
 					for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
 					{

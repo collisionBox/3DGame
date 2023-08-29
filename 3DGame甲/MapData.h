@@ -2,11 +2,11 @@
 
 static const int mapObjectNumX = 19;
 static const int mapObjectNumZ = 10;
-static const int Block = 1;
-static const int Cylinder = 2;
-static const int MoveBlock = 3;
-static const int PlayerSpawnPos = 8;
-static const int EnemySpawnPos = 9;
+static const int Block = 1;// ブロックの位置番号.
+static const int Cylinder = 2;// 円柱マップオブジェクトの位置番号.
+static const int MoveBlockVirtical = 3;// 水平に動くブロックマップオブジェクトの位置番号.
+static const int PlayerSpawnPos = 8;// プレイヤースポーン位置番号.
+static const int EnemySpawnPos = 9;// 敵スポーン位置番号.
 
 struct MapChip
 {
@@ -20,7 +20,7 @@ MapChip MapData[] =
 	{
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 9, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 
 	0, 0, 0, 8, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 9, 0, 0, 

@@ -54,5 +54,7 @@ private:
 	const float ColRadius = 32.0f;// “–‚½‚è”»’è”¼Œa.
 	const float Epsilon = 8.0f;// Œë·.
 	const float Omega = 10.0f;
+
+
 };
 
