@@ -3,15 +3,14 @@
 #include "SceneManager.h"
 #include "PlayScene.h"
 #include <cmath>
-#include "Director.h"
 StartScene::StartScene()
 {
-	singleMode = true;
 	alpha = 0.0f;
 }
 SceneBase* StartScene::Update(float deltaTime)
 {
-	if (input.Buttons[XINPUT_BUTTON_START])
+
+	if (CheckHitKeyAll())
 	{
 		return new PlayScene(1);
 	} 

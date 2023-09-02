@@ -13,7 +13,7 @@
 #include "UI.h"
 #include "Camera.h"
 #include "DebugDraw.h"
-#include "PlayScene.h"
+
 
 //-----------------------------------------------------------------------------
 // @brief  ÉÅÉCÉìä÷êî.
@@ -64,7 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ObjectManager::Initialize();
 	EffectManager::Initialize();
 
-	SCENEINSTANCE.SetScene(new PlayScene(1));
+	SCENEINSTANCE.SetScene(new StartScene);
 
 	
 	//éûä‘åvë™.

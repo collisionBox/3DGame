@@ -179,7 +179,6 @@ void PlayerBody::Input(float deltaTime)
 		}
 	}
 	// 旋回処理.
-	// キーボード.
 	if (CheckHitKey(KEY_INPUT_RIGHT))// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -190,21 +189,18 @@ void PlayerBody::Input(float deltaTime)
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
-	// パッド.
-	VECTOR padVec = VGet(pad.ThumbLX, 0.0f, pad.ThumbLY);
-	if (VectorSize(padVec) != 0.0f)
+
+	if (pad.ThumbLX > 0)// 右旋回.
 	{
-		padVec = VNorm(padVec);
-		if (IsNearAngle(padVec, dir))
-		{
-			dir = padVec;
-		}
-		else
-		{
-			rotateNow = true;
-			aimDir = padVec;
-		}
+		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(right, TurnPerformance * deltaTime));
 	}
+	else if (pad.ThumbLX < 0)// 左旋回.
+	{
+		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
+		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
+	}
+
 	// 自然停止.
 	if (!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{

@@ -6,7 +6,7 @@
 ///--------------------------------------------------------------
 const VECTOR MoveModelScale = VGet(0.135f, 0.135f, 0.135f);
 const VECTOR InitVec = VGet(0.0f, 0.0f, 0.0f);// ƒxƒNƒgƒ‹‰Šú‰»•Ï”.
-const int PlayerNum = 1;
+const int PlayerNum = 2;
 
 const float WindowSizeXMin = -873.0f;
 const float windowSizeXMax = WindowSizeXMin * -1;

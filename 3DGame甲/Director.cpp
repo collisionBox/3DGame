@@ -9,11 +9,6 @@ void Director::Initialize()
 
 }
 
-void Director::SelectGameMode(GameModeStatus select)
-{
-	gameMode = select;
-}
-
 void Director::OrderChangeScene(SceneBase* nextScene)
 {
 	SCENEINSTANCE.SetScene(nextScene);

@@ -31,29 +31,15 @@ MapManager::MapManager(int mapNum)
 				{
 					float x = WindowSizeXMin + objLen * i;
 					float z = WindowSizeZMax - objLen * j;
-					
 					MAPOBJECT mapObj[] =
 					{
-						{Block, new MapModelBlock(VGet(x, 0, z)) },
-						{Cylinder, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
-						{MoveBlockVirtical, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
+						{1, new MapModelBlock(VGet(x, 0, z)) },
+						{2, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
+						{3, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
 					};
 					for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
 					{
-						// プレイヤー及びエネミーのスポーン位置を格納.
-						if (MapData[k].Data[j][i] == PlayerSpawnPos)
-						{
-							auto itr = spawnPos.begin();
-							spawnPos.insert(itr, VGet(x, 0.0f, z));
-							break;
-						}
-						else if (MapData[k].Data[j][i] == EnemySpawnPos)
-						{
-							spawnPos.push_back(VGet(x, 0.0f, z));
-							break;
-						}
-						//　マップオブジェクトを格納.
-						else if (MapData[k].Data[j][i] == mapObj[l].objectNum)
+						if (MapData[k].Data[j][i] == mapObj[l].objectNum)
 						{
 							obj.push_back(mapObj[l].mapObj);
 						}
@@ -69,7 +55,5 @@ MapManager::MapManager(int mapNum)
 	{
 		ObjectManager::Entry(i);
 	}
-
-	sizeVector = spawnPos.size();
 }
 
