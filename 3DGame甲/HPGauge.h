@@ -4,7 +4,7 @@
 class HPGauge
 {
 public:
-	HPGauge(float maxHP);
+	HPGauge(float maxHP, float DamagePoint);
 	void Initialize(float maxHP);
 	void Update(VECTOR& pos, float& HP, float deltaTime);
 	void Draw();
@@ -15,5 +15,9 @@ private:
 	const float Width = 40.0f;// HPバーの幅.
 	const float Hight = 10.0f;;// HPバーの高さ.
 	float valiableWidth;// HPバーの可変長.
+	int color;
+	float damagePoint;
+	float alpha;
+	float addition = 3.0f;
 };
 

@@ -10,7 +10,7 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	// 砲を生成.
 	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
 	// HPゲージを生成.
-	hpGauge = new HPGauge(HP);
+	hpGauge = new HPGauge(HP, DamagePoint);
 
 	// アセットマネージャーからモデルをロード.
 	string str = "playerBody.mv1";
@@ -189,7 +189,7 @@ void PlayerBody::Input(float deltaTime)
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
-
+#if 0
 	if (pad.ThumbLX > 0)// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -200,7 +200,13 @@ void PlayerBody::Input(float deltaTime)
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
-
+#else
+	if (pad.ThumbLX || pad.ThumbLY)
+	{
+		aimDir = VGet(pad.ThumbLY, 0.0f, pad.ThumbLX);
+		aimDir = VNorm(aimDir);
+	}
+#endif
 	// 自然停止.
 	if (!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{

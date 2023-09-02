@@ -2,7 +2,8 @@
 #include "ObjectManager.h"
 #include "EffectManager.h"
 #include "EndScene.h"
-
+#include "EffectManager.h"
+#include "BreakExplosion.h"
 PlayScene::PlayScene(int mapNum)
 {
 	ObjectManager::ReleseAllObj();
@@ -23,9 +24,9 @@ PlayScene::PlayScene(int mapNum)
 	MapManager* map = new MapManager(mapNum);
 	battleNum = 0;
 	deltaWaitTime = 0.0f;
-
+	permission2Proceed = false;
 	fontHandle = CreateFontToHandle(NULL, fontSize, fontThick);
-	str = "Redy";
+	str = "Ready";
 
 }
 
@@ -38,13 +39,13 @@ SceneBase* PlayScene::Update(float deltaTime)
 	if (deltaWaitTime < WaitingTimeBeforStart)
 	{
 		deltaWaitTime += deltaTime;
-		str = "Redy";
+		str = "Ready";
 	}
 	else
 	{
 		if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
 		{
-			str = "Figth!";
+			str = "Fight!";
 			deltaWaitTime += deltaTime;
 		}
 		// 全オブジェクトの更新.
@@ -60,12 +61,17 @@ SceneBase* PlayScene::Update(float deltaTime)
 		if (player[i]->GetHP() <= 0)
 		{
 			CheckWinner();
-			WaitTimer(WaitTime);
-			ObjectManager::ReleseAllObj();
-			return new EndScene(winnerNum + 1);
+			EffectBase* breakEffect = new BreakExplosion(player[i]->GetPos(), player[i]->GetDir());
+			EffectManager::Entry(breakEffect);
+			再生終了を検知してtrueにする
 			break;
 		}
 		
+	}
+	if (permission2Proceed)
+	{
+		WaitTimer(WaitTime);
+		return new EndScene(winnerNum + 1);
 	}
 	if (CheckHitKey(KEY_INPUT_F8))
 	{
@@ -80,7 +86,7 @@ void PlayScene::Draw()
 	if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
 	{
 		int strWidth = GetDrawStringWidthToHandle(str.c_str(), strlen(str.c_str()), fontHandle);
-		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), White, fontHandle);
+		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), Red, fontHandle);
 
 	}
 	// 全オブジェクトの描画.

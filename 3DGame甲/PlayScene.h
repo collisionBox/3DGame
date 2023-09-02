@@ -25,6 +25,7 @@ private:
 
     PlayerBody* player[2];
     int battleNum;
+    bool permission2Proceed;// is‹–‰Â.
     const int maxBattleNum = 3;// Å‘å‘Îí‰ñ”.
     const int maxWinNum = 2;// Å‘åŸ—˜”.
     const float OnShootingDownWaitTime = 10.0f;// ”íŒ‚’Ä‘Ò‹@ŠÔ.

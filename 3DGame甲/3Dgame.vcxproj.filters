@@ -39,9 +39,6 @@
     <Filter Include="ソース ファイル\Effect">
       <UniqueIdentifier>{eca082e9-586f-4917-ac4c-1b01cc33f69c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{810407eb-2582-48ed-a6c5-3cae48179714}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\ヘッダー ファイル">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
@@ -50,9 +47,6 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDraw.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -120,20 +114,11 @@
     <ClCompile Include="EndScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBody.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBodyBase.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
+    <ClCompile Include="DebugDraw.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BreakExplosion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCannon.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +182,6 @@
     <ClInclude Include="MapModelMoveBlockVertical.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="SystemConstant.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
@@ -212,9 +194,6 @@
     <ClInclude Include="MazzleFlashEffect.h">
       <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="EffectTag.h">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="MapData.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
@@ -224,20 +203,14 @@
     <ClInclude Include="EndScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBody.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBodyBase.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="BreakExplosion.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyCannon.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemConstant.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakExplosion.h">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@ public:
 
     void Play();
 private:
-
+    const float Size = 10.0f;
+    const float PlayEffectSpeed = 1.0f;
 };
 
