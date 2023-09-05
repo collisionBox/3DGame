@@ -17,7 +17,7 @@ private:
 	float valiableWidth;// HPƒo[‚Ì‰Â•Ï’·.
 	int color;
 	float damagePoint;
-	float alpha;
+	int alpha;
 	float addition = 3.0f;
 };
 

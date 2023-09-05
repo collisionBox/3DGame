@@ -10,7 +10,7 @@ void HPGauge::Initialize(float maxHP)
 {
 	this->maxHP = maxHP;
 	color = White;
-	alpha = 0.0f;
+	alpha = 255.0f;
 }
 
 void HPGauge::Update(VECTOR& pos, float& HP, float deltaTime)

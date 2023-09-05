@@ -1,7 +1,8 @@
 #include "PlayerBody.h"
 #include "AssetManager.h"
 #include "SystemConstant.h"
-
+#include "EffectManager.h"
+#include "BreakExplosion.h"
 PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
 	ObjectBase(myTag)
 	, rotateNow(false)
@@ -90,7 +91,13 @@ void PlayerBody::Update(float deltaTime)
 	pos = prevPos;
 	cannon->Updateeeee(pos, deltaTime);
 	hpGauge->Update(pos, HP, deltaTime);
+	if (HP <= 0)
+	{
+		//if (breakEffect->GetValid())
+		{
 
+		}
+	}
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));

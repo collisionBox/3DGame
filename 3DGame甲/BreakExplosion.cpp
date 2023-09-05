@@ -12,7 +12,7 @@ BreakExplosion::BreakExplosion(VECTOR pos, VECTOR dir) :
 	SetSpeedPlayingEffekseer3DEffect(playingEffectHandle, PlayEffectSpeed);
 
 	UpdateEffekseer3D();
-
+	finish = false;
 }
 
 BreakExplosion::~BreakExplosion()
@@ -26,6 +26,7 @@ void BreakExplosion::Update(float deltaTime)
 	if (IsEffekseer3DEffectPlaying(playingEffectHandle) == -1)
 	{
 		valid = false;
+		finish = true;
 		DeleteEffekseerEffect(playingEffectHandle);
 	}
 

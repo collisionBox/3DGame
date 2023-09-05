@@ -3,7 +3,6 @@
 #include "EffectManager.h"
 #include "EndScene.h"
 #include "EffectManager.h"
-#include "BreakExplosion.h"
 PlayScene::PlayScene(int mapNum)
 {
 	ObjectManager::ReleseAllObj();
@@ -25,9 +24,14 @@ PlayScene::PlayScene(int mapNum)
 	battleNum = 0;
 	deltaWaitTime = 0.0f;
 	permission2Proceed = false;
+	loserNum = 0;
 	fontHandle = CreateFontToHandle(NULL, fontSize, fontThick);
 	str = "Ready";
-
+	for (int i = 0; i < PlayerNum; i++)
+	{
+		breakEffect[i] = nullptr;
+	}
+	
 }
 
 PlayScene::~PlayScene()
@@ -54,30 +58,54 @@ SceneBase* PlayScene::Update(float deltaTime)
 
 		EffectManager::Update(deltaTime);
 	}
-	
 
-	for (int i = 0; i < PlayerNum; i++)
+	if (player[0]->GetHP() <= 0 || player[1]->GetHP() <= 0)
 	{
-		if (player[i]->GetHP() <= 0)
+		CheckWinner();
+		for (int i = 0; i < PlayerNum; i++)
 		{
-			CheckWinner();
-			EffectBase* breakEffect = new BreakExplosion(player[i]->GetPos(), player[i]->GetDir());
-			EffectManager::Entry(breakEffect);
-			Ä¶I—¹‚ðŒŸ’m‚µ‚Ätrue‚É‚·‚é
-			break;
+			if (player[i]->GetHP() <= 0)
+			{
+				if (breakEffect[i] == nullptr)
+				{
+					breakEffect[i] = new BreakExplosion(player[i]->GetPos(), player[i]->GetDir());
+					EffectManager::Entry(breakEffect[i]);
+				}
+			}
+
 		}
-		
+		if (loserNum != 0)
+		{
+			if (loserNum == -1)
+			{
+				if (breakEffect[0]->IsFinish() && breakEffect[1]->IsFinish())
+				{
+					permission2Proceed = true;
+				}
+			}
+			else
+			{
+				if (breakEffect[loserNum - 1]->IsFinish())
+				{
+					permission2Proceed = true;
+				}
+			}
+
+		}
+		if (permission2Proceed)
+		{
+			WaitTimer(WaitTime);
+			return new EndScene(loserNum);
+		}
+		if (CheckHitKey(KEY_INPUT_F8))
+		{
+			ObjectManager::ReleseAllObj();
+			return new EndScene(1);
+		}
+
+
 	}
-	if (permission2Proceed)
-	{
-		WaitTimer(WaitTime);
-		return new EndScene(winnerNum + 1);
-	}
-	if (CheckHitKey(KEY_INPUT_F8))
-	{
-		ObjectManager::ReleseAllObj();
-		return new EndScene(1);
-	}
+	
 	return this;
 }
 
@@ -96,14 +124,28 @@ void PlayScene::Draw()
 
 void PlayScene::CheckWinner()
 {
-	for (int i = 0; i < PlayerNum; i++)
+
 	{
-		if (player[i]->GetHP() > 0)
+		if (player[0]->GetHP() <= 0 && player[1]->GetHP() <= 0)
 		{
-			winnerNum = i;
-			break;
+			loserNum = -1;
+
 		}
+		else
+		{
+			for (int i = 0; i < PlayerNum; i++)
+			{
+
+				if (player[i]->GetHP() <= 0)
+				{
+					loserNum = i + 1;
+					break;
+				}
+			}
+		}
+
 	}
+	
 }
 
 bool PlayScene::IsChangeResultScene()
