@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetWriteZBuffer3D(TRUE);
 
 	// ライトを設定.
-	SetLightDirection(VGet(0.0f, -1.0f, 0.0f));
+	ChangeLightTypeDir(VGet(1.0f, -1.0f, 0.5f));
 
 	// マネージャー生成.
 	AssetManager::Initalize();

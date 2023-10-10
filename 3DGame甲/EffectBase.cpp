@@ -1,8 +1,7 @@
 #include "EffectBase.h"
 
-EffectBase::EffectBase(EffectTag tag) :
+EffectBase::EffectBase() :
 	handle(-1)
-	,tag(tag)
 	,valid(true)
 {
 }

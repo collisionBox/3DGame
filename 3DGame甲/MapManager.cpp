@@ -10,8 +10,6 @@ using namespace std;
 
 MapManager::MapManager(int mapNum)
 {
-
-
 	vector<ObjectBase*> obj;
 	
 
@@ -33,9 +31,9 @@ MapManager::MapManager(int mapNum)
 					float z = WindowSizeZMax - objLen * j;
 					MAPOBJECT mapObj[] =
 					{
-						{1, new MapModelBlock(VGet(x, 0, z)) },
-						{2, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
-						{3, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
+						{Block, new MapModelBlock(VGet(x, 0, z)) },
+						{Cylinder, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
+						{VerticalMoveBlock, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
 					};
 					for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
 					{

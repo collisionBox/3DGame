@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -43,13 +39,14 @@
     <Filter Include="ソース ファイル\Effect">
       <UniqueIdentifier>{eca082e9-586f-4917-ac4c-1b01cc33f69c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDraw.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Director.cpp">
-      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>ソース ファイル\Bullet</Filter>
@@ -117,6 +111,12 @@
     <ClCompile Include="EndScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="DebugDraw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakExplosion.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -142,9 +142,6 @@
     </ClInclude>
     <ClInclude Include="DebugDraw.h">
       <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Director.h">
-      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\Bullet</Filter>
@@ -179,9 +176,6 @@
     <ClInclude Include="MapModelMoveBlockVertical.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="SystemConstant.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
@@ -194,9 +188,6 @@
     <ClInclude Include="MazzleFlashEffect.h">
       <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="EffectTag.h">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="MapData.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
@@ -205,6 +196,15 @@
     </ClInclude>
     <ClInclude Include="EndScene.h">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCannon.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemConstant.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakExplosion.h">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

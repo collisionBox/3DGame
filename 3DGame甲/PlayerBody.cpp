@@ -1,7 +1,8 @@
 #include "PlayerBody.h"
 #include "AssetManager.h"
 #include "SystemConstant.h"
-
+#include "EffectManager.h"
+#include "BreakExplosion.h"
 PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
 	ObjectBase(myTag)
 	, rotateNow(false)
@@ -10,7 +11,7 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	// 砲を生成.
 	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
 	// HPゲージを生成.
-	hpGauge = new HPGauge(HP);
+	hpGauge = new HPGauge(HP, DamagePoint);
 
 	// アセットマネージャーからモデルをロード.
 	string str = "playerBody.mv1";
@@ -64,10 +65,8 @@ PlayerBody::~PlayerBody()
 
 void PlayerBody::Update(float deltaTime)
 {
-	//if (HP > 0.0f)
-	{
-		Input(deltaTime);
-	}
+	Input(deltaTime);
+	Rotate();
 
 	// 方向ベクトルに加速力を加えて加速ベクトルとする.
 	velocity = VScale(dir, accel);
@@ -90,7 +89,6 @@ void PlayerBody::Update(float deltaTime)
 	pos = prevPos;
 	cannon->Updateeeee(pos, deltaTime);
 	hpGauge->Update(pos, HP, deltaTime);
-
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
@@ -150,7 +148,6 @@ void PlayerBody::OnCollisionEnter(const ObjectBase* other)
 void PlayerBody::Input(float deltaTime)
 {
 	// キー入力取得.
-	int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	GetJoypadXInputState(padInput, &pad);
 	cannon->Input(deltaTime, pad);
 	// 加速処理.
@@ -189,7 +186,7 @@ void PlayerBody::Input(float deltaTime)
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
-
+#if 0
 	if (pad.ThumbLX > 0)// 右旋回.
 	{
 		VECTOR right = VCross(VGet(0.0f, 1.0f, 0.0f), dir);
@@ -200,7 +197,22 @@ void PlayerBody::Input(float deltaTime)
 		VECTOR left = VCross(VGet(0.0f, -1.0f, 0.0f), dir);
 		dir = VAdd(dir, VScale(left, TurnPerformance * deltaTime));
 	}
-
+#else
+	VECTOR padVec = VGet(pad.ThumbLX, 0.0f, pad.ThumbLY);
+	if (VectorSize(padVec) != 0.0f)
+	{
+		padVec = VNorm(padVec);
+		if (IsNearAngle(padVec, dir))
+		{
+			dir = padVec;
+		}
+		else
+		{
+			rotateNow = true;
+			aimDir = padVec;
+		}
+	}
+#endif
 	// 自然停止.
 	if (!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{

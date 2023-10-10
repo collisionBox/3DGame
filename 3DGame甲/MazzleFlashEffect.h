@@ -1,6 +1,5 @@
 #pragma once
 #include "SystemConstant.h"
-#include "EffekseerForDXLib.h"
 #include "EffectBase.h"
 
 class MazzleFlashEffect :
@@ -17,8 +16,5 @@ private:
     const float BarrelHeadLen = 60.0f;// 砲身先端(距離).
     const float BarrelHeadHeight = 13.0f;// 砲身先端(高さ).
     const float PlayEffectSpeed = 30.0f;
-    VECTOR pos;
-    VECTOR dir;
-    int playingEffectHandle;
 };
 

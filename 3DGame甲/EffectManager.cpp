@@ -44,16 +44,14 @@ void EffectManager::Relese(EffectBase* releseEffevct)
 		Instance->pendingEffect.pop_back();
 		return;
 	}
-	// 解放オブジェクトのタグ種類を得る.
-	EffectTag tag = releseEffevct->GetTag();
 
 	// アクティブオブジェクト内から削除Objectを検索.
-	iter = find(Instance->effects[tag].begin(), Instance->effects[tag].end(), releseEffevct);
-	if (iter != Instance->effects[tag].end())
+	iter = find(Instance->effects.begin(), Instance->effects.end(), releseEffevct);
+	if (iter != Instance->effects.end())
 	{
 		// 見つけたオブジェクトを末尾に移動し、削除.
-		iter_swap(iter, Instance->effects[tag].end() - 1);
-		delete Instance->effects[tag].back();
+		iter_swap(iter, Instance->effects.end() - 1);
+		delete Instance->effects.back();
 	}
 }
 
@@ -68,51 +66,40 @@ void EffectManager::ReleseAllEffect()
 	}
 
 	// すべてのアクティブオブジェクトを削除
-	for (auto& tag : EffectTagAll)
-	{
 		// 末尾から削除
-		while (!Instance->effects[tag].empty())
-		{
-			delete Instance->effects[tag].back();
-			Instance->effects[tag].pop_back();
-		}
+	while (!Instance->effects.empty())
+	{
+		delete Instance->effects.back();
+		Instance->effects.pop_back();
 	}
 }
 
 void EffectManager::Update(float deltaTime)
 {
 	// すべてのアクターの更新
-	for (auto& tag : EffectTagAll)
-	{
 		// 該当タグにあるすべてのオブジェクトを更新
-		for (int i = 0; i < Instance->effects[tag].size(); ++i)
-		{
-			Instance->effects[tag][i]->Update(deltaTime);
-		}
+	for (int i = 0; i < Instance->effects.size(); ++i)
+	{
+		Instance->effects[i]->Update(deltaTime);
 	}
 	// ペンディング中のオブジェクトをアクティブリストに追加
 	for (auto pending : Instance->pendingEffect)
 	{
-		EffectTag tag = pending->GetTag();
-		Instance->effects[tag].emplace_back(pending);
+		Instance->effects.emplace_back(pending);
 	}
 	Instance->pendingEffect.clear();
 
 	// すべてのアクター中で死んでいるアクターをdeadObjectへ一時保管
 	vector<EffectBase*> deadObject;
-	for (auto& tag : EffectTagAll)
+	//deadObjectに移動
+	for (auto obj : Instance->effects)
 	{
-		//deadObjectに移動
-		for (auto obj : Instance->effects[tag])
+		if (!obj->GetValid())
 		{
-			if (!obj->GetValid())
-			{
-				deadObject.emplace_back(obj);
-			}
+			deadObject.emplace_back(obj);
 		}
-		Instance->effects[tag].erase(remove_if(begin(Instance->effects[tag]), end(Instance->effects[tag]), [](EffectBase* b) { return !b->GetValid(); }), cend(Instance->effects[tag]));
-
 	}
+	Instance->effects.erase(remove_if(begin(Instance->effects), end(Instance->effects), [](EffectBase* b) { return !b->GetValid(); }), cend(Instance->effects));
 
 	// 死んでいるオブジェクトをdelete
 	while (!deadObject.empty())
@@ -124,28 +111,17 @@ void EffectManager::Update(float deltaTime)
 
 void EffectManager::Play()
 {
-	for (auto& tag : EffectTagAll)
+	for (int i = 0; i < Instance->effects.size(); ++i)
 	{
-		if (tag == EffectTag::Graphic)
+		// 描画可能なオブジェクトのみ描画.
+		if (Instance->effects[i]->GetValid())
 		{
-			for (int i = 0; i < Instance->effects[tag].size(); ++i)
-			{
-				// 描画可能なオブジェクトのみ描画.
-				if (Instance->effects[tag][i]->GetValid())
-				{
-					DrawEffekseer3D_Begin();
-					Instance->effects[tag][i]->Play();
-					DrawEffekseer3D_End();
-				}
-			}
+			DrawEffekseer3D_Begin();
+			Instance->effects[i]->Play();
+			DrawEffekseer3D_End();
 		}
-		else if (tag == EffectTag::Sound)
-		{
-
-		}
-		
 	}
-	
+
 }
 
 void EffectManager::Finalize()
