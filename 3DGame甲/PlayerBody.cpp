@@ -64,7 +64,7 @@ PlayerBody::~PlayerBody()
 
 void PlayerBody::Update(float deltaTime)
 {
-	//if (HP > 0.0f)
+	if (HP > 0.0f)
 	{
 		Input(deltaTime);
 	}
@@ -206,7 +206,7 @@ void PlayerBody::Input(float deltaTime)
 		}
 	}
 	// Ž©‘R’âŽ~.
-	if (!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_UP)) && pad.LeftTrigger - pad.RightTrigger == 0)
+	if (!(CheckHitKey(KEY_INPUT_UP)) && !(CheckHitKey(KEY_INPUT_DOWN)) && pad.LeftTrigger - pad.RightTrigger == 0)
 	{
 		accel *= DefaultDecel;
 		if (abs(VSize(velocity)) <= Epsilon)

@@ -8,13 +8,13 @@ static const int MoveBlockVirtical = 3;// 水平に動くブロックマップオブジェクトの
 static const int PlayerSpawnPos = 8;// プレイヤースポーン位置番号.
 static const int EnemySpawnPos = 9;// 敵スポーン位置番号.
 
-struct MapChip
+static const struct MapChip
 {
 	int Num;
 	const int Data[mapObjectNumZ][mapObjectNumX];
 };
 // マップデータ.
-MapChip MapData[] =
+static const MapChip MapData[] =
 {
 	{1,
 	{

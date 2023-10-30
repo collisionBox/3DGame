@@ -129,11 +129,11 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="BreakExplosion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyCannon.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakExplosion.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,11 +233,14 @@
     <ClInclude Include="EnemyBodyBase.h">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="BreakExplosion.h">
+    <ClInclude Include="EnemyBehavioralData.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EnemyCannon.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakExplosion.h">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
