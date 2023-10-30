@@ -26,7 +26,7 @@ private:
     ObjectTag myTag;// g—pÒ‚Ìƒ^ƒO.
     const float ColRadius = 10.0f;// “–‚½‚è”»’è”¼Œa.
     const float BarrelHead = 85.0f;// –Cgæ’[.
-    const float Speed = 800.0f;// ’e‘¬.
 
 };
+static const float BulletSpeed = 800.0f;// ’e‘¬.
 

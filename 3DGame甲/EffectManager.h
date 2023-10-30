@@ -2,7 +2,6 @@
 #include <unordered_map>
 #include <vector>
 #include "EffectBase.h"
-#include "EffectTag.h"
 
 using namespace std;
 /// <summary>
@@ -25,7 +24,7 @@ private:
 	EffectManager();
 	~EffectManager();
 	vector<EffectBase*>pendingEffect;
-	unordered_map<EffectTag, vector<EffectBase*>> effects;
+	vector<EffectBase*> effects;
 	static EffectManager* Instance;
 };
 

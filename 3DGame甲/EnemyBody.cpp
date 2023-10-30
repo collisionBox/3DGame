@@ -2,7 +2,7 @@
 #include "AssetManager.h"
 #include "ObjectTag.h"
 #include "SystemConstant.h"
-
+#include "ObjectManager.h"
 EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):ObjectBase(ObjectTag::Enemy)
 {
 	modelHandle = AssetManager::GetMesh("data/enemy/enemyBody.mv1");
@@ -16,7 +16,9 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):ObjectBase(ObjectTag::Enemy
 	this->initPos = initPos;
 	this->initDir = initDir;
 	Initialize();
-
+	cannon = new EnemyCannon(pos, dir, ObjectTag::Enemy);
+	//ObjectManager::Entry(cannon);
+	
 	// “–‚½‚è”»’è‹…ƒZƒbƒg.
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
@@ -38,10 +40,11 @@ void EnemyBody::Initialize()
 
 void EnemyBody::Update(float deltaTime)
 {
+	cannon->Updateeeee(pos, deltaTime);
 }
 
 void EnemyBody::Draw()
 {
 	MV1DrawModel(modelHandle);
-
+	cannon->Draw();
 }

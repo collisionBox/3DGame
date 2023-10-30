@@ -1,21 +1,22 @@
 #pragma once
-#include	 "DxLib.h"
-#include "EffectTag.h"
+#include "DxLib.h"
+#include "EffekseerForDXLib.h"
 
 class EffectBase
 {
 public:
-	EffectBase(EffectTag tag);
+	EffectBase();
 
 	virtual void Update(float deltaTime) = 0;
 	virtual void Play() {};
 
 	bool GetValid() const { return valid; }
-	EffectTag GetTag() const { return tag; }
 protected:
 	int handle;
 	bool valid;// —LŒø‚©‚Ç‚¤‚©.
-	EffectTag tag;
+	VECTOR pos;
+	VECTOR dir;
+	int playingEffectHandle;// Ä¶’†‚Ìƒnƒ“ƒhƒ‹.
 
 
 

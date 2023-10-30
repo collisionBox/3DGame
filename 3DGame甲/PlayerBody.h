@@ -25,7 +25,7 @@ public:
 	int GetWinNum() const { return winNum; }
 	ObjectTag GetNameTag() const { return nameTag; }
 private:
-	void Rotate();
+	void Rotate(float deltaTIme);
 
 	VECTOR initPos;// 初期ポジション.
 	VECTOR initDir;// 初期ディレクション.

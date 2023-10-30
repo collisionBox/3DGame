@@ -2,7 +2,7 @@
 #include "EffectTag.h"
 
 MazzleFlashEffect::MazzleFlashEffect(VECTOR pos, VECTOR dir) :
-	EffectBase(EffectTag::Graphic)
+	EffectBase()
 {
 	handle = LoadEffekseerEffect("data/effect/explosion/”š”­1.efkefc", Size);
 	this->dir = dir;

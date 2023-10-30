@@ -195,6 +195,12 @@ void ObjectManager::Collition()
 
 }
 
+size_t ObjectManager::TagObjectSize(ObjectTag tag)
+{
+
+	return Instance->objects[tag].size();
+}
+
 //-------------------------------------------------------------------------------
 // @brief タグ種類の初めのオブジェクトを返す.
 // @param[in] tag ObjectTag種類
@@ -206,6 +212,21 @@ ObjectBase* ObjectManager::GetFirstObject(ObjectTag tag)
 		return nullptr;
 	}
 	return Instance->objects[tag][0];
+}
+
+/// <summary>
+/// タグ種類の添え時のオブジェクトをかえす.
+/// </summary>
+/// <param name="tag">ObjectTagの種類.</param>
+/// <param name="index">添字.</pa	ram>
+/// <returns>ObjectBase*</returns>
+ObjectBase* ObjectManager::GetAllObjectsInTag(ObjectTag tag, int index)
+{
+	if (Instance->objects[tag].size() == 0)
+	{
+		return nullptr;
+	}
+	return Instance->objects[tag][index];
 }
 
 //-------------------------------------------------------------------------------
