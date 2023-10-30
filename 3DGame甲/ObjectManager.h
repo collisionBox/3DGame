@@ -20,7 +20,9 @@ public:
 
 	static void Collition();
 
+	static size_t TagObjectSize(ObjectTag tag);
 	static ObjectBase* GetFirstObject(ObjectTag tag);
+	static ObjectBase* GetAllObjectsInTag(ObjectTag tag, int index);
 	static void Finalize();
 
 private:

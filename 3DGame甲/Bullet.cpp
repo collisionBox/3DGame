@@ -89,7 +89,7 @@ void Bullet::Update(float deltaTime)
 {
 	if (permitUpdate)
 	{
-		velocity = VScale(VScale(dir, Speed), deltaTime);
+		velocity = VScale(VScale(dir, BulletSpeed), deltaTime);
 		prevPos = VAdd(pos, velocity);
 
 		if (offscreenDicision(pos))
@@ -163,7 +163,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 
 				// ƒRƒŠƒWƒ‡ƒ“î•ñ‚Ì‰ğ•ú.
 				MV1CollResultPolyDimTerminate(colInfo);
-				CollisionUpdate(prevPos);
+				colSphere.worldCenter = prevPos;
 				reflectionFlag = true;
 			}
 		}

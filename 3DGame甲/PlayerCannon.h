@@ -21,7 +21,7 @@ public:
 	void Initialize(VECTOR initPos, VECTOR initDir);
 	void Input(float deltaTime, XINPUT_STATE pad);
 private:
-	void Rotate();
+	void Rotate(float deltaTime);
 	
 	VECTOR aimDir;
 	bool rotateNow;
@@ -29,7 +29,7 @@ private:
 	const float TurnPerformance = 3.50f;// ê˘âÒê´î\.
 	const float AdjustPos = 0.5f;
 	const float ShotIntervalTime = 1.0f;
-	const float Omega = 10.0f;
+	const float Omega = 50.0f;
 	float shotTime;
 
 	ObjectTag userTag;

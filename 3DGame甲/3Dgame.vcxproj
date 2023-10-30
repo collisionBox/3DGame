@@ -76,13 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -101,7 +101,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,13 +110,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile;;C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Desktops\DxLibFile;D:\Desktops\EffecseerFile;;C:\Users\kouts\OneDrive\デスクトップ\DxLibFile;C:\Users\kouts\OneDrive\デスクトップ\EffecseerFile;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -149,6 +149,10 @@
     <ClCompile Include="EffectBase.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EndScene.cpp" />
+    <ClCompile Include="EnemyBody.cpp" />
+    <ClCompile Include="EnemyBodyBase.cpp" />
+    <ClCompile Include="EnemyCannon.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="HPGauge.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapManager.cpp" />
@@ -176,8 +180,12 @@
     <ClInclude Include="Director.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="EffectTag.h" />
     <ClInclude Include="EndScene.h" />
+    <ClInclude Include="EnemyBody.h" />
+    <ClInclude Include="EnemyBodyBase.h" />
     <ClInclude Include="EnemyCannon.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="HPGauge.h" />
     <ClInclude Include="MapData.h" />
     <ClInclude Include="MapManager.h" />

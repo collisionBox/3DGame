@@ -49,7 +49,7 @@ void PlayerCannon::Update(float deltaTime)
 }
 void PlayerCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 {
-	Rotate();
+	Rotate(deltaTime);
 	dir = VNorm(dir);
 	pos = bodyPos;
 
@@ -111,7 +111,7 @@ void PlayerCannon::Input(float deltaTime, XINPUT_STATE pad)
 
 }
 
-void PlayerCannon::Rotate()
+void PlayerCannon::Rotate(float deltaTime)
 {
 	if (rotateNow)
 	{
@@ -124,7 +124,7 @@ void PlayerCannon::Rotate()
 		{
 			//‰ñ“]‚³‚¹‚é.
 			VECTOR interPolateDir;
-			interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega);
+			interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega * deltaTime);
 
 			// ‰ñ“]‚ª–Ú•WŠp‚ð’´‚¦‚Ä‚¢‚È‚¢‚©.
 			VECTOR cross1, cross2;

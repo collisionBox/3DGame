@@ -108,7 +108,7 @@ void PlayerBody::Update(float deltaTime)
 void PlayerBody::Draw()
 {
 	MV1DrawModel(modelHandle);
-
+	DrawFormatString(0, 0, Green, "%f %f", pos.x, pos.z);
 	cannon->Draw();
 	hpGauge->Draw();
 	//DrawCollider();
@@ -231,7 +231,7 @@ void PlayerBody::Input(float deltaTime)
 	
 }
 
-void PlayerBody::Rotate()
+void PlayerBody::Rotate(float deltaTIme)
 {
 	if (rotateNow)
 	{
@@ -244,7 +244,7 @@ void PlayerBody::Rotate()
 		{
 			//‰ñ“]‚³‚¹‚é.
 			VECTOR interPolateDir;
-			interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega);
+			interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega * deltaTIme);
 			
 			// ‰ñ“]‚ª–Ú•WŠp‚ð’´‚¦‚Ä‚¢‚È‚¢‚©.
 			VECTOR cross1, cross2;
