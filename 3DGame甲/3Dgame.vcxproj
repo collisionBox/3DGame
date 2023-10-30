@@ -182,6 +182,7 @@
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="EffectTag.h" />
     <ClInclude Include="EndScene.h" />
+    <ClInclude Include="EnemyBehavioralData.h" />
     <ClInclude Include="EnemyBody.h" />
     <ClInclude Include="EnemyBodyBase.h" />
     <ClInclude Include="EnemyCannon.h" />

@@ -3,7 +3,10 @@
 #include "SystemConstant.h"
 #include "ObjectManager.h"
 #include "Bullet.h"
+#include "MazzleFlashEffect.h"
+#include "EffectManager.h"
 #include "PlayerBody.h"
+
 EnemyCannon::EnemyCannon(VECTOR initPos, VECTOR initDir, ObjectTag userTag) :
 	ObjectBase(ObjectTag::Enemy)
 {
@@ -29,8 +32,9 @@ void EnemyCannon::Initialize(VECTOR initPos, VECTOR initDir)
 	pos = initPos;
 	pos.y = AdjustPos;
 	dir = initDir;
-	aimDir = InitVec;
+	aimDir = dir;
 	rotateNow = false;
+	jbPlayerPos = InitVec;
 	// 変更の反映.
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
@@ -45,47 +49,37 @@ EnemyCannon::~EnemyCannon()
 	AssetManager::DeleteMesh(modelHandle);
 }
 
+/// <summary>
+/// 更新処理.
+/// </summary>
+/// <param name="bodyPos">車体位置.</param>
+/// <param name="deltaTime"></param>
 void EnemyCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 {
-
+	if (shotTime >= 0)
+	{
+		shotTime -= deltaTime;
+	}
+	
+	DiviationValculation(deltaTime);
 	dir = VNorm(dir);
 	pos = bodyPos;
-	ObjectBase* player = ObjectManager::GetFirstObject(ObjectTag::Player1);
-	VECTOR nowPlayerPos = dir;
-	if (player)
-	{
-		nowPlayerPos = player->GetPos();
-		if (Search(nowPlayerPos))
-		{
-			// プレイヤーと時期の位置から弾着時間を算出.
-			float length = VSize(nowPlayerPos - pos);
-			float time2Inpact = length / (BulletSpeed * deltaTime);
-
-			//偏差位置の算出.
-			VECTOR distanceTraveled = nowPlayerPos - jbPlayerPos;// 移動した距離.
-			VECTOR deviationPos = nowPlayerPos + (distanceTraveled * time2Inpact);
-
-			aimDir = VNorm(deviationPos - pos) * -1;
-
-		}
-
-	}
 	Rotate(deltaTime);
 	MV1SetPosition(modelHandle, this->pos);
-	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
-	VECTOR negativeVec = VTransform(dir, rotYMat);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
-	jbPlayerPos = nowPlayerPos;
+	
 }
 
 void EnemyCannon::Draw()
 {
 	MV1DrawModel(modelHandle);
-	DrawFormatString(0, 100, Green, "%f %f", colLine.worldEnd.x, colLine.worldEnd.z);
-	//DrawFormatString(0, 200, Green, "%f %f", dir.x, dir.z);
-	DrawLine3D(colLine.worldStart, colLine.worldEnd, Green);
+	DrawLine3D(pos, colLine.worldEnd, Green);
 }
 
+/// <summary>
+/// 旋回処理.
+/// </summary>
+/// <param name="deltaTime"></param>
 void EnemyCannon::Rotate(float deltaTime)
 {
 	//回転させる.
@@ -129,18 +123,48 @@ bool EnemyCannon::Search(VECTOR playerPos)
 			}
 		}
 	}
+	Fire();
 	return true;
 }
 
+/// <summary>
+/// 偏差位置算出.
+/// </summary>
+/// <param name="deltaTime"></param>
 void EnemyCannon::DiviationValculation(float deltaTime)
 {
+	ObjectBase* player = ObjectManager::GetFirstObject(ObjectTag::Player1);
+	VECTOR nowPlayerPos = dir;
+	if (player)
+	{
+		nowPlayerPos = player->GetPos();
+		if (Search(nowPlayerPos))
+		{
+			// プレイヤーと時期の位置から弾着時間を算出.
+			float length = VSize(nowPlayerPos - pos);
+			float time2Inpact = length / (BulletSpeed * deltaTime);
+
+			//偏差位置の算出.
+			VECTOR distanceTraveled = nowPlayerPos - jbPlayerPos;// 移動した距離.
+			VECTOR deviationPos = nowPlayerPos + (distanceTraveled * time2Inpact);
+
+			aimDir = VNorm(deviationPos - pos) * -1;
+
+		}
+
+	}
+	jbPlayerPos = nowPlayerPos;
 }
 
 void EnemyCannon::Fire()
 {
+	if (shotTime < 0)
+	{
+		shotTime = ShotIntervalTime;
+		ObjectBase* bullet = new Bullet(pos, dir * -1, userTag);
+		ObjectManager::Entry(bullet);
+		EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir * -1);
+		EffectManager::Entry(mazzleFlash);
+	}
 }
 
-void EnemyCannon::OnCollisionEnter(ObjectBase* other)
-{
-
-}

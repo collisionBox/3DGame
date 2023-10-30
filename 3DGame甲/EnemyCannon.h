@@ -1,6 +1,7 @@
 #pragma once
 #include "ObjectBase.h"
 #include "Math.h"
+#include <map>
 class EnemyCannon : public ObjectBase
 {
 public:
@@ -10,7 +11,6 @@ public:
 	void Updateeeee(VECTOR bodyPos, float deltaTime);// 更新.
 	void Draw();// 描画.
 	void Initialize(VECTOR initPos, VECTOR initDir);
-	void OnCollisionEnter(ObjectBase* other);
 private:
 	void Rotate(float deltaTime);
 	bool Search(VECTOR playerPos);
@@ -29,6 +29,6 @@ private:
 	ObjectTag userTag;
 	VECTOR jbPlayerPos;// 直前のプレイヤー位置.jb=just before
 
-
+	int stageNum;
 };
 

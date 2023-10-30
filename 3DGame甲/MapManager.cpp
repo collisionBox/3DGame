@@ -11,7 +11,6 @@ using namespace std;
 MapManager::MapManager(int mapNum)
 {
 	vector<ObjectBase*> obj;
-	
 
 	struct MAPOBJECT
 	{
