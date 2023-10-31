@@ -10,13 +10,13 @@ PlayScene::PlayScene(int mapNum)
 
 	ObjectManager::ReleseAllObj();
 
-	//@ƒ}ƒbƒvƒ}ƒl[ƒWƒƒ‚Ì¶¬.
+	//ã€€ãƒžãƒƒãƒ—ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ç”Ÿæˆ.
 	MapManager* map = new MapManager(mapNum);
 
-	// ƒJƒƒ‰¶¬.
+	// ã‚«ãƒ¡ãƒ©ç”Ÿæˆ.
 	MainCamera* mainCam = new MainCamera;
 
-	// ƒvƒŒƒCƒ„[¶¬.
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”Ÿæˆ.
 	int padInput = DX_INPUT_PAD1;
 	player[0] = new PlayerBody(map->GetSpawnPos(0), VGet(1.0f, 0.0f, 0.0f), padInput, ObjectTag::Player1, "data/player1/");
 	ObjectManager::Entry(player[0]);
@@ -60,7 +60,7 @@ SceneBase* PlayScene::Update(float deltaTime)
 			str = "Fight!";
 			deltaWaitTime += deltaTime;
 		}
-		// ‘SƒIƒuƒWƒFƒNƒg‚ÌXV.
+		// å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°.
 		ObjectManager::Update(deltaTime);
 		ObjectManager::Collition();
 
@@ -97,7 +97,7 @@ void PlayScene::Draw()
 		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), Red, fontHandle);
 
 	}
-	// ‘SƒIƒuƒWƒFƒNƒg‚Ì•`‰æ.
+	// å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”».
 	ObjectManager::Draw();
 	EffectManager::Play();
 }

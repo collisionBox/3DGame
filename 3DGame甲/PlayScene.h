@@ -17,7 +17,7 @@ public:
     SceneBase* Update(float deltaTime);
     void Draw();
 private:
-    void CheckWinner();// Ÿ—˜Ò‚ğŒŸõ.
+    void CheckWinner();// å‹åˆ©è€…ã‚’æ¤œç´¢.
     bool IsChangeResultScene();
     bool WaitChangeSceneTime(float deltaTime);
     void PlayerInit();
@@ -31,17 +31,17 @@ private:
     PlayerBody* player[PlayerNum];
     EnemyBody* enemy;
     int battleNum;
-    const int maxBattleNum = 3;// Å‘å‘Îí‰ñ”.
-    const int maxWinNum = 2;// Å‘åŸ—˜”.
-    const float OnShootingDownWaitTime = 10.0f;// ”íŒ‚’Ä‘Ò‹@ŠÔ.
-    const float WaitingTimeBeforStart = 3.0f;// ŠJn‘O‘Ò‹@ŠÔ.
-    float deltaWaitTime;// ‘Ò‹@ŠÔ.
+    const int maxBattleNum = 3;// æœ€å¤§å¯¾æˆ¦å›æ•°.
+    const int maxWinNum = 2;// æœ€å¤§å‹åˆ©æ•°.
+    const float OnShootingDownWaitTime = 10.0f;// è¢«æ’ƒå¢œæ™‚å¾…æ©Ÿæ™‚é–“.
+    const float WaitingTimeBeforStart = 3.0f;// é–‹å§‹å‰å¾…æ©Ÿæ™‚é–“.
+    float deltaWaitTime;// å¾…æ©Ÿæ™‚é–“.
     int winnerNum;
     const int WaitTime = 900;
     std::string str;
-    const float StringDrawTime = 2.0f;// •¶š‚ğ•`‰æ‚µ‚Ä‚¨‚­ŠÔ.
+    const float StringDrawTime = 2.0f;// æ–‡å­—ã‚’æç”»ã—ã¦ãŠãæ™‚é–“.
     int fontHandle;
-    const int fontSize = 60;// ‘å‚«
-    const int fontThick = 3;// ‘¾‚³.
+    const int fontSize = 60;// å¤§ã
+    const int fontThick = 3;// å¤ªã•.
 };
 
