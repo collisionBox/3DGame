@@ -150,9 +150,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EndScene.cpp" />
     <ClCompile Include="EnemyBody.cpp" />
-    <ClCompile Include="EnemyBodyBase.cpp" />
     <ClCompile Include="EnemyCannon.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="HPGauge.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapManager.cpp" />
@@ -184,9 +182,7 @@
     <ClInclude Include="EndScene.h" />
     <ClInclude Include="EnemyBehavioralData.h" />
     <ClInclude Include="EnemyBody.h" />
-    <ClInclude Include="EnemyBodyBase.h" />
     <ClInclude Include="EnemyCannon.h" />
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="HPGauge.h" />
     <ClInclude Include="MapData.h" />
     <ClInclude Include="MapManager.h" />

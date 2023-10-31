@@ -6,7 +6,7 @@
 ///--------------------------------------------------------------
 const VECTOR MoveModelScale = VGet(0.135f, 0.135f, 0.135f);
 const VECTOR InitVec = VGet(0.0f, 0.0f, 0.0f);// ベクトル初期化変数.
-const int PlayerNum = 2;
+const int PlayerNum = 1;
 
 const float WindowSizeXMin = -873.0f;// 画面端X上座標.
 const float windowSizeXMax = WindowSizeXMin * -1;// 画面端X下座標.

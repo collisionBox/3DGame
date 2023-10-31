@@ -2,36 +2,41 @@
 #include "ObjectManager.h"
 #include "EffectManager.h"
 #include "EndScene.h"
-#include "EffectManager.h"
+#include "Director.h"
+
 PlayScene::PlayScene(int mapNum)
 {
+	imgHandle = LoadGraph("data/floor.jpg");
+
 	ObjectManager::ReleseAllObj();
 
-	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	//@ƒ}ƒbƒvƒ}ƒl[ƒWƒƒ‚Ì¶¬.
+	MapManager* map = new MapManager(mapNum);
+
+	// ƒJƒƒ‰¶¬.
 	MainCamera* mainCam = new MainCamera;
 
-	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½.
+	// ƒvƒŒƒCƒ„[¶¬.
 	int padInput = DX_INPUT_PAD1;
-	player[0] = new PlayerBody(Player1InitPos, Player1InitDir, padInput, ObjectTag::Player1, "data/player1/");
+	player[0] = new PlayerBody(map->GetSpawnPos(0), VGet(1.0f, 0.0f, 0.0f), padInput, ObjectTag::Player1, "data/player1/");
 	ObjectManager::Entry(player[0]);
 
-	int padInput2 = DX_INPUT_PAD2;
+	/*int padInput2 = DX_INPUT_PAD2;
 	player[1] = new PlayerBody(Player2InitPos, Player2InitDir, padInput2, ObjectTag::Player2, "data/player2/");
-	ObjectManager::Entry(player[1]);
+	ObjectManager::Entry(player[1]);*/
 
+	for (int i = 1; i < map->GetSizeSpawnPosVector(); i++)
+	{
+		enemy = new EnemyBody(map->GetSpawnPos(i), VGet(1.0f, 0.0f, 0.0f));
+		ObjectManager::Entry(enemy);
+	}
 
-	MapManager* map = new MapManager(mapNum);
 	battleNum = 0;
 	deltaWaitTime = 0.0f;
-	permission2Proceed = false;
-	loserNum = 0;
+
 	fontHandle = CreateFontToHandle(NULL, fontSize, fontThick);
 	str = "Ready";
-	for (int i = 0; i < PlayerNum; i++)
-	{
-		breakEffect[i] = nullptr;
-	}
-	
+
 }
 
 PlayScene::~PlayScene()
@@ -40,112 +45,73 @@ PlayScene::~PlayScene()
 
 SceneBase* PlayScene::Update(float deltaTime)
 {
+#if 0
 	if (deltaWaitTime < WaitingTimeBeforStart)
 	{
 		deltaWaitTime += deltaTime;
 		str = "Ready";
 	}
 	else
+#endif
 	{
+
 		if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
 		{
 			str = "Fight!";
 			deltaWaitTime += deltaTime;
 		}
-		// ï¿½Sï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌXï¿½V.
+		// ‘SƒIƒuƒWƒFƒNƒg‚ÌXV.
 		ObjectManager::Update(deltaTime);
 		ObjectManager::Collition();
 
 		EffectManager::Update(deltaTime);
 	}
 
-	if (player[0]->GetHP() <= 0 || player[1]->GetHP() <= 0)
+
+	for (int i = 0; i < PlayerNum; i++)
 	{
-		CheckWinner();
-		for (int i = 0; i < PlayerNum; i++)
+		if (player[i]->GetHP() <= 0)
 		{
-			if (player[i]->GetHP() <= 0)
-			{
-				if (breakEffect[i] == nullptr)
-				{
-					breakEffect[i] = new BreakExplosion(player[i]->GetPos(), player[i]->GetDir());
-					EffectManager::Entry(breakEffect[i]);
-				}
-			}
-
-		}
-		if (loserNum != 0)
-		{
-			if (loserNum == -1)
-			{
-				if (breakEffect[0]->IsFinish() && breakEffect[1]->IsFinish())
-				{
-					permission2Proceed = true;
-				}
-			}
-			else
-			{
-				if (breakEffect[loserNum - 1]->IsFinish())
-				{
-					permission2Proceed = true;
-				}
-			}
-
-		}
-		if (permission2Proceed)
-		{
+			CheckWinner();
 			WaitTimer(WaitTime);
-			return new EndScene(loserNum);
-		}
-		if (CheckHitKey(KEY_INPUT_F8))
-		{
 			ObjectManager::ReleseAllObj();
 			return new EndScene(1);
+			break;
 		}
 
-
 	}
-	
+	if (CheckHitKey(KEY_INPUT_F8))
+	{
+		ObjectManager::ReleseAllObj();
+		return new EndScene(1);
+	}
 	return this;
 }
 
 void PlayScene::Draw()
 {
+	DrawExtendGraph(0, 0, ScreenSizeX, ScreenSizeY, imgHandle, false);
 	if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
 	{
 		int strWidth = GetDrawStringWidthToHandle(str.c_str(), strlen(str.c_str()), fontHandle);
 		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), Red, fontHandle);
 
 	}
-	// ï¿½Sï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì•`ï¿½ï¿½.
+	// ‘SƒIƒuƒWƒFƒNƒg‚Ì•`‰æ.
 	ObjectManager::Draw();
 	EffectManager::Play();
 }
 
 void PlayScene::CheckWinner()
 {
-
+	for (int i = 0; i < PlayerNum; i++)
 	{
-		if (player[0]->GetHP() <= 0 && player[1]->GetHP() <= 0)
+		if (player[i]->GetHP() > 0)
 		{
-			loserNum = -1;
-
+			winnerNum = i;
+			break;
 		}
-		else
-		{
-			for (int i = 0; i < PlayerNum; i++)
-			{
-
-				if (player[i]->GetHP() <= 0)
-				{
-					loserNum = i + 1;
-					break;
-				}
-			}
-		}
-
 	}
-	
 }
 
 bool PlayScene::IsChangeResultScene()

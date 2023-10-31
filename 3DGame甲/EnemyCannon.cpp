@@ -74,9 +74,10 @@ void EnemyCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 void EnemyCannon::Draw()
 {
 	MV1DrawModel(modelHandle);
-	//DrawLine3D(pos, pos + a, Green);
+	DrawLine3D(pos, pos + a * 100, Green);
+	DrawLine3D(pos, pos + dir*-100, Red);
 	
-	DrawFormatString(0, 100, Green, "%f %f", a.x, a.z);
+	DrawFormatString(0, 100, Green, "%f %f", leftOrRight, a.x);
 }
 
 /// <summary>
@@ -135,6 +136,7 @@ bool EnemyCannon::Search(VECTOR playerPos)
 			}
 		}
 	}
+	leftOrRight = CalcRotationDirectionYAxis(dir, aimDir);
 	Fire();
 	if (!IsNearAngle(aimDir, dir))
 	{
@@ -174,12 +176,18 @@ void EnemyCannon::DiviationValculation(float deltaTime)
 
 void EnemyCannon::Fire()
 {
-	VECTOR enemyDir = VNorm(colLine.worldEnd - pos);
+	/*VECTOR enemyDir = VNorm(colLine.worldEnd - pos);
 	float dot = VDot(enemyDir, dir);
 	float range = FOVDegree * DX_PI_F;
 	float rad = cosf(range / 2.0f);
-	a.x = rad; a.z =dot;
-	if (rad <= dot)
+	a.x = rad; a.z =dot;*/
+	//if (rad <= dot)
+	VECTOR enemyDir = VNorm(colLine.worldEnd - pos);
+	MATRIX mat = MGetRotY(ToRadian(FOVDegree) * -leftOrRight);
+	VECTOR rot = VTransform(dir, mat) * -1;
+	float dot1 = VDot(dir, enemyDir);
+	float dot2 = VDot(dir, rot);
+	if(dot1 < dot2)
 	{
 		if (shotTime < 0)
 		{

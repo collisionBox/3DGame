@@ -3,44 +3,45 @@
 
 #include "camera.h"
 #include "PlayerBody.h"
-#include "BreakExplosion.h"
-
+#include "EnemyBody.h"
 #include "MapManager.h"
 #include <string>
+#include "SystemConstant.h"
 class PlayScene :
     public SceneBase
 {
 public:
     PlayScene(int mapNum);
+    PlayScene(bool mode, int mapNum);
     ~PlayScene();
     SceneBase* Update(float deltaTime);
     void Draw();
 private:
-    void CheckWinner();// ï¿½ï¿½ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½.
+    void CheckWinner();// Ÿ—˜Ò‚ğŒŸõ.
     bool IsChangeResultScene();
     bool WaitChangeSceneTime(float deltaTime);
     void PlayerInit();
     const VECTOR Player1InitPos = VGet(-742.0f, 0.0f, 335.0f);
     const VECTOR Player1InitDir = VGet(1.0f, 0.0f, -1.0f);
     const VECTOR Player2InitPos = VGet(742.0f, 0.0f, -355.0f);
-    const VECTOR Player2InitDir = VGet(-1.0f, 0.0f, 1.0f);
-    
-    PlayerBody* player[2];
-    BreakExplosion* breakEffect[2];
-    bool check;
+    const VECTOR Player2InitDir = VGet(1.0f, 0.0f, -1.0f);
+    const VECTOR LookLeft = VGet(-1.0f, 0.0f, 0.0f);
+    const VECTOR LookRight = VGet(1.0f, 0.0f, 0.0f);
+    int imgHandle;
+    PlayerBody* player[PlayerNum];
+    EnemyBody* enemy;
     int battleNum;
-    bool permission2Proceed;// ï¿½iï¿½sï¿½ï¿½ï¿½ï¿½.
-    const int maxBattleNum = 3;// ï¿½Å‘ï¿½Îï¿½ï¿½.
-    const int maxWinNum = 2;// ï¿½Å‘åŸï¿½ï¿½ï¿½ï¿½.
-    const float OnShootingDownWaitTime = 10.0f;// ï¿½íŒ‚ï¿½Äï¿½ï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½.
-    const float WaitingTimeBeforStart = 3.0f;// ï¿½Jï¿½nï¿½Oï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½.
-    float deltaWaitTime;// ï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½.
-    int loserNum;
+    const int maxBattleNum = 3;// Å‘å‘Îí‰ñ”.
+    const int maxWinNum = 2;// Å‘åŸ—˜”.
+    const float OnShootingDownWaitTime = 10.0f;// ”íŒ‚’Ä‘Ò‹@ŠÔ.
+    const float WaitingTimeBeforStart = 3.0f;// ŠJn‘O‘Ò‹@ŠÔ.
+    float deltaWaitTime;// ‘Ò‹@ŠÔ.
+    int winnerNum;
     const int WaitTime = 900;
     std::string str;
-    const float StringDrawTime = 2.0f;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    const float StringDrawTime = 2.0f;// •¶š‚ğ•`‰æ‚µ‚Ä‚¨‚­ŠÔ.
     int fontHandle;
-    const int fontSize = 60;// ï¿½å‚«
-    const int fontThick = 3;// ï¿½ï¿½ï¿½ï¿½.
+    const int fontSize = 60;// ‘å‚«
+    const int fontThick = 3;// ‘¾‚³.
 };
 

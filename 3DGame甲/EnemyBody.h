@@ -1,5 +1,4 @@
 #pragma once
-#include "EnemyBodyBase.h"
 #include "EnemyCannon.h"
 class EnemyBody :
     public ObjectBase

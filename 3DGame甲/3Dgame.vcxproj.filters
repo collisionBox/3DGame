@@ -123,12 +123,6 @@
     <ClCompile Include="EnemyBody.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBodyBase.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyCannon.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
@@ -224,13 +218,7 @@
     <ClInclude Include="EndScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBody.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBodyBase.h">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBehavioralData.h">
