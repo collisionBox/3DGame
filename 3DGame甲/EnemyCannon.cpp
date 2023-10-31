@@ -6,6 +6,7 @@
 #include "MazzleFlashEffect.h"
 #include "EffectManager.h"
 #include "PlayerBody.h"
+#include <cmath>
 
 EnemyCannon::EnemyCannon(VECTOR initPos, VECTOR initDir, ObjectTag userTag) :
 	ObjectBase(ObjectTag::Enemy)
@@ -73,7 +74,9 @@ void EnemyCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 void EnemyCannon::Draw()
 {
 	MV1DrawModel(modelHandle);
-	DrawLine3D(pos, colLine.worldEnd, Green);
+	//DrawLine3D(pos, pos + a, Green);
+	
+	DrawFormatString(0, 100, Green, "%f %f", a.x, a.z);
 }
 
 /// <summary>
@@ -82,23 +85,32 @@ void EnemyCannon::Draw()
 /// <param name="deltaTime"></param>
 void EnemyCannon::Rotate(float deltaTime)
 {
-	//‰ñ“]‚³‚¹‚é.
-	VECTOR interPolateDir;
-	interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega * deltaTime);
-
-	// ‰ñ“]‚ª–Ú•WŠp‚ğ’´‚¦‚Ä‚¢‚È‚¢‚©.
-	VECTOR cross1, cross2;
-	cross1 = VCross(dir, aimDir);
-	cross2 = VCross(interPolateDir, aimDir);
-
-	// –Ú•WŠp“x‚ğ’´‚¦‚½‚çI—¹.
-	if (cross1.y * cross2.y < 0.0f)
+	if (rotateNow)
 	{
-		interPolateDir = aimDir;
-		rotateNow = false;
+		if (IsNearAngle(aimDir, dir))
+		{
+			dir = aimDir;
+			rotateNow = false;
+		}
+		//‰ñ“]‚³‚¹‚é.
+		VECTOR interPolateDir;
+		interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega * deltaTime);
+
+		// ‰ñ“]‚ª–Ú•WŠp‚ğ’´‚¦‚Ä‚¢‚È‚¢‚©.
+		VECTOR cross1, cross2;
+		cross1 = VCross(dir, aimDir);
+		cross2 = VCross(interPolateDir, aimDir);
+
+		// –Ú•WŠp“x‚ğ’´‚¦‚½‚çI—¹.
+		if (cross1.y * cross2.y < 0.0f)
+		{
+			interPolateDir = aimDir;
+			rotateNow = false;
+		}
+		// –Ú•WƒxƒNƒgƒ‹‚É‚P‚O“x‚¾‚¯‹ß‚Ã‚¯‚½Šp“x
+		dir = interPolateDir;
+
 	}
-	// –Ú•WƒxƒNƒgƒ‹‚É‚P‚O“x‚¾‚¯‹ß‚Ã‚¯‚½Šp“x
-	dir = interPolateDir;
 }
 
 /// <summary>
@@ -124,6 +136,10 @@ bool EnemyCannon::Search(VECTOR playerPos)
 		}
 	}
 	Fire();
+	if (!IsNearAngle(aimDir, dir))
+	{
+		rotateNow = true;
+	}
 	return true;
 }
 
@@ -158,13 +174,23 @@ void EnemyCannon::DiviationValculation(float deltaTime)
 
 void EnemyCannon::Fire()
 {
-	if (shotTime < 0)
+	VECTOR enemyDir = VNorm(colLine.worldEnd - pos);
+	float dot = VDot(enemyDir, dir);
+	float range = FOVDegree * DX_PI_F;
+	float rad = cosf(range / 2.0f);
+	a.x = rad; a.z =dot;
+	if (rad <= dot)
 	{
-		shotTime = ShotIntervalTime;
-		ObjectBase* bullet = new Bullet(pos, dir * -1, userTag);
-		ObjectManager::Entry(bullet);
-		EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir * -1);
-		EffectManager::Entry(mazzleFlash);
+		if (shotTime < 0)
+		{
+			shotTime = ShotIntervalTime;
+			/*ObjectBase* bullet = new Bullet(pos, dir * -1, userTag);
+			ObjectManager::Entry(bullet);*/
+			EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir * -1);
+			EffectManager::Entry(mazzleFlash);
+
+		}
 	}
+	
 }
 

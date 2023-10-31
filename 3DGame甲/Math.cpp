@@ -72,7 +72,7 @@ VECTOR operator*=(VECTOR& lhs, float rhs)
 bool IsNearAngle(const VECTOR& v1, const VECTOR& v2)
 {
 	float dot = VDot(v1, v2);
-	if (dot > 0.99f)
+	if (dot > 0.999f)
 	{
 		return true;
 	}

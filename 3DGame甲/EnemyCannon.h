@@ -21,14 +21,15 @@ private:
 	int padInput;
 	const float TurnPerformance = 3.50f;// 旋回性能.
 	const float AdjustPos = 0.5f;
-	const float ShotIntervalTime = 1.0f;
+	const float ShotIntervalTime = 2.5f;
 	const float Omega = 40.0f;// 主砲旋回速度.
 	float shotTime;
 	const float RadarRange = ToRadian(150.0f);
 	const float Radius = 50.0f;
 	ObjectTag userTag;
 	VECTOR jbPlayerPos;// 直前のプレイヤー位置.jb=just before
-
 	int stageNum;
+	const float FOVDegree = 5.0f;
+	VECTOR a;
 };
 

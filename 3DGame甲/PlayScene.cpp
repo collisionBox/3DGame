@@ -7,10 +7,10 @@ PlayScene::PlayScene(int mapNum)
 {
 	ObjectManager::ReleseAllObj();
 
-	// ƒJƒƒ‰¶¬.
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	MainCamera* mainCam = new MainCamera;
 
-	// ƒvƒŒƒCƒ„[¶¬.
+	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½.
 	int padInput = DX_INPUT_PAD1;
 	player[0] = new PlayerBody(Player1InitPos, Player1InitDir, padInput, ObjectTag::Player1, "data/player1/");
 	ObjectManager::Entry(player[0]);
@@ -52,7 +52,7 @@ SceneBase* PlayScene::Update(float deltaTime)
 			str = "Fight!";
 			deltaWaitTime += deltaTime;
 		}
-		// ‘SƒIƒuƒWƒFƒNƒg‚ÌXV.
+		// ï¿½Sï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌXï¿½V.
 		ObjectManager::Update(deltaTime);
 		ObjectManager::Collition();
 
@@ -117,7 +117,7 @@ void PlayScene::Draw()
 		DrawStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, str.c_str(), Red, fontHandle);
 
 	}
-	// ‘SƒIƒuƒWƒFƒNƒg‚Ì•`‰æ.
+	// ï¿½Sï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì•`ï¿½ï¿½.
 	ObjectManager::Draw();
 	EffectManager::Play();
 }

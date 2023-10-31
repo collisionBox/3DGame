@@ -16,7 +16,7 @@ public:
     SceneBase* Update(float deltaTime);
     void Draw();
 private:
-    void CheckWinner();// Ÿ—˜Ò‚ğŒŸõ.
+    void CheckWinner();// ï¿½ï¿½ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½.
     bool IsChangeResultScene();
     bool WaitChangeSceneTime(float deltaTime);
     void PlayerInit();
@@ -29,18 +29,18 @@ private:
     BreakExplosion* breakEffect[2];
     bool check;
     int battleNum;
-    bool permission2Proceed;// is‹–‰Â.
-    const int maxBattleNum = 3;// Å‘å‘Îí‰ñ”.
-    const int maxWinNum = 2;// Å‘åŸ—˜”.
-    const float OnShootingDownWaitTime = 10.0f;// ”íŒ‚’Ä‘Ò‹@ŠÔ.
-    const float WaitingTimeBeforStart = 3.0f;// ŠJn‘O‘Ò‹@ŠÔ.
-    float deltaWaitTime;// ‘Ò‹@ŠÔ.
+    bool permission2Proceed;// ï¿½iï¿½sï¿½ï¿½ï¿½ï¿½.
+    const int maxBattleNum = 3;// ï¿½Å‘ï¿½Îï¿½ï¿½.
+    const int maxWinNum = 2;// ï¿½Å‘åŸï¿½ï¿½ï¿½ï¿½.
+    const float OnShootingDownWaitTime = 10.0f;// ï¿½íŒ‚ï¿½Äï¿½ï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½.
+    const float WaitingTimeBeforStart = 3.0f;// ï¿½Jï¿½nï¿½Oï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½.
+    float deltaWaitTime;// ï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½.
     int loserNum;
     const int WaitTime = 900;
     std::string str;
-    const float StringDrawTime = 2.0f;// •¶š‚ğ•`‰æ‚µ‚Ä‚¨‚­ŠÔ.
+    const float StringDrawTime = 2.0f;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     int fontHandle;
-    const int fontSize = 60;// ‘å‚«
-    const int fontThick = 3;// ‘¾‚³.
+    const int fontSize = 60;// ï¿½å‚«
+    const int fontThick = 3;// ï¿½ï¿½ï¿½ï¿½.
 };
 
