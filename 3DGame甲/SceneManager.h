@@ -15,7 +15,11 @@ public:
 	void Draw();
 	static bool exit;
 	class SceneBase* nowScene;
+	static bool permission2Proceed;// êiçsãñâ¬.
+
+private:
 
 };
 
 #define SCENEINSTANCE SceneManager::GetInstance()
+

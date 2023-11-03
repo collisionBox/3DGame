@@ -1,11 +1,11 @@
 #pragma once
 #include "ObjectBase.h"
-class MapModelMoveBlockVertical :
+class MapModelMoveBlock :
     public ObjectBase
 {
 public:
-    MapModelMoveBlockVertical(VECTOR initPos, VECTOR moveDir);
-    ~MapModelMoveBlockVertical();
+    MapModelMoveBlock(VECTOR initPos, VECTOR moveDir);
+    ~MapModelMoveBlock();
     void Update(float deltaTime);
     void Draw();
 private:

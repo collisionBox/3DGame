@@ -1,5 +1,6 @@
 #include "BreakExplosion.h"
-
+#include "SceneManager.h"
+bool SceneManager::permission2Proceed = false;
 BreakExplosion::BreakExplosion(VECTOR pos, VECTOR dir) :
 	EffectBase()
 {
@@ -23,13 +24,19 @@ BreakExplosion::~BreakExplosion()
 
 void BreakExplosion::Update(float deltaTime)
 {
+	SetSpeedPlayingEffekseer3DEffect(playingEffectHandle, PlayEffectSpeed );
 	if (IsEffekseer3DEffectPlaying(playingEffectHandle) == -1)
 	{
-		valid = false;
 		finish = true;
+		isPlayNow = false;
 		DeleteEffekseerEffect(playingEffectHandle);
+		
 	}
-
+	if (!isPlayNow)
+	{
+		
+		
+	}
 	UpdateEffekseer3D();
 
 }

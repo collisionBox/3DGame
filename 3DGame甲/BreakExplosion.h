@@ -7,9 +7,8 @@ public:
     BreakExplosion(VECTOR pos, VECTOR dir);
     ~BreakExplosion();
     void Update(float deltaTime);
-
+    bool finisht() { return finish; }
     void Play();
-    const bool IsFinish() { return finish; }
 private:
     const float Size = 10.0f;
     const float PlayEffectSpeed = 1.0f;

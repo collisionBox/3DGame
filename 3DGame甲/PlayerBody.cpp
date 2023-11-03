@@ -3,6 +3,7 @@
 #include "SystemConstant.h"
 #include "EffectManager.h"
 #include "BreakExplosion.h"
+
 PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag myTag, const char* failName) :
 	ObjectBase(myTag)
 	, rotateNow(false)
@@ -11,7 +12,7 @@ PlayerBody::PlayerBody(VECTOR initPos, VECTOR initDir, int inputState, ObjectTag
 	// 砲を生成.
 	cannon = new PlayerCannon(initPos, initDir, inputState, myTag, failName);
 	// HPゲージを生成.
-	hpGauge = new HPGauge(HP, DamagePoint);
+	////hpGauge = new //hpGauge(HP, DamagePoint);
 
 	// アセットマネージャーからモデルをロード.
 	string str = "playerBody.mv1";
@@ -51,8 +52,8 @@ void PlayerBody::Initialize()
 
 	// オブジェクトの初期化.
 	cannon->Initialize(pos, dir);
-	hpGauge->Initialize(HP);
-
+	//hpGauge->Initialize(HP);
+	breakEffect = nullptr;
 	// 変更の反映.
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
@@ -65,7 +66,21 @@ PlayerBody::~PlayerBody()
 
 void PlayerBody::Update(float deltaTime)
 {
-	if (HP > 0.0f)
+	if (HP <= 0.0f)
+	{
+		if (breakEffect == nullptr)
+		{
+			breakEffect = new BreakExplosion(pos, dir);
+			EffectManager::Entry(breakEffect);
+			visible = false;
+		}
+		else if (!breakEffect->IsPlayNow())
+		{
+			SetAlive(false);
+			breakEffect->DeletionPermission();
+		}
+	}
+	else
 	{
 		Input(deltaTime);
 	}
@@ -90,14 +105,7 @@ void PlayerBody::Update(float deltaTime)
 	// ポジション更新.
 	pos = prevPos;
 	cannon->Updateeeee(pos, deltaTime);
-	hpGauge->Update(pos, HP, deltaTime);
-	if (HP <= 0)
-	{
-		//if (breakEffect->GetValid())
-		{
-
-		}
-	}
+	 //hpGauge->Update(pos, HP, deltaTime);
 	// 3Dモデルのポジション設定.
 	MV1SetPosition(modelHandle, pos);
 	MATRIX rotYMat = MGetRotY(180.0f * (float)(DX_PI_F / 180.0f));
@@ -110,7 +118,7 @@ void PlayerBody::Draw()
 	MV1DrawModel(modelHandle);
 	DrawFormatString(0, 0, Green, "%f %f", pos.x, pos.z);
 	cannon->Draw();
-	hpGauge->Draw();
+	//hpGauge->Draw();
 	//DrawCollider();
 }
 

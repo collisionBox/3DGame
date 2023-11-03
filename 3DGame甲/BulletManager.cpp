@@ -1,39 +1,15 @@
 #include "BulletManager.h"
 #include "objectManager.h"
-BulletManager::BulletManager(ObjectTag usetTag)
+#include "Bullet.h"
+
+BulletManager::BulletManager(ObjectTag userTag)
 {
-	for (int i = 0; i < MaxBulletNum; i++)
-	{
-		bullet[i] = new Bullet(usetTag);
-		ObjectManager::Entry(bullet[i]);
-	}
+	
+	/*bullet = new Bullet(userTag);
+	ObjectManager::Entry(bullet);*/
 }
 
-BulletManager::~BulletManager()
+void BulletManager::Generate(VECTOR& pos, VECTOR& dir)
 {
-	for (auto* ver : bullet)
-	{
-		ver->~Bullet();
-		ver = nullptr;
-	}
-}
-
-void BulletManager::Init()
-{
-	for (auto* ver : bullet)
-	{
-		ver->Init();
-	}
-}
-
-void BulletManager::Generate(VECTOR pos, VECTOR dir)
-{
-	for (int i = 0; i < MaxBulletNum; i++)
-	{
-		if (!bullet[i]->GetPermitUpdate())
-		{
-			bullet[i]->Generate(pos, dir);
-			break;
-		}
-	}
+	//bullet->Generate(pos, dir);
 }

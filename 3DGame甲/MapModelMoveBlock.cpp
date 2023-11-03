@@ -1,7 +1,7 @@
-#include "MapModelMoveBlockVertical.h"
+#include "MapModelMoveBlock.h"
 #include "AssetManager.h"
 
-MapModelMoveBlockVertical::MapModelMoveBlockVertical(VECTOR initPos, VECTOR moveDir) :
+MapModelMoveBlock::MapModelMoveBlock(VECTOR initPos, VECTOR moveDir) :
 	ObjectBase(ObjectTag::BackGround)
 {
 	modelHandle = MV1LoadModel("data/map/block.mv1");
@@ -15,12 +15,12 @@ MapModelMoveBlockVertical::MapModelMoveBlockVertical(VECTOR initPos, VECTOR move
 	CollisionUpdate();
 }
 
-MapModelMoveBlockVertical::~MapModelMoveBlockVertical()
+MapModelMoveBlock::~MapModelMoveBlock()
 {
 	AssetManager::DeleteMesh(modelHandle);
 }
 
-void MapModelMoveBlockVertical::Update(float deltaTime)
+void MapModelMoveBlock::Update(float deltaTime)
 {
 
 	deltaWaitTime -= deltaTime;
@@ -42,7 +42,7 @@ void MapModelMoveBlockVertical::Update(float deltaTime)
 	MV1SetPosition(modelHandle, pos);
 }
 
-void MapModelMoveBlockVertical::Draw()
+void MapModelMoveBlock::Draw()
 {
 	MV1DrawModel(modelHandle);
 

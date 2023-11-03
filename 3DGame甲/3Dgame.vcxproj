@@ -156,7 +156,7 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapModelBlock.cpp" />
     <ClCompile Include="MapModelCylinder.cpp" />
-    <ClCompile Include="MapModelMoveBlockVertical.cpp" />
+    <ClCompile Include="MapModelMoveBlock.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="MazzleFlashEffect.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
@@ -184,11 +184,10 @@
     <ClInclude Include="EnemyBody.h" />
     <ClInclude Include="EnemyCannon.h" />
     <ClInclude Include="HPGauge.h" />
-    <ClInclude Include="MapData.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapModelBlock.h" />
     <ClInclude Include="MapModelCylinder.h" />
-    <ClInclude Include="MapModelMoveBlockVertical.h" />
+    <ClInclude Include="MapModelMoveBlock.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MazzleFlashEffect.h" />
     <ClInclude Include="ObjectBase.h" />

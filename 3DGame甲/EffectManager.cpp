@@ -9,7 +9,7 @@ EffectManager* EffectManager::Instance = nullptr;
 EffectManager::EffectManager() :
 	effects()
 {
-	Instance =  nullptr;
+	Instance = nullptr;
 }
 //------------------------------------------------------------------------------
 // @brief オブジェクトマネージャ　デストラクタ.
@@ -27,11 +27,19 @@ void EffectManager::Initialize()
 	}
 }
 
+/// <summary>
+/// マネージャーへエフェクトの追加.
+/// </summary>
+/// <param name="newEffect"></param>
 void EffectManager::Entry(EffectBase* newEffect)
 {
 	Instance->pendingEffect.push_back(newEffect);
 }
 
+/// <summary>
+/// 指定のエフェクトをマネージャー削除.
+/// </summary>
+/// <param name="releseEffevct"></param>
 void EffectManager::Relese(EffectBase* releseEffevct)
 {
 
@@ -54,7 +62,9 @@ void EffectManager::Relese(EffectBase* releseEffevct)
 		delete Instance->effects.back();
 	}
 }
-
+/// <summary>
+/// マネージャーから全てのエフェクトを削除.
+/// </summary>
 void EffectManager::ReleseAllEffect()
 {
 	// 末尾からペンディングオブジェクトをすべてを削除
@@ -73,7 +83,10 @@ void EffectManager::ReleseAllEffect()
 		Instance->effects.pop_back();
 	}
 }
-
+/// <summary>
+///  更新.
+/// </summary>
+/// <param name="deltaTime"></param>
 void EffectManager::Update(float deltaTime)
 {
 	// すべてのアクターの更新
@@ -108,7 +121,9 @@ void EffectManager::Update(float deltaTime)
 		deadObject.pop_back();
 	}
 }
-
+/// <summary>
+/// 再生.
+/// </summary>
 void EffectManager::Play()
 {
 	for (int i = 0; i < Instance->effects.size(); ++i)

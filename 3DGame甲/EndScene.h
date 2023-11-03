@@ -6,7 +6,7 @@ class EndScene :
     public SceneBase
 {
 public:
-    EndScene(int winnerNum);
+    EndScene(std::string comment);
     ~EndScene();
     SceneBase* Update(float deltaTime);
     void Draw();
@@ -21,5 +21,7 @@ private:
     const std::string Str = "Rematch with any key or pad any button";
     const std::string Str2 = "Exit with Esc button";
     const int str2Pos = 50;
+    int WaitTime = 300;
+    std::string winOrlose;
 };
 

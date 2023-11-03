@@ -1,68 +1,86 @@
 #include "MapManager.h"
-#include <vector>
 #include "ObjectManager.h"
 #include "MapModelBlock.h"
 #include "MapModelCylinder.h"
-#include "MapModelMoveBlockVertical.h"
-#include "MapData.h"
-
+#include "MapModelMoveBlock.h"
+#include <fstream>
+#include <sstream>
+#include "EnemyBody.h"
+#include "PlayerBody.h"
 using namespace std;
 
 MapManager::MapManager(int mapNum)
 {
 
-
 	vector<ObjectBase*> obj;
-
 
 	struct MAPOBJECT
 	{
-		int objectNum;
+		string objectNum;
 		ObjectBase* mapObj;
 	};
-
-	for (int k = 0; k < sizeof MapData / sizeof MapData[0]; k++)
+	const string Path1 = "data/map/map";
+	const string Extension = ".csv";
+	char mapNumber = mapNum + '0';// int型からchar型に変換.
+	ifstream file{ Path1 + mapNumber + Extension ,ios::in };// 読み込みのみ.
+	string s;
+	int row = 0;
+	while (getline(file, s, '\n'))
 	{
-		if (MapData[k].Num == mapNum)
+		int column = 0;
+		istringstream istm(s);
+		string num;
+		while (getline(istm, num, ','))
 		{
-			for (int i = 0; i < mapObjectNumX; i++)
+			float x = WindowSizeXMin + objLen * column;
+			float z = WindowSizeZMax - objLen * row;
+			// プレイヤーの生成.
+			if (num == PlayerSpawnPos)
 			{
-				for (int j = 0; j < mapObjectNumZ; j++)
+				
+				int padInput = DX_INPUT_PAD1;
+				PlayerBody* player = new PlayerBody(VGet(x, 0, z), LookRight*-1, padInput, ObjectTag::Player1, "data/player1/");
+				ObjectManager::Entry(player);
+			}
+			// 敵の生成.
+			else if (num[0] == EnemySpawnPos[0])
+			{
+				
+				for (int i = 0; i < 10; ++i)
 				{
-					float x = WindowSizeXMin + objLen * i;
-					float z = WindowSizeZMax - objLen * j;
-
-					MAPOBJECT mapObj[] =
+					if (num[1] == '1' + i)
 					{
-						{Block, new MapModelBlock(VGet(x, 0, z)) },
-						{Cylinder, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
-						{MoveBlockVirtical, new MapModelMoveBlockVertical(VGet(x, 0.0f, z), moveBlockDirHorizon)}
-					};
-					for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; l++)
+						EnemyBody* enemy = new EnemyBody(VGet(x, 0, z), LookLeft, i + 1);
+						ObjectManager::Entry(enemy);
+					}
+				}
+				
+				
+			}
+			// マップオブジェクトの生成.
+			else
+			{
+				MAPOBJECT mapObj[] =
+				{
+					{Block, new MapModelBlock(VGet(x, 0, z)) },
+					{Cylinder, new MapModelCylinder(VGet(x + adjustCylinder, 0, z - adjustCylinder))},
+					{MoveBlockVirtical, new MapModelMoveBlock(VGet(x, 0.0f, z), moveBlockDirVirtical)},
+					{MoveBlockHolizon,new MapModelMoveBlock(VGet(x, 0.0f, z), moveBlockDirHorizon)}
+				};
+				for (int l = 0; l < sizeof mapObj / sizeof mapObj[0]; ++l)
+				{
+					if (num == mapObj[l].objectNum)
 					{
-						// プレイヤー及びエネミーのスポーン位置を格納.
-						if (MapData[k].Data[j][i] == PlayerSpawnPos)
-						{
-							auto itr = spawnPos.begin();
-							spawnPos.insert(itr, VGet(x, 0.0f, z));
-							break;
-						}
-						else if (MapData[k].Data[j][i] == EnemySpawnPos)
-						{
-							spawnPos.push_back(VGet(x, 0.0f, z));
-							break;
-						}
-						//　マップオブジェクトを格納.
-						else if (MapData[k].Data[j][i] == mapObj[l].objectNum)
-						{
-							obj.push_back(mapObj[l].mapObj);
-						}
+						obj.push_back(mapObj[l].mapObj);
 					}
 				}
 			}
-			break;
+			column++;// 列の加算.
 		}
+		row++;//行の加算.
 	}
+	
+	
 
 	// オブジェクトマネージャーに登録.
 	for (auto& i : obj)
@@ -70,6 +88,6 @@ MapManager::MapManager(int mapNum)
 		ObjectManager::Entry(i);
 	}
 
-	sizeVector = spawnPos.size();
+	enemySpawnNum = enemySpawnPos.size();
 }
 

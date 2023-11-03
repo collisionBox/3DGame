@@ -1,15 +1,13 @@
 #pragma once
 #include "DxLib.h"
-#include "Bullet.h"
+#include "ObjectTag.h"
+class Bullet;
 class BulletManager
 {
 public:
-	BulletManager(ObjectTag usetTag);
-	~BulletManager();
-	void Init();
-	void Generate(VECTOR pos, VECTOR dir);
+	BulletManager(ObjectTag userTag);
+	void Generate(VECTOR& pos, VECTOR& dir);
 private:
-	const int MaxBulletNum = 5;
-	Bullet* bullet[5];
+	Bullet* bullet;
 };
 

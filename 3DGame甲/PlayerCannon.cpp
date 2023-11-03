@@ -20,6 +20,13 @@ PlayerCannon::PlayerCannon(VECTOR initPos, VECTOR initDir, int inputState, Objec
 	this->userTag = userTag;
 
 	padInput = inputState;
+
+	Bullet* bullet = new Bullet(pos, dir, ObjectTag::Enemy);
+	ObjectManager::Entry(bullet);
+	ObjectManager::Relese(bullet);
+	EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir * -1);
+	EffectManager::Entry(mazzleFlash);
+	EffectManager::Relese(mazzleFlash);
 }
 
 void PlayerCannon::Initialize(VECTOR initPos, VECTOR initDir)

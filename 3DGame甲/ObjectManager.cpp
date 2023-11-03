@@ -194,7 +194,11 @@ void ObjectManager::Collition()
 	}
 
 }
-
+/// <summary>
+/// tag‚ÌƒTƒCƒY‚ğæ“¾‚·‚é.
+/// </summary>
+/// <param name="tag"></param>
+/// <returns></returns>
 size_t ObjectManager::TagObjectSize(ObjectTag tag)
 {
 

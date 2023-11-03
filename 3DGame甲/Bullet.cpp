@@ -38,6 +38,8 @@ Bullet::Bullet(ObjectTag userTag) :
 	modelHandle = AssetManager::GetMesh("data/beam.mv1");
 	MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.08f));// サイズの変更.
 	myTag = userTag;
+	permitUpdate = false;
+	visible = false;
 	// 当たり判定球セット.
 	colType = CollisionType::Sphere;
 	colSphere.radius = ColRadius;
@@ -72,6 +74,7 @@ void Bullet::Init()
 
 void Bullet::Generate(VECTOR pos, VECTOR dir)
 {
+
 	this->pos = pos;
 	this->dir = dir;
 	this->pos = VAdd(this->pos, VScale(this->dir, BarrelHead));// 砲塔先頭にセットするため.
@@ -114,7 +117,7 @@ void Bullet::Update(float deltaTime)
 void Bullet::Draw()
 {
 	MV1DrawModel(modelHandle);
-	DrawCollider();
+	//DrawCollider();
 	
 }
 
@@ -168,7 +171,7 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 			}
 		}
 	}
-	if (tag == ObjectTag::Player1 || tag == ObjectTag::Player2)
+	if (tag == ObjectTag::Player1 || tag == ObjectTag::Enemy)
 	{
 		Sphere colSphere = other->GetCollisionSphere();
 		if (CollisionPair(this->colSphere, colSphere))
@@ -177,7 +180,5 @@ void Bullet::OnCollisionEnter(const ObjectBase* other)
 		}
 	}
 	
-
-
 
 }

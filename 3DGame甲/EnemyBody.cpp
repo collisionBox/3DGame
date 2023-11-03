@@ -3,7 +3,10 @@
 #include "ObjectTag.h"
 #include "SystemConstant.h"
 #include "ObjectManager.h"
-EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):ObjectBase(ObjectTag::Enemy)
+#include "BreakExplosion.h"
+#include "EffectManager.h"
+
+EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir, int enemyNo):ObjectBase(ObjectTag::Enemy)
 {
 	modelHandle = AssetManager::GetMesh("data/enemy/enemyBody.mv1");
 	if (modelHandle == -1)
@@ -22,7 +25,7 @@ EnemyBody::EnemyBody(VECTOR initPos, VECTOR initDir):ObjectBase(ObjectTag::Enemy
 	colType = CollisionType::Sphere;
 	colSphere.worldCenter = pos;
 	colSphere.radius = ColRadius;
-
+	number = enemyNo;
 }
 
 void EnemyBody::Initialize()
@@ -34,7 +37,7 @@ void EnemyBody::Initialize()
 	velocity = InitVec;
 	aimDir = dir;
 	rotateNow = false;
-
+	breakEffect = nullptr;
 
 	// ïœçXÇÃîΩâf.
 	MV1SetPosition(modelHandle, pos);
@@ -44,9 +47,38 @@ void EnemyBody::Initialize()
 
 void EnemyBody::Update(float deltaTime)
 {
-	Behavioral1(deltaTime);
+	switch (number)
+	{
+	case 1:
+		Behavioral1(deltaTime);
+		break;
+	case 2:
+		Behavioral2(deltaTime);
+		break;
+	default:
+		break;
+	}
+	
 	Rotate(deltaTime);
-	cannon->Updateeeee(pos, deltaTime);
+	
+	if (HP <= 0.0f)
+	{
+		if (breakEffect == nullptr)
+		{
+			breakEffect = new BreakExplosion(pos, dir);
+			EffectManager::Entry(breakEffect);
+			visible = false;
+		}
+		else if (!breakEffect->IsPlayNow())
+		{
+			SetAlive(false);
+			breakEffect->DeletionPermission();
+		}
+	}
+	else
+	{
+		cannon->Updateeeee(pos, deltaTime);
+	}
 	// ïœçXÇÃîΩâf.
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir , VGet(0.0f, 1.0f, 0.0f), 0.0f);
@@ -56,6 +88,7 @@ void EnemyBody::Draw()
 {
 	MV1DrawModel(modelHandle);
 	cannon->Draw();
+	//DrawCollider();
 }
 
 void EnemyBody::Rotate(float deltaTIme)
@@ -116,6 +149,10 @@ void EnemyBody::OnCollisionEnter(const ObjectBase* other)
 			{
 				MATRIX rotYMat = MGetRotY(ToRadian(rollingDegree));
 				aimDir = VTransform(aimDir, rotYMat);
+				if (GetRand(2) == 0)
+				{
+					aimDir *= -1;
+				}
 				rotateNow = true;
 			}
 			
@@ -137,7 +174,7 @@ void EnemyBody::OnCollisionEnter(const ObjectBase* other)
 }
 void EnemyBody::Behavioral1(float deltaTime)
 {
-
+	// ìÆÇ©Ç»Ç¢ÇΩÇﬂèàóùÇ»Çµ.
 }
 void EnemyBody::Behavioral2(float deltaTime)
 {
@@ -153,14 +190,11 @@ void EnemyBody::Behavioral2(float deltaTime)
 	// âÊñ äOîªíË.
 	if (offscreenDicision(prevPos, colSphere.radius))
 	{
-		if (accel > 0)
-		{
-			accel = 0;
-		}
 		if (!rotateNow)
 		{
-			MATRIX rotYMat = MGetRotY(ToRadian(rollingDegree));
-			aimDir = VTransform(aimDir, rotYMat);
+			
+			aimDir *= -1;
+			
 			rotateNow = true;
 		}
 
@@ -175,20 +209,10 @@ void EnemyBody::Behavioral2(float deltaTime)
 	pos = prevPos;
 
 	// â¡ë¨èàóù.
+	
 	if (accel <= MaxSpeed)
 	{
-		// è„ÇâüÇµÇƒÇ¢ÇΩÇÁâ¡ë¨.
-		if (CheckHitKey(KEY_INPUT_UP))
-		{
-			accel += Accel;
-		}
-	}
-	if (accel >= MinSpeed)
-	{
-		//â∫ÇâüÇµÇƒÇ¢ÇΩÇÁå∏ë¨.
-		if (CheckHitKey(KEY_INPUT_DOWN))
-		{
-			accel -= Back;
-		}
+		accel += Accel;
+	
 	}
 }

@@ -29,8 +29,9 @@ private:
 	ObjectTag userTag;
 	VECTOR jbPlayerPos;// 直前のプレイヤー位置.jb=just before
 	int stageNum;
-	const float FOVDegree = 20.0f;
+	const float FOVDegree = 5.0f;
 	float leftOrRight;
+	float rotateAngle;
 	VECTOR a;
 };
 

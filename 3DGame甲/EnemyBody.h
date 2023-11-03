@@ -1,10 +1,11 @@
 #pragma once
 #include "EnemyCannon.h"
+class EffectBase;
 class EnemyBody :
     public ObjectBase
 {
 public:
-    EnemyBody(VECTOR initPos, VECTOR initDir);
+    EnemyBody(VECTOR initPos, VECTOR initDir, int enemyNo);
     void Initialize();
     void Update(float deltaTime);
     void Draw();
@@ -29,5 +30,7 @@ private:
     VECTOR aimDir;
     const float Omega = 35.0f;// ê˘âÒë¨ìx(degree).
     float rollingDegree = 40.0f;
+    EffectBase* breakEffect;
+    int number;
 };
 

@@ -16,7 +16,6 @@ public:
     void OnCollisionEnter(const ObjectBase* other) override;
     void Draw();
     const bool GetPermitUpdate() { return permitUpdate; }
-   // void SetPermitUpdate(bool TrueOrFalse) { permitUpdate = TrueOrFalse; }
 
 
 private:

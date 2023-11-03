@@ -1,12 +1,12 @@
 #include "EndScene.h"
 #include "SystemConstant.h"
 #include "SceneManager.h"
-#include "PlayScene.h"
-EndScene::EndScene(int winnerNum)
+#include "StartScene.h"
+EndScene::EndScene(std::string comment)
 {
 	fontHandle = CreateFontToHandle(NULL, fontSize, fontThick);
 	alpha = 0;
-	this->winnerNum = winnerNum;
+	winOrlose = comment;
 }
 
 EndScene::~EndScene()
@@ -18,15 +18,16 @@ SceneBase* EndScene::Update(float deltaTime)
 {
 	if (CheckHitKeyAll())
 	{
-		return new PlayScene(1);
+		WaitTimer(WaitTime);
+		return new StartScene;
 	}
 	return this;
 }
 
 void EndScene::Draw()
 {
-	int strWidth = GetDrawStringWidthToHandle("Winner Player ", strlen("Winner Player "), fontHandle);
-	DrawFormatStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, Green, fontHandle, "Winner Player%d!", winnerNum);
+	int strWidth = GetDrawStringWidthToHandle(winOrlose.c_str(), strlen(winOrlose.c_str()), fontHandle);
+	DrawFormatStringToHandle(ScreenSizeX / 2 - strWidth / 2, ScreenSizeY / 2, Green, fontHandle, winOrlose.c_str());
 	alpha += addition;
 	if (alpha > 255)
 	{

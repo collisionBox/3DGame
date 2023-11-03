@@ -99,7 +99,7 @@
     <ClCompile Include="MapModelCylinder.cpp">
       <Filter>ソース ファイル\Map</Filter>
     </ClCompile>
-    <ClCompile Include="MapModelMoveBlockVertical.cpp">
+    <ClCompile Include="MapModelMoveBlock.cpp">
       <Filter>ソース ファイル\Map</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
@@ -188,7 +188,7 @@
     <ClInclude Include="MapModelCylinder.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="MapModelMoveBlockVertical.h">
+    <ClInclude Include="MapModelMoveBlock.h">
       <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
     <ClInclude Include="SystemConstant.h">
@@ -208,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="EffectTag.h">
       <Filter>ソース ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="MapData.h">
-      <Filter>ソース ファイル\Map</Filter>
     </ClInclude>
     <ClInclude Include="StartScene.h">
       <Filter>ソース ファイル\Scene</Filter>

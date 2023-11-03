@@ -25,6 +25,13 @@ EnemyCannon::EnemyCannon(VECTOR initPos, VECTOR initDir, ObjectTag userTag) :
 	colType = CollisionType::Line;
 	colLine.worldStart = pos;
 	colLine.worldEnd = InitVec;
+
+	Bullet* bullet = new Bullet(pos, dir, ObjectTag::Enemy);
+	ObjectManager::Entry(bullet);
+	ObjectManager::Relese(bullet);
+	EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir * -1);
+	EffectManager::Entry(mazzleFlash);
+	EffectManager::Relese(mazzleFlash);
 }
 
 void EnemyCannon::Initialize(VECTOR initPos, VECTOR initDir)
@@ -36,6 +43,7 @@ void EnemyCannon::Initialize(VECTOR initPos, VECTOR initDir)
 	aimDir = dir;
 	rotateNow = false;
 	jbPlayerPos = InitVec;
+	rotateAngle = Omega;
 	// 変更の反映.
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
@@ -77,7 +85,7 @@ void EnemyCannon::Draw()
 	DrawLine3D(pos, pos + a * 100, Green);
 	DrawLine3D(pos, pos + dir*-100, Red);
 	
-	DrawFormatString(0, 100, Green, "%f %f", leftOrRight, a.x);
+	DrawFormatString(0, 100, Green, "%f %f", leftOrRight);
 }
 
 /// <summary>
@@ -92,10 +100,11 @@ void EnemyCannon::Rotate(float deltaTime)
 		{
 			dir = aimDir;
 			rotateNow = false;
+			rotateAngle = Omega;
 		}
 		//回転させる.
 		VECTOR interPolateDir;
-		interPolateDir = RotateForAimVecYAxis(dir, aimDir, Omega * deltaTime);
+		interPolateDir = RotateForAimVecYAxis(dir, aimDir, rotateAngle * deltaTime);
 
 		// 回転が目標角を超えていないか.
 		VECTOR cross1, cross2;
@@ -105,10 +114,11 @@ void EnemyCannon::Rotate(float deltaTime)
 		// 目標角度を超えたら終了.
 		if (cross1.y * cross2.y < 0.0f)
 		{
-			interPolateDir = aimDir;
-			rotateNow = false;
+			rotateAngle = rotateAngle / 3;
+			/*interPolateDir = aimDir;
+			rotateNow = false;*/
 		}
-		// 目標ベクトルに１０度だけ近づけた角度
+		// 目標ベクトルにOmegaだけ近づけた角度
 		dir = interPolateDir;
 
 	}
@@ -152,13 +162,15 @@ bool EnemyCannon::Search(VECTOR playerPos)
 void EnemyCannon::DiviationValculation(float deltaTime)
 {
 	ObjectBase* player = ObjectManager::GetFirstObject(ObjectTag::Player1);
-	VECTOR nowPlayerPos = dir;
+	VECTOR nowPlayerPos = dir * -1;
 	if (player)
 	{
 		nowPlayerPos = player->GetPos();
 		if (Search(nowPlayerPos))
 		{
-			// プレイヤーと時期の位置から弾着時間を算出.
+			if (VDot(VNorm(jbPlayerPos),VNorm(nowPlayerPos)))
+			{
+				// プレイヤーと時期の位置から弾着時間を算出.
 			float length = VSize(nowPlayerPos - pos);
 			float time2Inpact = length / (BulletSpeed * deltaTime);
 
@@ -167,6 +179,8 @@ void EnemyCannon::DiviationValculation(float deltaTime)
 			VECTOR deviationPos = nowPlayerPos + (distanceTraveled * time2Inpact);
 
 			aimDir = VNorm(deviationPos - pos) * -1;
+			}
+			
 
 		}
 
@@ -176,12 +190,7 @@ void EnemyCannon::DiviationValculation(float deltaTime)
 
 void EnemyCannon::Fire()
 {
-	/*VECTOR enemyDir = VNorm(colLine.worldEnd - pos);
-	float dot = VDot(enemyDir, dir);
-	float range = FOVDegree * DX_PI_F;
-	float rad = cosf(range / 2.0f);
-	a.x = rad; a.z =dot;*/
-	//if (rad <= dot)
+	// 一定車閣内に入ったら撃つ.
 	VECTOR enemyDir = VNorm(colLine.worldEnd - pos);
 	MATRIX mat = MGetRotY(ToRadian(FOVDegree) * -leftOrRight);
 	VECTOR rot = VTransform(dir, mat) * -1;
@@ -192,8 +201,8 @@ void EnemyCannon::Fire()
 		if (shotTime < 0)
 		{
 			shotTime = ShotIntervalTime;
-			/*ObjectBase* bullet = new Bullet(pos, dir * -1, userTag);
-			ObjectManager::Entry(bullet);*/
+			ObjectBase* bullet = new Bullet(pos, dir * -1, userTag);
+			ObjectManager::Entry(bullet);
 			EffectBase* mazzleFlash = new MazzleFlashEffect(pos, dir * -1);
 			EffectManager::Entry(mazzleFlash);
 
