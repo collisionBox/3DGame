@@ -64,7 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ObjectManager::Initialize();
 	EffectManager::Initialize();
 
-	SCENEINSTANCE.SetScene(new PlayScene(3));
+	SCENEINSTANCE.SetScene(new PlayScene(-1));
 
 	
 	//ŽžŠÔŒv‘ª.

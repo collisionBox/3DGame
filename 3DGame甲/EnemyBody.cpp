@@ -38,7 +38,7 @@ void EnemyBody::Initialize()
 	aimDir = dir;
 	rotateNow = false;
 	breakEffect = nullptr;
-
+	hitBgObj = false;
 	// 変更の反映.
 	MV1SetPosition(modelHandle, pos);
 	MV1SetRotationZYAxis(modelHandle, dir, VGet(0.0f, 1.0f, 0.0f), 0.0f);
@@ -55,7 +55,11 @@ void EnemyBody::Update(float deltaTime)
 	case 2:
 		Behavioral2(deltaTime);
 		break;
+	case 3:
+		Begavioral3(deltaTime);
+		break;
 	default:
+		Behavioral1(deltaTime);
 		break;
 	}
 	
@@ -141,23 +145,12 @@ void EnemyBody::OnCollisionEnter(const ObjectBase* other)
 			// コリジョン情報の解放.
 			MV1CollResultPolyDimTerminate(colInfo);
 
-			if (accel > 0)
-			{
-				accel = 0;
-			}
-			if (!rotateNow)
-			{
-				MATRIX rotYMat = MGetRotY(ToRadian(rollingDegree));
-				aimDir = VTransform(aimDir, rotYMat);
-				if (GetRand(2) == 0)
-				{
-					aimDir *= -1;
-				}
-				rotateNow = true;
-			}
-			
-			velocity = InitVec;
 			CollisionUpdate();
+			hitBgObj = true;
+		}
+		else
+		{
+			hitBgObj = false;
 		}
 	}
 	// 弾.
@@ -209,10 +202,87 @@ void EnemyBody::Behavioral2(float deltaTime)
 	pos = prevPos;
 
 	// 加速処理.
-	
 	if (accel <= MaxSpeed)
 	{
 		accel += Accel;
 	
+	}
+	if (hitBgObj)
+	{
+		if (accel > 0)
+		{
+			accel = 0;
+		}
+		if (!rotateNow)
+		{
+			MATRIX rotYMat = MGetRotY(ToRadian(rollingDegree));
+			aimDir = VTransform(aimDir, rotYMat);
+			if (GetRand(2) == 0)
+			{
+				aimDir *= -1;
+			}
+			rotateNow = true;
+		}
+
+		velocity = InitVec;
+	}
+}
+
+void EnemyBody::Begavioral3(float deltaTime)
+{
+	// 方向ベクトルに加速力を加えて加速ベクトルとする.
+	velocity = VScale(dir * -1, accel);
+
+	// 上下方向にいかないようにvelocityを整える.
+	velocity = VGet(velocity.x, 0, velocity.z);
+
+	// 予測ポジション更新.
+	prevPos = VAdd(pos, VScale(velocity, deltaTime));
+
+	// 画面外判定.
+	if (offscreenDicision(prevPos, colSphere.radius))
+	{
+		accel = 0;
+		if (!rotateNow)
+		{
+			aimDir *= -1;
+			rotateNow = true;
+		}
+
+		velocity = InitVec;
+		CollisionUpdate();
+		prevPos = pos;
+	}
+	// 当たり判定球の位置更新.
+	CollisionUpdate(prevPos);
+
+	// ポジション更新.
+	pos = prevPos;
+
+	// 加速処理.
+
+	if (accel <= MaxSpeed && !rotateNow)
+	{
+		accel += Accel;
+
+	}
+	if (hitBgObj)
+	{
+		if (accel > 0)
+		{
+			accel = 0;
+		}
+		if (!rotateNow)
+		{
+			MATRIX rotYMat = MGetRotY(ToRadian(rollingDegree));
+			aimDir = VTransform(aimDir, rotYMat);
+			if (GetRand(2) == 0)
+			{
+				aimDir *= -1;
+			}
+			rotateNow = true;
+		}
+
+		velocity = InitVec;
 	}
 }

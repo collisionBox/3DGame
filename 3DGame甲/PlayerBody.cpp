@@ -100,8 +100,16 @@ void PlayerBody::Update(float deltaTime)
 		velocity = InitVec;
 		prevPos = pos;
 	}
-	CollisionUpdate(prevPos);
-
+	//CollisionUpdate(prevPos);
+	if (accel > 0)
+	{
+		colSphere.worldCenter = prevPos + dir * 20;
+	}
+	else
+	{
+		colSphere.worldCenter = prevPos + dir * -20;
+	}
+	
 	// ポジション更新.
 	pos = prevPos;
 	cannon->Updateeeee(pos, deltaTime);
@@ -116,10 +124,10 @@ void PlayerBody::Update(float deltaTime)
 void PlayerBody::Draw()
 {
 	MV1DrawModel(modelHandle);
-	DrawFormatString(0, 0, Green, "%f %f", pos.x, pos.z);
+	//DrawFormatString(0, 0, Green, "%f %f", pos.x, pos.z);
 	cannon->Draw();
 	//hpGauge->Draw();
-	//DrawCollider();
+	DrawCollider();
 }
 
 void PlayerBody::OnCollisionEnter(const ObjectBase* other)

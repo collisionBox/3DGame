@@ -129,6 +129,9 @@
     <ClCompile Include="BreakExplosion.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="SpaceScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="BreakExplosion.h">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

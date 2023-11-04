@@ -12,7 +12,7 @@ SceneBase* StartScene::Update(float deltaTime)
 
 	if (CheckHitKeyAll())
 	{
-		return new PlayScene(1);
+		return new PlayScene(0);
 	} 
 	return this;
 }

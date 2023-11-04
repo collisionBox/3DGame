@@ -13,13 +13,13 @@ PlayScene::PlayScene(int mapNum)
 	ObjectManager::ReleseAllObj();
 
 	//　マップマネージャの生成.
-	MapManager* map = new MapManager(mapNum);
+	MapManager* map = new MapManager(mapNum + 1);
 
 	// カメラ生成.
 	MainCamera* mainCam = new MainCamera;
 
 
-	
+	this->mapNum = mapNum + 1;
 	deltaWaitTime = 0.0f;
 
 	fontHandle = CreateFontToHandle(NULL, fontSize, fontThick);
@@ -34,7 +34,7 @@ PlayScene::~PlayScene()
 
 SceneBase* PlayScene::Update(float deltaTime)
 {
-#if 0
+#if 1
 	if (deltaWaitTime < WaitingTimeBeforStart)
 	{
 		deltaWaitTime += deltaTime;
@@ -42,43 +42,49 @@ SceneBase* PlayScene::Update(float deltaTime)
 	}
 	else
 #endif
-
-	
-	
-
-	if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
 	{
-		str = "Fight!";
-		deltaWaitTime += deltaTime;
-	}
-	// 全オブジェクトの更新.
-	ObjectManager::Update(deltaTime);
-	ObjectManager::Collition();
+		if (deltaWaitTime < WaitingTimeBeforStart + StringDrawTime)
+		{
+			str = "Fight!";
+			deltaWaitTime += deltaTime;
+		}
+		// 全オブジェクトの更新.
+		ObjectManager::Update(deltaTime);
+		ObjectManager::Collition();
 
-	EffectManager::Update(deltaTime);
-	
-	if (ObjectManager::TagObjectSize(ObjectTag::Enemy) == 0)
-	{
-		comment = "clear";
-		SceneManager::permission2Proceed = true;
-	}
-	else if (ObjectManager::TagObjectSize(ObjectTag::Player1) == 0)
-	{
-		comment = "failed";
-		SceneManager::permission2Proceed = true;
+		EffectManager::Update(deltaTime);
 
-	}
-	
-	
-	if (SceneManager::permission2Proceed)
-	{
-		WaitTimer(WaitTime);
-		ObjectManager::ReleseAllObj();
-		EffectManager::ReleseAllEffect();
-		return new EndScene(comment);
-	}
+		if (ObjectManager::TagObjectSize(ObjectTag::Enemy) == 0)
+		{
+			comment = "clear";
+			SceneManager::permission2Proceed = true;
 
-	
+		}
+		else if (ObjectManager::TagObjectSize(ObjectTag::Player1) == 0)
+		{
+			comment = "failed";
+			SceneManager::permission2Proceed = true;
+
+		}
+
+
+		if (SceneManager::permission2Proceed)
+		{
+			ObjectManager::ReleseAllObj();
+			EffectManager::ReleseAllEffect();
+			if (MapDataPath.size() > mapNum + 1)
+			{
+				return new PlayScene(mapNum);
+			}
+			else
+			{
+				return new EndScene(comment);
+
+			}
+		}
+
+		
+	}
 	/*if (CheckHitKey(KEY_INPUT_F8))
 	{
 		ObjectManager::ReleseAllObj();

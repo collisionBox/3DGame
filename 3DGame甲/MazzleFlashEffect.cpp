@@ -3,7 +3,7 @@
 MazzleFlashEffect::MazzleFlashEffect(VECTOR pos, VECTOR dir) :
 	EffectBase()
 {
-	handle = LoadEffekseerEffect("data/effect/explosion/”š”­1.efkefc", Size);
+	handle = LoadEffekseerEffect("data/effect/mazzleflash/”š”­1.efkefc", Size);
 	this->dir = dir;
 	this->pos = pos;
 	this->pos = VAdd(this->pos, VScale(this->dir, BarrelHeadLen));// –C“ƒæ“ª‚ÉƒZƒbƒg‚·‚é.

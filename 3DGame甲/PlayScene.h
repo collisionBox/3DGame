@@ -12,7 +12,7 @@ class PlayScene :
 {
 public:
     PlayScene(int mapNum);
-    PlayScene(bool mode, int mapNum);
+    //PlayScene(bool mode, int mapNum);
     ~PlayScene();
     SceneBase* Update(float deltaTime);
     void Draw();
@@ -24,13 +24,13 @@ private:
     const float WaitingTimeBeforStart = 3.0f;// 開始前待機時間.
     float deltaWaitTime;// 待機時間.
     int winnerNum;
-    const int WaitTime = 900;
+    const int WaitTime = 300;
     std::string str;
     const float StringDrawTime = 2.0f;// 文字を描画しておく時間.
     int fontHandle;
     const int fontSize = 60;// 大き
     const int fontThick = 3;// 太さ.
-
     std::string comment;
+    int mapNum;
 };
 

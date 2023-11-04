@@ -13,6 +13,7 @@ public:
 private:
     void Behavioral1(float deltaTime);
     void Behavioral2(float deltaTime);
+    void Begavioral3(float deltaTime);
     void Rotate(float deltaTIme);
     EnemyCannon* cannon;
     const float ColRadius = 32.0f;// “–‚½‚è”»’è”¼Œa.
@@ -28,9 +29,11 @@ private:
     const float DefaultDecel = 0.97f;// ‚È‚É‚à‚µ‚È‚¢‚ÌŒ¸‘¬.
     bool rotateNow;
     VECTOR aimDir;
-    const float Omega = 35.0f;// ù‰ñ‘¬“x(degree).
+    const float Omega = 25.0f;// ù‰ñ‘¬“x(degree).
     float rollingDegree = 40.0f;
     EffectBase* breakEffect;
     int number;
+    bool hitBgObj;
+
 };
 

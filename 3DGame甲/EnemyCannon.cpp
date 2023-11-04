@@ -82,10 +82,10 @@ void EnemyCannon::Updateeeee(VECTOR bodyPos, float deltaTime)
 void EnemyCannon::Draw()
 {
 	MV1DrawModel(modelHandle);
-	DrawLine3D(pos, pos + a * 100, Green);
+	/*DrawLine3D(pos, pos + a * 100, Green);
 	DrawLine3D(pos, pos + dir*-100, Red);
 	
-	DrawFormatString(0, 100, Green, "%f %f", leftOrRight);
+	DrawFormatString(0, 100, Green, "%f %f", leftOrRight);*/
 }
 
 /// <summary>
@@ -146,8 +146,21 @@ bool EnemyCannon::Search(VECTOR playerPos)
 			}
 		}
 	}
-	leftOrRight = CalcRotationDirectionYAxis(dir, aimDir);
-	Fire();
+	// éÀê¸Ç…Ç¢Ç»Ç¢Ç©Ç«Ç§Ç©.
+	for (int i = 0; i < ObjectManager::TagObjectSize(ObjectTag::Enemy); ++i)
+	{
+		ObjectBase* enemyObj = ObjectManager::GetAllObjectsInTag(ObjectTag::Enemy, i);
+		if (enemyObj)
+		{
+			Sphere colSphere = enemyObj->GetCollisionSphere();
+			if (!CollisionPair(colLine, colSphere))
+			{
+				leftOrRight = CalcRotationDirectionYAxis(dir, aimDir);
+				Fire();
+			}
+		}
+	}
+	
 	if (!IsNearAngle(aimDir, dir))
 	{
 		rotateNow = true;
